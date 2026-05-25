@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db } from '../services/db';
-import { GraduationCap, Mail, Lock, User, BookOpen, IdentificationCard, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
+import { GraduationCap, Mail, Lock, User, BookOpen, IdCard, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
 
 export default function LoginPage({ onBack, onAuthSuccess }) {
   const [activeTab, setActiveTab] = useState('login'); // 'login' | 'signup'
@@ -234,7 +234,7 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
             {/* Student ID */}
             <div className="space-y-2">
               <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <IdentificationCard className="w-3.5 h-3.5" /> Student ID (Optional)
+                <IdCard className="w-3.5 h-3.5" /> Student ID (Optional)
               </label>
               <input
                 type="text"

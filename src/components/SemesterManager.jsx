@@ -172,7 +172,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Left/Middle Column: Semesters */}
       <div className="lg:col-span-2 space-y-6">
-        <div className="flex justify-between items-center bg-white p-4 border border-slate-200 rounded-2xl shadow-sm">
+        <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-4 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm">
           <span className="text-sm font-medium text-slate-500">
             Total Semesters: <strong className="text-slate-800 font-semibold">{semesters.length}</strong>
           </span>
@@ -201,7 +201,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
               className="bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md overflow-hidden transition-all duration-200"
             >
               {/* Card Header */}
-              <div className="px-6 py-4 bg-slate-50/70 border-b border-slate-200 flex justify-between items-center">
+              <div className="px-6 py-4 bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
                 <div className="flex items-center gap-3 w-full max-w-lg">
                   <span className="bg-indigo-50 border border-indigo-100 text-indigo-700 font-bold text-xs px-2.5 py-1 rounded-md shrink-0">
                     Semester {semester.number}
@@ -247,7 +247,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                           value={course.name}
                           onChange={(e) => updateCourse(semester.id, course.id, 'name', e.target.value)}
                           placeholder="e.g. Introduction to Calculus"
-                          className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-medium placeholder:text-slate-300 text-slate-700"
+                          className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-medium placeholder:text-slate-300 text-slate-700 dark:text-slate-100"
                         />
                       </div>
 
@@ -261,7 +261,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                           value={course.credits}
                           onChange={(e) => updateCourse(semester.id, course.id, 'credits', e.target.value)}
                           placeholder="3"
-                          className="course-credits w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-bold text-center text-slate-700"
+                          className="course-credits w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-bold text-center text-slate-700 dark:text-slate-100"
                         />
                       </div>
 
@@ -271,7 +271,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                         <select
                           value={course.grade}
                           onChange={(e) => updateCourse(semester.id, course.id, 'grade', e.target.value)}
-                          className="course-grade w-full bg-white border border-slate-200 rounded-xl px-2 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-bold text-slate-700"
+                          className="course-grade w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-bold text-slate-700 dark:text-slate-100"
                         >
                           {GRADE_SCALE.map((g) => (
                             <option key={g.value} value={g.value}>
@@ -298,15 +298,15 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                 <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
                   <button
                     onClick={() => addCourseRow(semester.id)}
-                    className="text-indigo-600 hover:text-indigo-700 font-bold text-xs flex items-center gap-1.5 py-1.5 px-3 rounded-lg hover:bg-indigo-50/50 transition-colors duration-200 cursor-pointer"
+                    className="text-indigo-600 hover:text-indigo-700 dark:hover:text-indigo-400 font-bold text-xs flex items-center gap-1.5 py-1.5 px-3 rounded-lg hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 transition-colors duration-200 cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" /> Add Course Row
                   </button>
                   
                   <div className="bg-slate-50 border border-slate-200/60 rounded-xl px-4 py-2 flex items-center gap-6 text-xs font-semibold text-slate-500">
-                    <div>Load Hrs: <span className="text-slate-800 font-bold">{semStats.credits}</span></div>
+                    <div>Load Hrs: <span className="text-slate-800 dark:text-slate-100 font-bold">{semStats.credits}</span></div>
                     <div className="h-4 w-[1px] bg-slate-200"></div>
-                    <div>Semester GPA: <span className="text-indigo-600 font-bold text-sm">{semStats.gpa.toFixed(2)}</span></div>
+                    <div>Semester GPA: <span className="text-indigo-600 dark:text-indigo-400 font-bold text-sm">{semStats.gpa.toFixed(2)}</span></div>
                   </div>
                 </div>
               </div>
@@ -319,7 +319,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
       <div className="lg:col-span-1 space-y-6">
         <div className="sticky top-24 space-y-6">
           {/* Live CGPA Card */}
-          <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden border border-slate-800">
+          <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-indigo-900 rounded-2xl p-6 shadow-xl relative overflow-hidden border border-slate-800">
             <div className="absolute -right-6 -bottom-6 text-white/5 text-9xl font-bold select-none uppercase">CGPA</div>
             <p className="text-sm font-semibold text-indigo-300 uppercase tracking-wider">Cumulative GPA (CGPA)</p>
             
