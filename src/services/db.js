@@ -28,9 +28,9 @@ function getUsersList() {
   const data = localStorage.getItem(STORAGE_KEYS.USERS);
   if (!data) {
     const defaultUsers = [{
-      name: 'Abebe Kebede',
-      email: 'student@unicalc.edu',
-      password: 'password',
+      name: 'SADAT AMIR',
+      email: 'sdrkk66@gmail.com',
+      password: 'sadat123',
       major: 'Software Engineering',
       studentId: 'UGR/1234/18'
     }];
@@ -58,7 +58,7 @@ export const db = {
     await delay(50);
     const email = localStorage.getItem(STORAGE_KEYS.SESSION);
     if (!email) return null;
-    
+
     // Fetch profile for this email
     const profile = await this.getProfile();
     return { email, ...profile };
@@ -74,12 +74,12 @@ export const db = {
     await delay(200);
     const users = getUsersList();
     const formattedEmail = email.toLowerCase().trim();
-    
+
     const user = users.find(u => u.email === formattedEmail);
     if (!user || user.password !== password) {
       throw new Error('Invalid email or password');
     }
-    
+
     localStorage.setItem(STORAGE_KEYS.SESSION, formattedEmail);
     const profile = await this.getProfile();
     return { email: formattedEmail, ...profile };
@@ -94,19 +94,19 @@ export const db = {
     await delay(300);
     const users = getUsersList();
     const formattedEmail = email.toLowerCase().trim();
-    
+
     if (users.some(u => u.email === formattedEmail)) {
       throw new Error('Email is already registered');
     }
-    
+
     // Add user to credentials store
     const newUser = { email: formattedEmail, password, name, major, studentId };
     users.push(newUser);
     saveUsersList(users);
-    
+
     // Set active session
     localStorage.setItem(STORAGE_KEYS.SESSION, formattedEmail);
-    
+
     // Initialize profile scoped to email
     const initialProfile = {
       name,
@@ -116,10 +116,10 @@ export const db = {
       graduationCredits: 145
     };
     localStorage.setItem(`${STORAGE_KEYS.PROFILE_PREFIX}${formattedEmail}`, JSON.stringify(initialProfile));
-    
+
     // Initialize semesters scoped to email
     localStorage.setItem(`${STORAGE_KEYS.SEMESTERS_PREFIX}${formattedEmail}`, JSON.stringify(DEFAULT_SEMESTERS));
-    
+
     return { email: formattedEmail, ...initialProfile };
   },
 
@@ -138,10 +138,10 @@ export const db = {
   async getProfile() {
     const email = localStorage.getItem(STORAGE_KEYS.SESSION);
     if (!email) throw new Error('No active user session');
-    
+
     const key = `${STORAGE_KEYS.PROFILE_PREFIX}${email}`;
     const data = localStorage.getItem(key);
-    
+
     if (!data) {
       // Create fallback if profile is missing
       const fallback = email === 'student@unicalc.edu' ? {
@@ -160,7 +160,7 @@ export const db = {
       localStorage.setItem(key, JSON.stringify(fallback));
       return fallback;
     }
-    
+
     try {
       return JSON.parse(data);
     } catch (e) {
@@ -177,7 +177,7 @@ export const db = {
   async updateProfile(profileData) {
     const email = localStorage.getItem(STORAGE_KEYS.SESSION);
     if (!email) throw new Error('No active user session');
-    
+
     const key = `${STORAGE_KEYS.PROFILE_PREFIX}${email}`;
     const updated = {
       name: profileData.name || '',
@@ -186,9 +186,9 @@ export const db = {
       targetCgpa: parseFloat(profileData.targetCgpa) || 2.0,
       graduationCredits: parseInt(profileData.graduationCredits) || 120
     };
-    
+
     localStorage.setItem(key, JSON.stringify(updated));
-    
+
     // Keep credentials store synchronized for general details
     const users = getUsersList();
     const userIndex = users.findIndex(u => u.email === email);
@@ -198,7 +198,7 @@ export const db = {
       users[userIndex].studentId = updated.studentId;
       saveUsersList(users);
     }
-    
+
     return updated;
   },
 
@@ -209,15 +209,15 @@ export const db = {
   async getSemesters() {
     const email = localStorage.getItem(STORAGE_KEYS.SESSION);
     if (!email) throw new Error('No active user session');
-    
+
     const key = `${STORAGE_KEYS.SEMESTERS_PREFIX}${email}`;
     const data = localStorage.getItem(key);
-    
+
     if (!data) {
       localStorage.setItem(key, JSON.stringify(DEFAULT_SEMESTERS));
       return JSON.parse(JSON.stringify(DEFAULT_SEMESTERS));
     }
-    
+
     try {
       return JSON.parse(data);
     } catch (e) {
@@ -234,7 +234,7 @@ export const db = {
   async saveSemesters(semesters) {
     const email = localStorage.getItem(STORAGE_KEYS.SESSION);
     if (!email) throw new Error('No active user session');
-    
+
     const key = `${STORAGE_KEYS.SEMESTERS_PREFIX}${email}`;
     localStorage.setItem(key, JSON.stringify(semesters));
     return semesters;

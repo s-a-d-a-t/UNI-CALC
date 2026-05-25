@@ -158,7 +158,7 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
             </button>
             <div className="text-center pt-2">
               <span className="text-[10px] text-slate-400 font-semibold">
-                Demo Account: student@unicalc.edu / password
+                Demo Account: sadat / sadat123
               </span>
             </div>
           </form>
