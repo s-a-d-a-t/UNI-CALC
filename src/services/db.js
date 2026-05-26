@@ -1,242 +1,108 @@
-// Multi-user LocalStorage database client mock for UNI-CALC
-// Scopes all profiles and course data by user email and handles active session state.
+// src/services/db.js
+require('dotenv').config(); // Load .env variables
+const { Pool } = require('pg');
 
-const STORAGE_KEYS = {
-  USERS: 'unicalc_users_list',
-  SESSION: 'unicalc_active_session',
-  PROFILE_PREFIX: 'unicalc_profile_',
-  SEMESTERS_PREFIX: 'unicalc_semesters_'
-};
+// Create a connection pool using environment variables
+const pool = new Pool({
+  host: process.env.DB_HOST || 'localhost',
+  port: Number(process.env.DB_PORT) || 5432,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  // optional pool tuning
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
 
-const DEFAULT_SEMESTERS = [
-  {
-    id: 'sem-default-1',
-    description: 'Year 1, Semester I',
-    number: 1,
-    courses: [
-      { id: 'course-1', name: 'Introduction to Calculus', credits: 4, grade: '4.00' },
-      { id: 'course-2', name: 'General Physics', credits: 3, grade: '3.50' },
-      { id: 'course-3', name: 'Communicative English Skills', credits: 3, grade: '3.00' }
-    ]
-  }
-];
-
-const delay = (ms = 150) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Helper: Get users list from localStorage
-function getUsersList() {
-  const data = localStorage.getItem(STORAGE_KEYS.USERS);
-  if (!data) {
-    const defaultUsers = [{
-      name: 'SADAT AMIR',
-      email: 'sdrkk66@gmail.com',
-      password: 'sadat123',
-      major: 'Software Engineering',
-      studentId: 'UGR/1234/18'
-    }];
-    localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(defaultUsers));
-    return defaultUsers;
-  }
+/**
+ * Generic query helper – forwards the query to the pool.
+ * @param {string} text   SQL statement, may contain $1, $2… placeholders
+ * @param {Array<any>} [params]   Values for the placeholders
+ * @returns {Promise<import('pg').QueryResult>} Query result
+ */
+async function query(text, params = []) {
+  const client = await pool.connect();
   try {
-    return JSON.parse(data);
-  } catch (e) {
-    return [];
+    const res = await client.query(text, params);
+    return res;
+  } finally {
+    client.release();
   }
 }
 
-// Helper: Save users list to localStorage
-function saveUsersList(users) {
-  localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
-}
-
-export const db = {
-  /**
-   * Check if there's an active session
-   * @returns {Promise<Object|null>} Logged in user profile or null
-   */
-  async getCurrentSession() {
-    await delay(50);
-    const email = localStorage.getItem(STORAGE_KEYS.SESSION);
-    if (!email) return null;
-
-    // Fetch profile for this email
-    const profile = await this.getProfile();
-    return { email, ...profile };
+/**
+ * Example CRUD helpers for the UNI‑CALC schema.
+ * Adjust table/column names to match the schema you create in PostgreSQL.
+ */
+const db = {
+  // ---------- Users ----------
+  async createUser({ email, password, name, major, studentId }) {
+    const sql = `INSERT INTO users (email, password, name, major, student_id)
+                 VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    const { rows } = await query(sql, [email, password, name, major, studentId]);
+    return rows[0];
   },
 
-  /**
-   * Log in a user
-   * @param {string} email 
-   * @param {string} password 
-   * @returns {Promise<Object>} The authenticated user's details
-   */
-  async loginUser(email, password) {
-    await delay(200);
-    const users = getUsersList();
-    const formattedEmail = email.toLowerCase().trim();
-
-    const user = users.find(u => u.email === formattedEmail);
-    if (!user || user.password !== password) {
-      throw new Error('Invalid email or password');
-    }
-
-    localStorage.setItem(STORAGE_KEYS.SESSION, formattedEmail);
-    const profile = await this.getProfile();
-    return { email: formattedEmail, ...profile };
+  async findUserByEmail(email) {
+    const { rows } = await query('SELECT * FROM users WHERE email = $1', [email]);
+    return rows[0] || null;
   },
 
-  /**
-   * Register a new user
-   * @param {Object} userData 
-   * @returns {Promise<Object>} The registered user's details
-   */
-  async registerUser({ name, email, password, major, studentId }) {
-    await delay(300);
-    const users = getUsersList();
-    const formattedEmail = email.toLowerCase().trim();
-
-    if (users.some(u => u.email === formattedEmail)) {
-      throw new Error('Email is already registered');
-    }
-
-    // Add user to credentials store
-    const newUser = { email: formattedEmail, password, name, major, studentId };
-    users.push(newUser);
-    saveUsersList(users);
-
-    // Set active session
-    localStorage.setItem(STORAGE_KEYS.SESSION, formattedEmail);
-
-    // Initialize profile scoped to email
-    const initialProfile = {
-      name,
-      studentId: studentId || '',
-      major,
-      targetCgpa: 3.50,
-      graduationCredits: 145
-    };
-    localStorage.setItem(`${STORAGE_KEYS.PROFILE_PREFIX}${formattedEmail}`, JSON.stringify(initialProfile));
-
-    // Initialize semesters scoped to email
-    localStorage.setItem(`${STORAGE_KEYS.SEMESTERS_PREFIX}${formattedEmail}`, JSON.stringify(DEFAULT_SEMESTERS));
-
-    return { email: formattedEmail, ...initialProfile };
+  // ---------- Profiles ----------
+  async getProfile(email) {
+    const { rows } = await query('SELECT * FROM profiles WHERE email = $1', [email]);
+    return rows[0] || null;
   },
 
-  /**
-   * Log out active session
-   */
-  async logoutUser() {
-    await delay(50);
-    localStorage.removeItem(STORAGE_KEYS.SESSION);
+  async upsertProfile(email, profileData) {
+    // Upsert (INSERT … ON CONFLICT) – assumes a unique constraint on email
+    const sql = `INSERT INTO profiles (email, name, student_id, major, target_cgpa, graduation_credits)
+                 VALUES ($1, $2, $3, $4, $5, $6)
+                 ON CONFLICT (email) DO UPDATE SET
+                   name = EXCLUDED.name,
+                   student_id = EXCLUDED.student_id,
+                   major = EXCLUDED.major,
+                   target_cgpa = EXCLUDED.target_cgpa,
+                   graduation_credits = EXCLUDED.graduation_credits
+                 RETURNING *`;
+    const { rows } = await query(sql, [
+      email,
+      profileData.name,
+      profileData.studentId,
+      profileData.major,
+      profileData.targetCgpa,
+      profileData.graduationCredits,
+    ]);
+    return rows[0];
   },
 
-  /**
-   * Fetch the current active user's profile
-   * @returns {Promise<Object>} The student profile
-   */
-  async getProfile() {
-    const email = localStorage.getItem(STORAGE_KEYS.SESSION);
-    if (!email) throw new Error('No active user session');
-
-    const key = `${STORAGE_KEYS.PROFILE_PREFIX}${email}`;
-    const data = localStorage.getItem(key);
-
-    if (!data) {
-      // Create fallback if profile is missing
-      const fallback = email === 'student@unicalc.edu' ? {
-        name: 'Abebe Kebede',
-        studentId: 'UGR/1234/18',
-        major: 'Software Engineering',
-        targetCgpa: 3.50,
-        graduationCredits: 145
-      } : {
-        name: 'Student',
-        studentId: '',
-        major: 'General Studies',
-        targetCgpa: 3.00,
-        graduationCredits: 120
-      };
-      localStorage.setItem(key, JSON.stringify(fallback));
-      return fallback;
-    }
-
-    try {
-      return JSON.parse(data);
-    } catch (e) {
-      console.error('Error parsing profile data', e);
-      return {};
-    }
+  // ---------- Semesters & Courses ----------
+  async getSemesters(email) {
+    const { rows } = await query('SELECT * FROM semesters WHERE email = $1 ORDER BY semester_number', [email]);
+    return rows;
   },
 
-  /**
-   * Update the active student's profile
-   * @param {Object} profileData New student profile values
-   * @returns {Promise<Object>} The updated student profile
-   */
-  async updateProfile(profileData) {
-    const email = localStorage.getItem(STORAGE_KEYS.SESSION);
-    if (!email) throw new Error('No active user session');
-
-    const key = `${STORAGE_KEYS.PROFILE_PREFIX}${email}`;
-    const updated = {
-      name: profileData.name || '',
-      studentId: profileData.studentId || '',
-      major: profileData.major || '',
-      targetCgpa: parseFloat(profileData.targetCgpa) || 2.0,
-      graduationCredits: parseInt(profileData.graduationCredits) || 120
-    };
-
-    localStorage.setItem(key, JSON.stringify(updated));
-
-    // Keep credentials store synchronized for general details
-    const users = getUsersList();
-    const userIndex = users.findIndex(u => u.email === email);
-    if (userIndex !== -1) {
-      users[userIndex].name = updated.name;
-      users[userIndex].major = updated.major;
-      users[userIndex].studentId = updated.studentId;
-      saveUsersList(users);
+  async saveSemesters(email, semesters) {
+    // Simple strategy: delete existing semesters for the user then bulk insert the new set.
+    await query('DELETE FROM semesters WHERE email = $1', [email]);
+    const insertSql = `INSERT INTO semesters (email, semester_id, description, semester_number, courses)
+                       VALUES ($1, $2, $3, $4, $5)`;
+    // `courses` column is stored as JSONB containing an array of course objects.
+    for (const sem of semesters) {
+      await query(insertSql, [
+        email,
+        sem.id,
+        sem.description,
+        sem.number,
+        JSON.stringify(sem.courses), // store as JSONB
+      ]);
     }
-
-    return updated;
+    return true;
   },
 
-  /**
-   * Get all semesters and courses for active user
-   * @returns {Promise<Array>} List of semesters
-   */
-  async getSemesters() {
-    const email = localStorage.getItem(STORAGE_KEYS.SESSION);
-    if (!email) throw new Error('No active user session');
-
-    const key = `${STORAGE_KEYS.SEMESTERS_PREFIX}${email}`;
-    const data = localStorage.getItem(key);
-
-    if (!data) {
-      localStorage.setItem(key, JSON.stringify(DEFAULT_SEMESTERS));
-      return JSON.parse(JSON.stringify(DEFAULT_SEMESTERS));
-    }
-
-    try {
-      return JSON.parse(data);
-    } catch (e) {
-      console.error('Error parsing semesters data', e);
-      return JSON.parse(JSON.stringify(DEFAULT_SEMESTERS));
-    }
-  },
-
-  /**
-   * Save all semesters and courses for active user
-   * @param {Array} semesters List of semesters to save
-   * @returns {Promise<Array>} The saved list of semesters
-   */
-  async saveSemesters(semesters) {
-    const email = localStorage.getItem(STORAGE_KEYS.SESSION);
-    if (!email) throw new Error('No active user session');
-
-    const key = `${STORAGE_KEYS.SEMESTERS_PREFIX}${email}`;
-    localStorage.setItem(key, JSON.stringify(semesters));
-    return semesters;
-  }
+  // ---------- Generic Query ----------
+  query,
 };
+
+module.exports = db;
