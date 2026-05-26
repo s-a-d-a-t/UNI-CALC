@@ -1,108 +1,70 @@
-// src/services/db.js
-require('dotenv').config(); // Load .env variables
-const { Pool } = require('pg');
+// Browser client for the UNI-CALC Express API (PostgreSQL backend)
 
-// Create a connection pool using environment variables
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT) || 5432,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  // optional pool tuning
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+const API = '/api';
 
-/**
- * Generic query helper – forwards the query to the pool.
- * @param {string} text   SQL statement, may contain $1, $2… placeholders
- * @param {Array<any>} [params]   Values for the placeholders
- * @returns {Promise<import('pg').QueryResult>} Query result
- */
-async function query(text, params = []) {
-  const client = await pool.connect();
-  try {
-    const res = await client.query(text, params);
-    return res;
-  } finally {
-    client.release();
+async function request(path, options = {}) {
+  const res = await fetch(`${API}${path}`, {
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json', ...options.headers },
+    ...options,
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.error || 'Request failed');
   }
+  return data;
 }
 
-/**
- * Example CRUD helpers for the UNI‑CALC schema.
- * Adjust table/column names to match the schema you create in PostgreSQL.
- */
-const db = {
-  // ---------- Users ----------
-  async createUser({ email, password, name, major, studentId }) {
-    const sql = `INSERT INTO users (email, password, name, major, student_id)
-                 VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-    const { rows } = await query(sql, [email, password, name, major, studentId]);
-    return rows[0];
+export const db = {
+  async getCurrentSession() {
+    const { user } = await request('/auth/session');
+    return user;
   },
 
-  async findUserByEmail(email) {
-    const { rows } = await query('SELECT * FROM users WHERE email = $1', [email]);
-    return rows[0] || null;
+  async loginUser(email, password) {
+    const { user } = await request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+    return user;
   },
 
-  // ---------- Profiles ----------
-  async getProfile(email) {
-    const { rows } = await query('SELECT * FROM profiles WHERE email = $1', [email]);
-    return rows[0] || null;
+  async registerUser(userData) {
+    const { user } = await request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(userData),
+    });
+    return user;
   },
 
-  async upsertProfile(email, profileData) {
-    // Upsert (INSERT … ON CONFLICT) – assumes a unique constraint on email
-    const sql = `INSERT INTO profiles (email, name, student_id, major, target_cgpa, graduation_credits)
-                 VALUES ($1, $2, $3, $4, $5, $6)
-                 ON CONFLICT (email) DO UPDATE SET
-                   name = EXCLUDED.name,
-                   student_id = EXCLUDED.student_id,
-                   major = EXCLUDED.major,
-                   target_cgpa = EXCLUDED.target_cgpa,
-                   graduation_credits = EXCLUDED.graduation_credits
-                 RETURNING *`;
-    const { rows } = await query(sql, [
-      email,
-      profileData.name,
-      profileData.studentId,
-      profileData.major,
-      profileData.targetCgpa,
-      profileData.graduationCredits,
-    ]);
-    return rows[0];
+  async logoutUser() {
+    await request('/auth/logout', { method: 'POST' });
   },
 
-  // ---------- Semesters & Courses ----------
-  async getSemesters(email) {
-    const { rows } = await query('SELECT * FROM semesters WHERE email = $1 ORDER BY semester_number', [email]);
-    return rows;
+  async getProfile() {
+    const { profile } = await request('/profile');
+    return profile;
   },
 
-  async saveSemesters(email, semesters) {
-    // Simple strategy: delete existing semesters for the user then bulk insert the new set.
-    await query('DELETE FROM semesters WHERE email = $1', [email]);
-    const insertSql = `INSERT INTO semesters (email, semester_id, description, semester_number, courses)
-                       VALUES ($1, $2, $3, $4, $5)`;
-    // `courses` column is stored as JSONB containing an array of course objects.
-    for (const sem of semesters) {
-      await query(insertSql, [
-        email,
-        sem.id,
-        sem.description,
-        sem.number,
-        JSON.stringify(sem.courses), // store as JSONB
-      ]);
-    }
-    return true;
+  async updateProfile(profileData) {
+    const { profile } = await request('/profile', {
+      method: 'PUT',
+      body: JSON.stringify(profileData),
+    });
+    return profile;
   },
 
-  // ---------- Generic Query ----------
-  query,
+  async getSemesters() {
+    const { semesters } = await request('/semesters');
+    return semesters;
+  },
+
+  async saveSemesters(semesters) {
+    const { semesters: saved } = await request('/semesters', {
+      method: 'PUT',
+      body: JSON.stringify({ semesters }),
+    });
+    return saved;
+  },
 };
-
-module.exports = db;
