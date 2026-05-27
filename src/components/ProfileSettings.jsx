@@ -8,7 +8,9 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
     studentId: '',
     major: '',
     targetCgpa: 3.5,
-    graduationCredits: 145
+    graduationCredits: 145,
+    coreCreditsRequired: 100,
+    electiveCreditsRequired: 45,
   });
   
   const [isSaving, setIsSaving] = useState(false);
@@ -21,7 +23,9 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
         studentId: profile.studentId || '',
         major: profile.major || '',
         targetCgpa: profile.targetCgpa || 3.5,
-        graduationCredits: profile.graduationCredits || 145
+        graduationCredits: profile.graduationCredits || 145,
+        coreCreditsRequired: profile.coreCreditsRequired || 100,
+        electiveCreditsRequired: profile.electiveCreditsRequired || 45,
       });
     }
   }, [profile]);
@@ -31,7 +35,7 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
     setFormData(prev => ({
       ...prev,
       [name]: name === 'targetCgpa' ? parseFloat(value) || 0 : 
-              name === 'graduationCredits' ? parseInt(value) || 0 : value
+              ['graduationCredits', 'coreCreditsRequired', 'electiveCreditsRequired'].includes(name) ? parseInt(value) || 0 : value
     }));
   };
 
@@ -165,6 +169,38 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
               required
             />
             <p className="text-[10px] text-slate-450 dark:text-slate-500">Total credit hours needed to complete your degree.</p>
+          </div>
+          
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              Core Credits Required
+            </label>
+            <input
+              type="number"
+              name="coreCreditsRequired"
+              value={formData.coreCreditsRequired}
+              onChange={handleChange}
+              min="0"
+              max="280"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-semibold text-slate-850 dark:text-slate-100"
+              required
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              Elective Credits Required
+            </label>
+            <input
+              type="number"
+              name="electiveCreditsRequired"
+              value={formData.electiveCreditsRequired}
+              onChange={handleChange}
+              min="0"
+              max="280"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-semibold text-slate-850 dark:text-slate-100"
+              required
+            />
           </div>
         </div>
 

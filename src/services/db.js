@@ -67,4 +67,30 @@ export const db = {
     });
     return saved;
   },
+
+  async getAssignments() {
+    const { assignments } = await request('/assignments');
+    return assignments;
+  },
+
+  async saveAssignments(assignments) {
+    const { assignments: saved } = await request('/assignments', {
+      method: 'PUT',
+      body: JSON.stringify({ assignments }),
+    });
+    return saved;
+  },
+
+  async getStudyLogs() {
+    const { studyLogs } = await request('/study-logs');
+    return studyLogs;
+  },
+
+  async saveStudyLogs(studyLogs) {
+    const { studyLogs: saved } = await request('/study-logs', {
+      method: 'PUT',
+      body: JSON.stringify({ studyLogs }),
+    });
+    return saved;
+  },
 };

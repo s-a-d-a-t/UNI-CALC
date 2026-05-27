@@ -28,6 +28,15 @@ set -a && source .env && set +a
 PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -f schema.sql
 ```
 
+### For existing databases (upgrade path)
+
+If your database was created before the new planning/planner features, run:
+
+```bash
+set -a && source .env && set +a
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -f scripts/migrate-features.sql
+```
+
 ## 4. Run the app
 
 Terminal 1 — API (reads `.env` from project root):

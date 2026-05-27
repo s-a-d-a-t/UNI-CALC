@@ -117,6 +117,52 @@ app.put('/api/semesters', requireSession, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`UNI-CALC API listening on http://localhost:${PORT}`);
+app.get('/api/assignments', requireSession, async (req, res) => {
+  try {
+    const assignments = await db.getAssignments(req.session.email);
+    res.json({ assignments });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
+
+app.put('/api/assignments', requireSession, async (req, res) => {
+  try {
+    const assignments = await db.saveAssignments(req.session.email, req.body.assignments);
+    res.json({ assignments });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/study-logs', requireSession, async (req, res) => {
+  try {
+    const studyLogs = await db.getStudyLogs(req.session.email);
+    res.json({ studyLogs });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/study-logs', requireSession, async (req, res) => {
+  try {
+    const studyLogs = await db.saveStudyLogs(req.session.email, req.body.studyLogs);
+    res.json({ studyLogs });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+async function startServer() {
+  try {
+    await db.ensureFeatureSchema();
+    app.listen(PORT, () => {
+      console.log(`UNI-CALC API listening on http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error('Failed to initialize database schema:', err.message);
+    process.exit(1);
+  }
+}
+
+startServer();

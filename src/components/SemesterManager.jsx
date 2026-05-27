@@ -1,18 +1,12 @@
 import React from 'react';
-import { Plus, Trash2, RotateCcw, HelpCircle, Award, BookOpen } from 'lucide-react';
-
-const GRADE_SCALE = [
-  { label: 'A / A+ (4.0)', value: '4.00' },
-  { label: 'A- (3.75)', value: '3.75' },
-  { label: 'B+ (3.50)', value: '3.50' },
-  { label: 'B (3.00)', value: '3.00' },
-  { label: 'B- (2.75)', value: '2.75' },
-  { label: 'C+ (2.50)', value: '2.50' },
-  { label: 'C (2.00)', value: '2.00' },
-  { label: 'C- (1.75)', value: '1.75' },
-  { label: 'D (1.00)', value: '1.00' },
-  { label: 'F (0.00)', value: '0.00' }
-];
+import { Plus, Trash2, RotateCcw, HelpCircle } from 'lucide-react';
+import {
+  GRADE_SCALE,
+  COURSE_CATEGORIES,
+  COURSE_STATUSES,
+  calculateSemesterStats,
+  calculateGlobalStats,
+} from '../utils/gpa';
 
 export default function SemesterManager({ semesters, onSemestersUpdate, profile }) {
 
@@ -44,7 +38,10 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
         id: `course-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         name: '',
         credits: 3,
-        grade: '4.00'
+        grade: '4.00',
+        category: 'core',
+        status: 'passed',
+        isRetake: false,
       };
       
       return { ...sem, courses: [...sem.courses, newCourse] };
@@ -77,10 +74,10 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
       description: '',
       number: semesters.length + 1,
       courses: [
-        { id: `course-${Date.now()}-1`, name: '', credits: 3, grade: '4.00' },
-        { id: `course-${Date.now()}-2`, name: '', credits: 3, grade: '4.00' },
-        { id: `course-${Date.now()}-3`, name: '', credits: 3, grade: '4.00' }
-      ]
+        { id: `course-${Date.now()}-1`, name: '', credits: 3, grade: '4.00', category: 'core', status: 'passed', isRetake: false },
+        { id: `course-${Date.now()}-2`, name: '', credits: 3, grade: '4.00', category: 'core', status: 'passed', isRetake: false },
+        { id: `course-${Date.now()}-3`, name: '', credits: 3, grade: '4.00', category: 'core', status: 'passed', isRetake: false },
+      ],
     };
     onSemestersUpdate([...semesters, newSem]);
   };
@@ -115,49 +112,21 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
         description: '',
         number: 1,
         courses: [
-          { id: `course-${Date.now()}-1`, name: '', credits: 3, grade: '4.00' },
-          { id: `course-${Date.now()}-2`, name: '', credits: 3, grade: '4.00' },
-          { id: `course-${Date.now()}-3`, name: '', credits: 3, grade: '4.00' }
+          { id: `course-${Date.now()}-1`, name: '', credits: 3, grade: '4.00', category: 'core', status: 'passed', isRetake: false },
+          { id: `course-${Date.now()}-2`, name: '', credits: 3, grade: '4.00', category: 'core', status: 'passed', isRetake: false },
+          { id: `course-${Date.now()}-3`, name: '', credits: 3, grade: '4.00', category: 'core', status: 'passed', isRetake: false },
         ]
       }];
       onSemestersUpdate(defaultSem);
     }
   };
 
-  // Calculations for display
-  const calculateSemesterStats = (courses) => {
-    let semCredits = 0;
-    let semPoints = 0;
-    
-    courses.forEach(course => {
-      const credits = parseFloat(course.credits);
-      const gradeVal = parseFloat(course.grade);
-      
-      if (!isNaN(credits) && credits > 0) {
-        semCredits += credits;
-        semPoints += (credits * gradeVal);
-      }
-    });
-    
-    const semGpa = semCredits > 0 ? (semPoints / semCredits) : 0;
-    return { credits: semCredits, gpa: semGpa, points: semPoints };
+  const globalStatsRaw = calculateGlobalStats(semesters);
+  const globalStats = {
+    cgpa: globalStatsRaw.cgpa,
+    totalCredits: globalStatsRaw.totalCredits,
+    totalPoints: globalStatsRaw.totalPoints,
   };
-
-  const calculateGlobalStats = () => {
-    let grandCredits = 0;
-    let grandPoints = 0;
-    
-    semesters.forEach(sem => {
-      const stats = calculateSemesterStats(sem.courses);
-      grandCredits += stats.credits;
-      grandPoints += stats.points;
-    });
-    
-    const cgpa = grandCredits > 0 ? (grandPoints / grandCredits) : 0;
-    return { cgpa, totalCredits: grandCredits, totalPoints: grandPoints };
-  };
-
-  const globalStats = calculateGlobalStats();
   const targetGap = profile ? profile.targetCgpa - globalStats.cgpa : 0;
 
   // Determine progress bar color based on CGPA achievement
@@ -193,7 +162,8 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
         </div>
 
         {semesters.map((semester) => {
-          const semStats = calculateSemesterStats(semester.courses);
+          const semStatsRaw = calculateSemesterStats(semester.courses);
+          const semStats = { credits: semStatsRaw.credits, gpa: semStatsRaw.gpa };
           
           return (
             <div
@@ -226,10 +196,12 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
               {/* Table Body / Course Rows */}
               <div className="p-6">
                 {/* Desktop Headers */}
-                <div className="hidden sm:grid grid-cols-12 gap-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">
-                  <div className="col-span-6">Course Name</div>
-                  <div className="col-span-3 text-center">Credit Hours</div>
+                <div className="hidden lg:grid grid-cols-12 gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">
+                  <div className="col-span-4">Course Name</div>
+                  <div className="col-span-1 text-center">Credits</div>
                   <div className="col-span-2">Grade</div>
+                  <div className="col-span-2">Category</div>
+                  <div className="col-span-2">Status</div>
                   <div className="col-span-1"></div>
                 </div>
 
@@ -240,7 +212,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       className="grid grid-cols-12 gap-3 items-center bg-slate-50/40 sm:bg-transparent p-3 sm:p-0 rounded-xl border border-slate-100 sm:border-none"
                     >
                       {/* Course Name */}
-                      <div className="col-span-12 sm:col-span-6">
+                      <div className="col-span-12 lg:col-span-4">
                         <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Course Name</label>
                         <input
                           type="text"
@@ -252,7 +224,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       {/* Credit Hours */}
-                      <div className="col-span-6 sm:col-span-3">
+                      <div className="col-span-6 lg:col-span-1">
                         <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Credit Hrs</label>
                         <input
                           type="number"
@@ -266,7 +238,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       {/* Grade Selector */}
-                      <div className="col-span-5 sm:col-span-2">
+                      <div className="col-span-6 lg:col-span-2">
                         <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Grade</label>
                         <select
                           value={course.grade}
@@ -277,6 +249,40 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                             <option key={g.value} value={g.value}>
                               {g.label}
                             </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Category */}
+                      <div className="col-span-6 lg:col-span-2">
+                        <label className="block lg:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Category</label>
+                        <select
+                          value={course.category || 'core'}
+                          onChange={(e) => updateCourse(semester.id, course.id, 'category', e.target.value)}
+                          className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-2 text-xs font-bold text-slate-700 dark:text-slate-100"
+                        >
+                          {COURSE_CATEGORIES.map((c) => (
+                            <option key={c.value} value={c.value}>{c.label}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Status */}
+                      <div className="col-span-5 lg:col-span-2">
+                        <label className="block lg:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Status</label>
+                        <select
+                          value={course.status || 'passed'}
+                          onChange={(e) => {
+                            const status = e.target.value;
+                            updateCourse(semester.id, course.id, 'status', status);
+                            if (status === 'failed') {
+                              updateCourse(semester.id, course.id, 'grade', '0.00');
+                            }
+                          }}
+                          className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-2 text-xs font-bold text-slate-700 dark:text-slate-100"
+                        >
+                          {COURSE_STATUSES.map((s) => (
+                            <option key={s.value} value={s.value}>{s.label}</option>
                           ))}
                         </select>
                       </div>

@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { GraduationCap, LayoutDashboard, Calculator, User, Loader2, LogOut, Sun, Moon } from 'lucide-react';
+import { GraduationCap, LayoutDashboard, Calculator, User, Loader2, LogOut, Sun, Moon, Sparkles, CalendarClock } from 'lucide-react';
 import { db } from './services/db';
 import Dashboard from './components/Dashboard';
 import SemesterManager from './components/SemesterManager';
 import ProfileSettings from './components/ProfileSettings';
 import LandingPage from './components/LandingPage';
 import LoginPage from './components/LoginPage';
+import Planning from './components/Planning';
+import Planner from './components/Planner';
+import { calculateGlobalStats } from './utils/gpa';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [view, setView] = useState('landing'); // 'landing' | 'login' | 'app'
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'calculator' | 'profile'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'calculator' | 'planning' | 'planner' | 'profile'
   const [profile, setProfile] = useState(null);
   const [semesters, setSemesters] = useState(null);
+  const [assignments, setAssignments] = useState([]);
+  const [studyLogs, setStudyLogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [theme, setTheme] = useState('light');
 
@@ -35,12 +40,16 @@ export default function App() {
         const session = await db.getCurrentSession();
         if (session) {
           setCurrentUser(session);
-          const [profileData, semestersData] = await Promise.all([
+          const [profileData, semestersData, assignmentsData, studyLogsData] = await Promise.all([
             db.getProfile(),
-            db.getSemesters()
+            db.getSemesters(),
+            db.getAssignments(),
+            db.getStudyLogs(),
           ]);
           setProfile(profileData);
           setSemesters(semestersData);
+          setAssignments(assignmentsData);
+          setStudyLogs(studyLogsData);
           setView('app');
         } else {
           setView('landing');
@@ -72,12 +81,16 @@ export default function App() {
     setIsLoading(true);
     try {
       setCurrentUser(user);
-      const [profileData, semestersData] = await Promise.all([
+      const [profileData, semestersData, assignmentsData, studyLogsData] = await Promise.all([
         db.getProfile(),
-        db.getSemesters()
+        db.getSemesters(),
+        db.getAssignments(),
+        db.getStudyLogs(),
       ]);
       setProfile(profileData);
       setSemesters(semestersData);
+      setAssignments(assignmentsData);
+      setStudyLogs(studyLogsData);
       setView('app');
       setActiveTab('dashboard');
     } catch (err) {
@@ -94,6 +107,8 @@ export default function App() {
       setCurrentUser(null);
       setProfile(null);
       setSemesters(null);
+      setAssignments([]);
+      setStudyLogs([]);
       setView('landing');
     } catch (err) {
       console.error('Logout error', err);
@@ -111,25 +126,20 @@ export default function App() {
     await db.saveSemesters(newSemesters);
   };
 
+  const handleAssignmentsUpdate = async (newAssignments) => {
+    setAssignments(newAssignments);
+    await db.saveAssignments(newAssignments);
+  };
+
+  const handleStudyLogsUpdate = async (newStudyLogs) => {
+    setStudyLogs(newStudyLogs);
+    await db.saveStudyLogs(newStudyLogs);
+  };
+
   // Helper to compute CGPA for the header badge
   const getHeaderCgpa = () => {
     if (!semesters || semesters.length === 0) return '0.00';
-    let grandCredits = 0;
-    let grandPoints = 0;
-    
-    semesters.forEach(sem => {
-      sem.courses.forEach(course => {
-        const credits = parseFloat(course.credits);
-        const gradeVal = parseFloat(course.grade);
-        
-        if (!isNaN(credits) && credits > 0) {
-          grandCredits += credits;
-          grandPoints += (credits * gradeVal);
-        }
-      });
-    });
-    
-    return grandCredits > 0 ? (grandPoints / grandCredits).toFixed(2) : '0.00';
+    return calculateGlobalStats(semesters).cgpa.toFixed(2);
   };
 
   if (isLoading) {
@@ -216,6 +226,26 @@ export default function App() {
             >
               <User className="w-3.5 h-3.5" /> Student Profile
             </button>
+            <button
+              onClick={() => setActiveTab('planning')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
+                activeTab === 'planning'
+                  ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-450 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5" /> Planning
+            </button>
+            <button
+              onClick={() => setActiveTab('planner')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
+                activeTab === 'planner'
+                  ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-450 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+            >
+              <CalendarClock className="w-3.5 h-3.5" /> Planner
+            </button>
           </nav>
 
           {/* User controls and Profile badge */}
@@ -275,6 +305,18 @@ export default function App() {
             <ProfileSettings
               profile={profile}
               onProfileUpdate={handleProfileUpdate}
+            />
+          )}
+          {activeTab === 'planning' && (
+            <Planning semesters={semesters} profile={profile} />
+          )}
+          {activeTab === 'planner' && (
+            <Planner
+              assignments={assignments}
+              onAssignmentsUpdate={handleAssignmentsUpdate}
+              studyLogs={studyLogs}
+              onStudyLogsUpdate={handleStudyLogsUpdate}
+              semesters={semesters}
             />
           )}
         </div>

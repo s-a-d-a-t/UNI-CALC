@@ -11,6 +11,42 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
 });
 
+async function ensureFeatureSchema() {
+  // Keep runtime resilient for existing databases that predate new features.
+  await pool.query(`ALTER TABLE profiles ADD COLUMN IF NOT EXISTS core_credits_required INTEGER DEFAULT 100`);
+  await pool.query(`ALTER TABLE profiles ADD COLUMN IF NOT EXISTS elective_credits_required INTEGER DEFAULT 45`);
+
+  await pool.query(`ALTER TABLE courses ADD COLUMN IF NOT EXISTS category TEXT DEFAULT 'core'`);
+  await pool.query(`ALTER TABLE courses ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'passed'`);
+  await pool.query(`ALTER TABLE courses ADD COLUMN IF NOT EXISTS is_retake BOOLEAN DEFAULT false`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS assignments (
+      id          SERIAL PRIMARY KEY,
+      email       TEXT NOT NULL REFERENCES users(email) ON DELETE CASCADE,
+      client_id   TEXT NOT NULL,
+      title       TEXT NOT NULL DEFAULT '',
+      course_name TEXT DEFAULT '',
+      type        TEXT DEFAULT 'assignment',
+      due_date    TIMESTAMPTZ,
+      completed   BOOLEAN DEFAULT false,
+      notes       TEXT DEFAULT ''
+    )
+  `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS study_logs (
+      id          SERIAL PRIMARY KEY,
+      email       TEXT NOT NULL REFERENCES users(email) ON DELETE CASCADE,
+      client_id   TEXT NOT NULL,
+      course_name TEXT NOT NULL DEFAULT '',
+      hours       NUMERIC(4,1) DEFAULT 0,
+      log_date    DATE NOT NULL DEFAULT CURRENT_DATE,
+      notes       TEXT DEFAULT ''
+    )
+  `);
+}
+
 const DEFAULT_SEMESTERS = [
   {
     id: 'sem-default-1',
@@ -32,6 +68,8 @@ function mapProfile(row) {
     major: row.major || '',
     targetCgpa: row.target_cgpa != null ? Number(row.target_cgpa) : 3.5,
     graduationCredits: row.graduation_credits != null ? Number(row.graduation_credits) : 145,
+    coreCreditsRequired: row.core_credits_required != null ? Number(row.core_credits_required) : 100,
+    electiveCreditsRequired: row.elective_credits_required != null ? Number(row.elective_credits_required) : 45,
   };
 }
 
@@ -52,6 +90,9 @@ function groupSemesterRows(rows) {
         name: row.course_name || '',
         credits: row.credits ?? 0,
         grade: row.grade || '4.00',
+        category: row.category || 'core',
+        status: row.status || 'passed',
+        isRetake: row.is_retake ?? false,
       });
     }
   }
@@ -107,9 +148,18 @@ async function registerUser({ name, email, password, major, studentId }) {
       const semesterDbId = rows[0].id;
       for (const course of sem.courses) {
         await client.query(
-          `INSERT INTO courses (semester_id, course_client_id, name, credits, grade)
-           VALUES ($1, $2, $3, $4, $5)`,
-          [semesterDbId, course.id, course.name, course.credits, course.grade]
+          `INSERT INTO courses (semester_id, course_client_id, name, credits, grade, category, status, is_retake)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+          [
+            semesterDbId,
+            course.id,
+            course.name,
+            course.credits,
+            course.grade,
+            course.category || 'core',
+            course.status || 'passed',
+            course.isRetake ?? false,
+          ]
         );
       }
     }
@@ -137,6 +187,8 @@ async function updateProfile(email, profileData) {
     major: profileData.major || '',
     targetCgpa: parseFloat(profileData.targetCgpa) || 2.0,
     graduationCredits: parseInt(profileData.graduationCredits, 10) || 120,
+    coreCreditsRequired: parseInt(profileData.coreCreditsRequired, 10) || 100,
+    electiveCreditsRequired: parseInt(profileData.electiveCreditsRequired, 10) || 45,
   };
 
   await pool.query(
@@ -145,9 +197,20 @@ async function updateProfile(email, profileData) {
        student_id = $3,
        major = $4,
        target_cgpa = $5,
-       graduation_credits = $6
+       graduation_credits = $6,
+       core_credits_required = $7,
+       elective_credits_required = $8
      WHERE email = $1`,
-    [email, updated.name, updated.studentId, updated.major, updated.targetCgpa, updated.graduationCredits]
+    [
+      email,
+      updated.name,
+      updated.studentId,
+      updated.major,
+      updated.targetCgpa,
+      updated.graduationCredits,
+      updated.coreCreditsRequired,
+      updated.electiveCreditsRequired,
+    ]
   );
 
   await pool.query(
@@ -161,7 +224,8 @@ async function updateProfile(email, profileData) {
 async function getSemesters(email) {
   const { rows } = await pool.query(
     `SELECT s.semester_id, s.description, s.semester_number,
-            c.course_client_id, c.name AS course_name, c.credits, c.grade
+            c.course_client_id, c.name AS course_name, c.credits, c.grade,
+            c.category, c.status, c.is_retake
      FROM semesters s
      LEFT JOIN courses c ON c.semester_id = s.id
      WHERE s.email = $1
@@ -192,14 +256,17 @@ async function saveSemesters(email, semesters) {
       const semesterDbId = rows[0].id;
       for (const course of sem.courses || []) {
         await client.query(
-          `INSERT INTO courses (semester_id, course_client_id, name, credits, grade)
-           VALUES ($1, $2, $3, $4, $5)`,
+          `INSERT INTO courses (semester_id, course_client_id, name, credits, grade, category, status, is_retake)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
           [
             semesterDbId,
             course.id,
             course.name || '',
             course.credits ?? 0,
             course.grade || '4.00',
+            course.category || 'core',
+            course.status || 'passed',
+            course.isRetake ?? false,
           ]
         );
       }
@@ -215,12 +282,117 @@ async function saveSemesters(email, semesters) {
   return semesters;
 }
 
+function mapAssignment(row) {
+  return {
+    id: row.client_id,
+    title: row.title || '',
+    courseName: row.course_name || '',
+    type: row.type || 'assignment',
+    dueDate: row.due_date ? new Date(row.due_date).toISOString() : null,
+    completed: row.completed ?? false,
+    notes: row.notes || '',
+  };
+}
+
+function mapStudyLog(row) {
+  return {
+    id: row.client_id,
+    courseName: row.course_name || '',
+    hours: row.hours != null ? Number(row.hours) : 0,
+    logDate: row.log_date ? row.log_date.toISOString().slice(0, 10) : '',
+    notes: row.notes || '',
+  };
+}
+
+async function getAssignments(email) {
+  const { rows } = await pool.query(
+    `SELECT client_id, title, course_name, type, due_date, completed, notes
+     FROM assignments WHERE email = $1 ORDER BY due_date NULLS LAST, id`,
+    [email]
+  );
+  return rows.map(mapAssignment);
+}
+
+async function saveAssignments(email, assignments) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query('DELETE FROM assignments WHERE email = $1', [email]);
+    for (const item of assignments || []) {
+      await client.query(
+        `INSERT INTO assignments (email, client_id, title, course_name, type, due_date, completed, notes)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        [
+          email,
+          item.id,
+          item.title || '',
+          item.courseName || '',
+          item.type || 'assignment',
+          item.dueDate || null,
+          item.completed ?? false,
+          item.notes || '',
+        ]
+      );
+    }
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
+  return assignments;
+}
+
+async function getStudyLogs(email) {
+  const { rows } = await pool.query(
+    `SELECT client_id, course_name, hours, log_date, notes
+     FROM study_logs WHERE email = $1 ORDER BY log_date DESC, id`,
+    [email]
+  );
+  return rows.map(mapStudyLog);
+}
+
+async function saveStudyLogs(email, studyLogs) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query('DELETE FROM study_logs WHERE email = $1', [email]);
+    for (const item of studyLogs || []) {
+      await client.query(
+        `INSERT INTO study_logs (email, client_id, course_name, hours, log_date, notes)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [
+          email,
+          item.id,
+          item.courseName || '',
+          item.hours ?? 0,
+          item.logDate || new Date().toISOString().slice(0, 10),
+          item.notes || '',
+        ]
+      );
+    }
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
+  return studyLogs;
+}
+
 module.exports = {
   pool,
+  ensureFeatureSchema,
   loginUser,
   registerUser,
   getProfile,
   updateProfile,
   getSemesters,
   saveSemesters,
+  getAssignments,
+  saveAssignments,
+  getStudyLogs,
+  saveStudyLogs,
 };
