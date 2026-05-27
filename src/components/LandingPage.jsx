@@ -1,6 +1,7 @@
 import React from 'react';
-import { GraduationCap, LayoutDashboard, Calculator, Target, ArrowRight, ShieldCheck, Sun, Moon } from 'lucide-react';
+import { LayoutDashboard, Calculator, Target, ArrowRight, ShieldCheck, Sun, Moon } from 'lucide-react';
 import heroImage from '../assets/landing_hero.png';
+import logoImage from '../assets/logo1.png';
 
 export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme }) {
   return (
@@ -10,8 +11,8 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 transition-colors duration-200">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="bg-indigo-600 text-white p-2.5 rounded-xl shadow-md flex justify-center items-center">
-              <GraduationCap className="w-5 h-5" />
+            <div className="w-11 h-11 rounded-xl shadow-md flex justify-center items-center overflow-hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+              <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight leading-none">UniCalc Ethio</h1>

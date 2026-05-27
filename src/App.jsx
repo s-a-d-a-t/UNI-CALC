@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GraduationCap, LayoutDashboard, Calculator, User, Loader2, LogOut, Sun, Moon, Sparkles, CalendarClock } from 'lucide-react';
+import { LayoutDashboard, Calculator, User, Loader2, LogOut, Sun, Moon, Sparkles, CalendarClock } from 'lucide-react';
 import { db } from './services/db';
 import Dashboard from './components/Dashboard';
 import SemesterManager from './components/SemesterManager';
@@ -9,6 +9,7 @@ import LoginPage from './components/LoginPage';
 import Planning from './components/Planning';
 import Planner from './components/Planner';
 import { calculateGlobalStats } from './utils/gpa';
+import logoImage from './assets/logo1.png';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -185,8 +186,8 @@ export default function App() {
           
           {/* Logo / Title */}
           <div className="flex items-center gap-3">
-            <div className="bg-indigo-600 text-white p-2.5 rounded-xl shadow-md flex justify-center items-center">
-              <GraduationCap className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-xl shadow-md flex justify-center items-center overflow-hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+              <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="font-extrabold text-xl text-slate-900 dark:text-white tracking-tight leading-none">UniCalc Ethio</h1>

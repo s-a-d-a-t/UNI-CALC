@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../services/db';
-import { GraduationCap, Mail, Lock, User, BookOpen, IdCard, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, BookOpen, IdCard, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
+import logoImage from '../assets/logo1.png';
 
 export default function LoginPage({ onBack, onAuthSuccess }) {
   const [activeTab, setActiveTab] = useState('login'); // 'login' | 'signup'
@@ -69,8 +70,8 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
         
         {/* Logo and title */}
         <div className="text-center space-y-2">
-          <div className="bg-indigo-600 text-white w-12 h-12 rounded-2xl shadow-md flex justify-center items-center mx-auto">
-            <GraduationCap className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-2xl shadow-md flex justify-center items-center mx-auto overflow-hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+            <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
           </div>
           <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">UniCalc Ethio Profile</h2>
           <p className="text-xs text-slate-500 dark:text-slate-450 font-semibold uppercase tracking-wider">Scope your academic data safely</p>
