@@ -38,6 +38,7 @@ import {
   getStrongestWeakestSemesters,
   getCreditLoadVsGpaData,
   requiredGradeForTarget,
+  formatGpa,
 } from '../utils/gpa';
 
 const COLORS = ['#6366f1', '#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#f43f5e', '#64748b'];
@@ -45,7 +46,7 @@ const COLORS = ['#6366f1', '#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6'
 export default function Dashboard({ semesters, profile }) {
   const semesterData = getSemesterChartData(semesters);
   const { totalCredits, cgpa: cgpaRaw } = calculateGlobalStats(semesters);
-  const cgpa = parseFloat(cgpaRaw.toFixed(2));
+  const cgpa = cgpaRaw;
 
   const gradeCounts = {};
   (semesters || []).forEach((sem) => {
@@ -132,7 +133,7 @@ export default function Dashboard({ semesters, profile }) {
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm flex flex-col justify-between transition-colors">
           <div>
             <span className="text-xs font-bold text-slate-450 dark:text-slate-400 uppercase tracking-wider block">Cumulative CGPA</span>
-            <span className="text-3xl font-black text-slate-800 dark:text-white tracking-tight mt-2 block">{cgpa.toFixed(2)}</span>
+            <span className="text-3xl font-black text-slate-800 dark:text-white tracking-tight mt-2 block">{formatGpa(cgpa)}</span>
           </div>
           <div className="mt-4 pt-3 border-t border-slate-105 dark:border-slate-800">
             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Out of 4.00 Scale</span>
@@ -170,7 +171,7 @@ export default function Dashboard({ semesters, profile }) {
               <span className="text-emerald-650 dark:text-emerald-400 flex items-center gap-1 font-bold">Target Met</span>
             ) : (
               <span className="text-slate-500 dark:text-slate-400">
-                Behind by <strong className="text-rose-650 dark:text-rose-400 font-bold">{(targetCgpa - cgpa).toFixed(2)}</strong>
+                Behind by <strong className="text-rose-650 dark:text-rose-400 font-bold">{formatGpa(targetCgpa - cgpa)}</strong>
               </span>
             )}
           </div>
@@ -274,7 +275,7 @@ export default function Dashboard({ semesters, profile }) {
               <div>
                 <p className="text-xs font-bold text-emerald-600 uppercase">Strongest Semester</p>
                 <p className="font-black text-slate-800 dark:text-white">{strongest.name}</p>
-                <p className="text-sm text-emerald-600 font-bold">GPA {strongest.GPA.toFixed(2)}</p>
+                <p className="text-sm text-emerald-600 font-bold">GPA {formatGpa(strongest.GPA)}</p>
               </div>
             </div>
           )}
@@ -284,7 +285,7 @@ export default function Dashboard({ semesters, profile }) {
               <div>
                 <p className="text-xs font-bold text-amber-600 uppercase">Weakest Semester</p>
                 <p className="font-black text-slate-800 dark:text-white">{weakest.name}</p>
-                <p className="text-sm text-amber-600 font-bold">GPA {weakest.GPA.toFixed(2)}</p>
+                <p className="text-sm text-amber-600 font-bold">GPA {formatGpa(weakest.GPA)}</p>
               </div>
             </div>
           )}
@@ -425,7 +426,7 @@ export default function Dashboard({ semesters, profile }) {
                   <span className="text-emerald-650 dark:text-emerald-400 font-bold">Safe (Target met)</span>
                 ) : required ? (
                   <span className="text-slate-750 dark:text-slate-300 font-bold">
-                    Needed avg: <strong className="text-indigo-650 dark:text-indigo-400 text-sm font-black">{required.requiredGpa.toFixed(2)}</strong>
+                    Needed avg: <strong className="text-indigo-650 dark:text-indigo-400 text-sm font-black">{formatGpa(required.requiredGpa)}</strong>
                   </span>
                 ) : null}
               </div>

@@ -1,15 +1,58 @@
 export const GRADE_SCALE = [
-  { label: 'A / A+ (4.0)', value: '4.00', letter: 'A' },
-  { label: 'A- (3.75)', value: '3.75', letter: 'A-' },
-  { label: 'B+ (3.50)', value: '3.50', letter: 'B+' },
-  { label: 'B (3.00)', value: '3.00', letter: 'B' },
-  { label: 'B- (2.75)', value: '2.75', letter: 'B-' },
-  { label: 'C+ (2.50)', value: '2.50', letter: 'C+' },
-  { label: 'C (2.00)', value: '2.00', letter: 'C' },
-  { label: 'C- (1.75)', value: '1.75', letter: 'C-' },
-  { label: 'D (1.00)', value: '1.00', letter: 'D' },
-  { label: 'F (0.00)', value: '0.00', letter: 'F' },
+  { label: 'A+ (4.0)', value: 'A+', points: 4.0, letter: 'A+' },
+  { label: 'A (4.0)', value: 'A', points: 4.0, letter: 'A' },
+  { label: 'A- (3.75)', value: 'A-', points: 3.75, letter: 'A-' },
+  { label: 'B+ (3.50)', value: 'B+', points: 3.5, letter: 'B+' },
+  { label: 'B (3.00)', value: 'B', points: 3.0, letter: 'B' },
+  { label: 'B- (2.75)', value: 'B-', points: 2.75, letter: 'B-' },
+  { label: 'C+ (2.50)', value: 'C+', points: 2.5, letter: 'C+' },
+  { label: 'C (2.00)', value: 'C', points: 2.0, letter: 'C' },
+  { label: 'C- (1.75)', value: 'C-', points: 1.75, letter: 'C-' },
+  { label: 'D (1.00)', value: 'D', points: 1.0, letter: 'D' },
+  { label: 'F (0.00)', value: 'F', points: 0.0, letter: 'F' },
 ];
+
+const LEGACY_NUMERIC_GRADES = {
+  '4.00': 'A',
+  '3.75': 'A-',
+  '3.50': 'B+',
+  '3.00': 'B',
+  '2.75': 'B-',
+  '2.50': 'C+',
+  '2.00': 'C',
+  '1.75': 'C-',
+  '1.00': 'D',
+  '0.00': 'F',
+};
+
+export function normalizeGrade(grade) {
+  const raw = String(grade ?? '').trim();
+  if (GRADE_SCALE.some((s) => s.value === raw)) return raw;
+  const fixed = parseFloat(raw).toFixed(2);
+  if (LEGACY_NUMERIC_GRADES[fixed]) return LEGACY_NUMERIC_GRADES[fixed];
+  if (LEGACY_NUMERIC_GRADES[raw]) return LEGACY_NUMERIC_GRADES[raw];
+  return 'F';
+}
+
+export function getGradePoints(grade) {
+  const normalized = normalizeGrade(grade);
+  const match = GRADE_SCALE.find((s) => s.value === normalized);
+  if (match) return match.points;
+  const num = parseFloat(grade);
+  return isNaN(num) ? 0 : num;
+}
+
+/** Truncate GPA to 2 decimals (Ethiopian standard — no rounding). e.g. 3.698 → 3.69 */
+export function truncateGpa(value, decimals = 2) {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return 0;
+  const factor = 10 ** decimals;
+  return Math.trunc(num * factor) / factor;
+}
+
+export function formatGpa(value, decimals = 2) {
+  return truncateGpa(value, decimals).toFixed(decimals);
+}
 
 export const COURSE_CATEGORIES = [
   { value: 'core', label: 'Core' },
@@ -24,22 +67,20 @@ export const COURSE_STATUSES = [
 ];
 
 export function getGradeLetter(value) {
-  const g = parseFloat(value).toFixed(2);
-  const match = GRADE_SCALE.find((s) => s.value === g);
-  return match ? match.letter : 'F';
+  return normalizeGrade(value);
 }
 
 export function isPassingGrade(grade) {
-  return parseFloat(grade) >= 2.0;
+  return getGradePoints(grade) >= 2.0;
 }
 
 export function isFailedGrade(grade) {
-  return parseFloat(grade) < 2.0;
+  return getGradePoints(grade) < 2.0;
 }
 
 export function validCourse(course) {
   const credits = parseFloat(course.credits);
-  const gradeVal = parseFloat(course.grade);
+  const gradeVal = getGradePoints(course.grade);
   return !isNaN(credits) && credits > 0 && !isNaN(gradeVal);
 }
 
@@ -50,7 +91,7 @@ export function calculateSemesterStats(courses) {
   courses.forEach((course) => {
     if (!validCourse(course)) return;
     const c = parseFloat(course.credits);
-    const g = parseFloat(course.grade);
+    const g = getGradePoints(course.grade);
     credits += c;
     points += c * g;
   });
@@ -58,7 +99,7 @@ export function calculateSemesterStats(courses) {
   return {
     credits,
     points,
-    gpa: credits > 0 ? points / credits : 0,
+    gpa: credits > 0 ? truncateGpa(points / credits) : 0,
   };
 }
 
@@ -75,7 +116,7 @@ export function calculateGlobalStats(semesters) {
   return {
     totalCredits,
     totalPoints,
-    cgpa: totalCredits > 0 ? totalPoints / totalCredits : 0,
+    cgpa: totalCredits > 0 ? truncateGpa(totalPoints / totalCredits) : 0,
   };
 }
 
@@ -84,7 +125,7 @@ export function getSemesterChartData(semesters) {
     const stats = calculateSemesterStats(sem.courses || []);
     return {
       name: sem.description || `Sem ${sem.number}`,
-      GPA: parseFloat(stats.gpa.toFixed(2)),
+      GPA: truncateGpa(stats.gpa),
       Credits: stats.credits,
       points: stats.points,
     };
@@ -99,7 +140,7 @@ export function predictCgpa(completedSemesters, hypotheticalCourses) {
   hypotheticalCourses.forEach((course) => {
     if (!validCourse(course)) return;
     const c = parseFloat(course.credits);
-    const g = parseFloat(course.grade);
+    const g = getGradePoints(course.grade);
     extraCredits += c;
     extraPoints += c * g;
   });
@@ -109,7 +150,7 @@ export function predictCgpa(completedSemesters, hypotheticalCourses) {
 
   return {
     currentCgpa: base.cgpa,
-    predictedCgpa: totalCredits > 0 ? totalPoints / totalCredits : 0,
+    predictedCgpa: totalCredits > 0 ? truncateGpa(totalPoints / totalCredits) : 0,
     totalCredits,
     totalPoints,
     addedCredits: extraCredits,
@@ -117,8 +158,8 @@ export function predictCgpa(completedSemesters, hypotheticalCourses) {
 }
 
 export function predictBestWorstCase(completedSemesters, inProgressCourses) {
-  const best = inProgressCourses.map((c) => ({ ...c, grade: '4.00' }));
-  const worst = inProgressCourses.map((c) => ({ ...c, grade: '0.00' }));
+  const best = inProgressCourses.map((c) => ({ ...c, grade: 'A' }));
+  const worst = inProgressCourses.map((c) => ({ ...c, grade: 'F' }));
   return {
     best: predictCgpa(completedSemesters, best).predictedCgpa,
     worst: predictCgpa(completedSemesters, worst).predictedCgpa,
@@ -137,8 +178,8 @@ export function requiredGradeForTarget(completedSemesters, remainingCredits, tar
   if (requiredGpa <= 0) return { possible: true, requiredGpa: 0, letter: 'Any passing grade' };
 
   const closest = GRADE_SCALE.reduce((prev, curr) => {
-    const prevDiff = Math.abs(parseFloat(prev.value) - requiredGpa);
-    const currDiff = Math.abs(parseFloat(curr.value) - requiredGpa);
+    const prevDiff = Math.abs(prev.points - requiredGpa);
+    const currDiff = Math.abs(curr.points - requiredGpa);
     return currDiff < prevDiff ? curr : prev;
   });
 
@@ -150,7 +191,7 @@ export function requiredGradeForTarget(completedSemesters, remainingCredits, tar
   };
 }
 
-export function analyzeRetakes(semesters, retakeTargetGrade = '3.50') {
+export function analyzeRetakes(semesters, retakeTargetGrade = 'B+') {
   const retakeCandidates = [];
 
   (semesters || []).forEach((sem) => {
@@ -159,8 +200,8 @@ export function analyzeRetakes(semesters, retakeTargetGrade = '3.50') {
       if (!isFailedGrade(course.grade) && course.status !== 'failed') return;
 
       const credits = parseFloat(course.credits);
-      const oldGrade = parseFloat(course.grade);
-      const newGrade = parseFloat(retakeTargetGrade);
+      const oldGrade = getGradePoints(course.grade);
+      const newGrade = getGradePoints(retakeTargetGrade);
       const impact = (credits * (newGrade - oldGrade)) / calculateGlobalStats(semesters).totalCredits;
 
       retakeCandidates.push({
@@ -172,8 +213,8 @@ export function analyzeRetakes(semesters, retakeTargetGrade = '3.50') {
         oldLetter: getGradeLetter(course.grade),
         newGrade,
         newLetter: getGradeLetter(retakeTargetGrade),
-        cgpaLift: impact,
-        newCgpa: calculateGlobalStats(semesters).cgpa + impact,
+        cgpaLift: truncateGpa(impact),
+        newCgpa: truncateGpa(calculateGlobalStats(semesters).cgpa + impact),
       });
     });
   });

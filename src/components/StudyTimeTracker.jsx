@@ -12,7 +12,7 @@ import {
   ZAxis,
 } from 'recharts';
 import { Plus, Trash2, Clock, BookOpen } from 'lucide-react';
-import { calculateSemesterStats } from '../utils/gpa';
+import { calculateSemesterStats, truncateGpa } from '../utils/gpa';
 
 export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semesters }) {
   const [logs, setLogs] = useState(studyLogs || []);
@@ -65,7 +65,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
       name: name.length > 12 ? `${name.slice(0, 12)}…` : name,
       fullName: name,
       hours: parseFloat(hours.toFixed(1)),
-      gpa: courseGpaMap[name] ? parseFloat(courseGpaMap[name].toFixed(2)) : null,
+      gpa: courseGpaMap[name] != null ? truncateGpa(courseGpaMap[name]) : null,
     }));
   }, [logs, courseGpaMap]);
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { RefreshCw, TrendingUp, AlertCircle } from 'lucide-react';
-import { GRADE_SCALE, analyzeRetakes, simulateRetake, calculateGlobalStats } from '../utils/gpa';
+import { GRADE_SCALE, analyzeRetakes, simulateRetake, calculateGlobalStats, getGradePoints, formatGpa } from '../utils/gpa';
 
 export default function RetakeAnalyzer({ semesters }) {
-  const [retakeTargetGrade, setRetakeTargetGrade] = useState('3.50');
+  const [retakeTargetGrade, setRetakeTargetGrade] = useState('B+');
   const currentCgpa = calculateGlobalStats(semesters).cgpa;
   const retakes = analyzeRetakes(semesters, retakeTargetGrade);
 
@@ -25,7 +25,7 @@ export default function RetakeAnalyzer({ semesters }) {
             onChange={(e) => setRetakeTargetGrade(e.target.value)}
             className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
           >
-            {GRADE_SCALE.filter((g) => parseFloat(g.value) >= 2.0).map((g) => (
+            {GRADE_SCALE.filter((g) => getGradePoints(g.value) >= 2.0).map((g) => (
               <option key={g.value} value={g.value}>
                 {g.label}
               </option>
@@ -69,14 +69,14 @@ export default function RetakeAnalyzer({ semesters }) {
                         {item.oldLetter} → {item.newLetter}
                       </span>
                       <span className="text-lg font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1 justify-end">
-                        <TrendingUp className="w-4 h-4" />+{item.cgpaLift.toFixed(2)}
+                        <TrendingUp className="w-4 h-4" />+{formatGpa(item.cgpaLift)}
                       </span>
                     </div>
                   </div>
                   <p className="text-xs text-slate-600 dark:text-slate-400 mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-700">
                     Retaking <strong>{item.courseName}</strong> from {item.oldLetter} to {item.newLetter}{' '}
-                    increases CGPA by <strong className="text-indigo-600">{item.cgpaLift.toFixed(2)}</strong>{' '}
-                    (from {currentCgpa.toFixed(2)} to {projectedCgpa.toFixed(2)}).
+                    increases CGPA by <strong className="text-indigo-600">{formatGpa(item.cgpaLift)}</strong>{' '}
+                    (from {formatGpa(currentCgpa)} to {formatGpa(projectedCgpa)}).
                   </p>
                 </div>
               );

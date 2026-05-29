@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { LayoutDashboard, Calculator, User, Loader2, LogOut, Sun, Moon, Sparkles, CalendarClock } from 'lucide-react';
 import { db } from './services/db';
 import Dashboard from './components/Dashboard';
@@ -9,7 +9,7 @@ import LoginPage from './components/LoginPage';
 import Planning from './components/Planning';
 import Planner from './components/Planner';
 import Sidebar from './components/Sidebar';
-import { calculateGlobalStats } from './utils/gpa';
+import { calculateGlobalStats, formatGpa } from './utils/gpa';
 import logoImage from './assets/logo1.png';
 
 export default function App() {
@@ -124,10 +124,17 @@ export default function App() {
     setProfile(newProfile);
   };
 
-  const handleSemestersUpdate = async (newSemesters) => {
-    setSemesters(newSemesters);
-    await db.saveSemesters(newSemesters);
-  };
+  const saveQueueRef = useRef(Promise.resolve());
+
+  const handleSemestersUpdate = useCallback((updaterOrValue) => {
+    setSemesters((prev) => {
+      const next = typeof updaterOrValue === 'function' ? updaterOrValue(prev) : updaterOrValue;
+      saveQueueRef.current = saveQueueRef.current
+        .then(() => db.saveSemesters(next))
+        .catch((err) => console.error('Failed to save semesters', err));
+      return next;
+    });
+  }, []);
 
   const handleAssignmentsUpdate = async (newAssignments) => {
     setAssignments(newAssignments);
@@ -142,7 +149,7 @@ export default function App() {
   // Helper to compute CGPA for the header badge
   const getHeaderCgpa = () => {
     if (!semesters || semesters.length === 0) return '0.00';
-    return calculateGlobalStats(semesters).cgpa.toFixed(2);
+    return formatGpa(calculateGlobalStats(semesters).cgpa);
   };
 
   if (isLoading) {

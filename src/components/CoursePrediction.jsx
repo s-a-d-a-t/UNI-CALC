@@ -6,6 +6,8 @@ import {
   predictCgpa,
   predictBestWorstCase,
   requiredGradeForTarget,
+  normalizeGrade,
+  formatGpa,
 } from '../utils/gpa';
 
 export default function CoursePrediction({ semesters, profile }) {
@@ -18,7 +20,7 @@ export default function CoursePrediction({ semesters, profile }) {
             id: course.id,
             name: course.name,
             credits: course.credits || 3,
-            grade: course.grade || '3.50',
+            grade: course.grade || 'B+',
           });
         }
       });
@@ -55,7 +57,7 @@ export default function CoursePrediction({ semesters, profile }) {
         id: `hyp-${Date.now()}`,
         name: '',
         credits: 3,
-        grade: '3.50',
+        grade: 'B+',
       },
     ]);
   };
@@ -128,7 +130,7 @@ export default function CoursePrediction({ semesters, profile }) {
                   className="col-span-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm text-center font-bold"
                 />
                 <select
-                  value={course.grade}
+                  value={normalizeGrade(course.grade)}
                   onChange={(e) => updateCourse(course.id, 'grade', e.target.value)}
                   className="col-span-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2 py-2 text-sm font-bold"
                 >
@@ -160,18 +162,18 @@ export default function CoursePrediction({ semesters, profile }) {
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm">
           <span className="text-xs font-bold text-slate-450 dark:text-slate-400 uppercase">Current CGPA</span>
           <span className="text-3xl font-black text-slate-800 dark:text-white block mt-2">
-            {prediction.currentCgpa.toFixed(2)}
+            {formatGpa(prediction.currentCgpa)}
           </span>
         </div>
         <div className="bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/30 rounded-2xl p-5 shadow-sm">
           <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase">Predicted CGPA</span>
           <span className="text-3xl font-black text-indigo-700 dark:text-indigo-300 block mt-2">
-            {activeCourses.length > 0 ? prediction.predictedCgpa.toFixed(2) : '—'}
+            {activeCourses.length > 0 ? formatGpa(prediction.predictedCgpa) : '—'}
           </span>
           {activeCourses.length > 0 && (
             <span className="text-xs text-indigo-500 mt-1 block">
               {prediction.predictedCgpa >= prediction.currentCgpa ? '+' : ''}
-              {(prediction.predictedCgpa - prediction.currentCgpa).toFixed(2)} change
+              {formatGpa(prediction.predictedCgpa - prediction.currentCgpa)} change
             </span>
           )}
         </div>
@@ -180,7 +182,7 @@ export default function CoursePrediction({ semesters, profile }) {
             <TrendingUp className="w-3 h-3" /> Best Case
           </span>
           <span className="text-3xl font-black text-emerald-700 dark:text-emerald-300 block mt-2">
-            {activeCourses.length > 0 ? best.toFixed(2) : '—'}
+            {activeCourses.length > 0 ? formatGpa(best) : '—'}
           </span>
           <span className="text-[10px] text-emerald-600/80 mt-1 block">All A grades</span>
         </div>
@@ -189,7 +191,7 @@ export default function CoursePrediction({ semesters, profile }) {
             <TrendingDown className="w-3 h-3" /> Worst Case
           </span>
           <span className="text-3xl font-black text-rose-700 dark:text-rose-300 block mt-2">
-            {activeCourses.length > 0 ? worst.toFixed(2) : '—'}
+            {activeCourses.length > 0 ? formatGpa(worst) : '—'}
           </span>
           <span className="text-[10px] text-rose-600/80 mt-1 block">All F grades</span>
         </div>
@@ -223,7 +225,7 @@ export default function CoursePrediction({ semesters, profile }) {
         ) : required ? (
           <p className="text-sm text-slate-600 dark:text-slate-300">
             To reach <strong>{targetCgpa.toFixed(2)}</strong> CGPA, maintain an average of{' '}
-            <strong className="text-indigo-600 text-lg">{required.requiredGpa.toFixed(2)}</strong>{' '}
+            <strong className="text-indigo-600 text-lg">{formatGpa(required.requiredGpa)}</strong>{' '}
             ({required.letter}) on your next {remainingCredits} credit hours.
           </p>
         ) : null}
