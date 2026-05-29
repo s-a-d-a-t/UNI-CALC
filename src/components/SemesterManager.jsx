@@ -197,8 +197,8 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
               <div className="p-6">
                 {/* Desktop Headers */}
                 <div className="hidden lg:grid grid-cols-12 gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">
-                  <div className="col-span-4">Course Name</div>
-                  <div className="col-span-1 text-center">Credits</div>
+                  <div className="col-span-3">Course Name</div>
+                  <div className="col-span-2 text-center">Credits</div>
                   <div className="col-span-2">Grade</div>
                   <div className="col-span-2">Category</div>
                   <div className="col-span-2">Status</div>
@@ -209,10 +209,10 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                   {semester.courses.map((course) => (
                     <div
                       key={course.id}
-                      className="grid grid-cols-12 gap-3 items-center bg-slate-50/40 sm:bg-transparent p-3 sm:p-0 rounded-xl border border-slate-100 sm:border-none"
+                      className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-slate-50/40 sm:bg-transparent p-3 sm:p-0 rounded-xl border border-slate-100 sm:border-none"
                     >
                       {/* Course Name */}
-                      <div className="col-span-12 lg:col-span-4">
+                      <div className="sm:col-span-4 lg:col-span-3">
                         <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Course Name</label>
                         <input
                           type="text"
@@ -224,7 +224,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       {/* Credit Hours */}
-                      <div className="col-span-6 lg:col-span-1">
+                      <div className="sm:col-span-2 lg:col-span-2">
                         <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Credit Hrs</label>
                         <input
                           type="number"
@@ -233,17 +233,17 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                           value={course.credits}
                           onChange={(e) => updateCourse(semester.id, course.id, 'credits', e.target.value)}
                           placeholder="3"
-                          className="course-credits w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-bold text-center text-slate-700 dark:text-slate-100"
+                          className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-bold text-center text-slate-700 dark:text-slate-100"
                         />
                       </div>
 
                       {/* Grade Selector */}
-                      <div className="col-span-6 lg:col-span-2">
+                      <div className="sm:col-span-2 lg:col-span-2">
                         <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Grade</label>
                         <select
                           value={course.grade}
                           onChange={(e) => updateCourse(semester.id, course.id, 'grade', e.target.value)}
-                          className="course-grade w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-bold text-slate-700 dark:text-slate-100"
+                          className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-bold text-slate-700 dark:text-slate-100"
                         >
                           {GRADE_SCALE.map((g) => (
                             <option key={g.value} value={g.value}>
@@ -254,7 +254,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       {/* Category */}
-                      <div className="col-span-6 lg:col-span-2">
+                      <div className="sm:col-span-2 lg:col-span-2">
                         <label className="block lg:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Category</label>
                         <select
                           value={course.category || 'core'}
@@ -268,7 +268,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       {/* Status */}
-                      <div className="col-span-5 lg:col-span-2">
+                      <div className="sm:col-span-2 lg:col-span-2">
                         <label className="block lg:hidden text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Status</label>
                         <select
                           value={course.status || 'passed'}
@@ -288,7 +288,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       {/* Delete Row Button */}
-                      <div className="col-span-1 text-right sm:text-center">
+                      <div className="sm:col-span-1 text-right sm:text-center">
                         <button
                           onClick={() => deleteCourseRow(semester.id, course.id)}
                           className="text-slate-300 hover:text-rose-500 p-1.5 rounded-lg hover:bg-rose-50 sm:hover:bg-transparent transition-colors duration-200 cursor-pointer"
