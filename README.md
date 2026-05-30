@@ -329,4 +329,13 @@ sudo -u postgres psql -d unicalc_db -c "ALTER TABLE users OWNER TO unicalc_user;
 
 ---
 
+## 👤 Author & Developer
+
+Created and maintained by **Sadat**:
+- **GitHub**: [s-a-d-a-t](https://github.com/s-a-d-a-t)
+- **Telegram**: [@sdrk_66](https://t.me/sdrk_66)
+- **Email**: [sdrkk66@gmail.com](mailto:sdrkk66@gmail.com)
+
+---
+
 *Made with ❤️ for academic excellence.*

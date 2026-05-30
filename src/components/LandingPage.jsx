@@ -146,7 +146,18 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
 
       {/* Footer */}
       <footer className="border-t border-slate-200 dark:border-slate-850 py-8 bg-white dark:bg-slate-950 text-slate-400 text-center text-xs font-semibold tracking-wider transition-colors duration-200">
-        <p>© {new Date().getFullYear()} UniCalc Ethio. Built with Vite, React, and Tailwind CSS. Scoped locally in your browser.</p>
+        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 dark:text-slate-400">
+          <p>© {new Date().getFullYear()} UniCalc Ethio. Built with Vite, React, and Tailwind CSS.</p>
+          <div className="flex flex-wrap justify-center gap-4 text-[11px] font-bold">
+            <span>Developed by <a href="https://github.com/s-a-d-a-t" target="_blank" rel="noopener noreferrer" className="text-indigo-650 dark:text-indigo-400 hover:underline">Sadat</a></span>
+            <span className="hidden md:inline">•</span>
+            <a href="mailto:sdrkk66@gmail.com" className="hover:text-indigo-650 dark:hover:text-indigo-400 transition-colors">sdrkk66@gmail.com</a>
+            <span>•</span>
+            <a href="https://t.me/sdrk_66" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-650 dark:hover:text-indigo-400 transition-colors">Telegram</a>
+            <span>•</span>
+            <a href="https://github.com/s-a-d-a-t" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-650 dark:hover:text-indigo-400 transition-colors">GitHub</a>
+          </div>
+        </div>
       </footer>
     </div>
   );
