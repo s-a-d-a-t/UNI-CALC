@@ -282,7 +282,7 @@ Open your browser and navigate to `http://localhost:5173` to explore the app!
 ## 🌐 Live Demo
 
 You can interact with the deployed version of the application here:
-👉 **[UniCalc Ethio Live Demo](YOUR_DEPLOYED_LINK_HERE)**
+👉 **[UniCalc Ethio Live Demo](https://uni-calc.onrender.com/)**
 
 *(Please replace `YOUR_DEPLOYED_LINK_HERE` with the URL provided once deployed!)*
 
