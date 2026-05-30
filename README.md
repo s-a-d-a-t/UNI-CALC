@@ -220,7 +220,7 @@ You can connect the application to either a **Local PostgreSQL database** or a *
    ```
 2. Create the database user and target database:
    ```bash
-   sudo -u postgres psql -c "CREATE USER unicalc_user WITH PASSWORD 'Sadat@123';"
+   sudo -u postgres psql -c "CREATE USER unicalc_user WITH PASSWORD ' ';"
    sudo -u postgres psql -c "CREATE DATABASE unicalc_db OWNER unicalc_user;"
    ```
 3. Load the default schema to initialize tables:
