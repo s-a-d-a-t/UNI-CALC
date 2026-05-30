@@ -240,10 +240,10 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=unicalc_db
 DB_USER=unicalc_user
-DB_PASSWORD=Sadat@123
+DB_PASSWORD=
 
 # Cloud Database URL (Used by Neon / production deployments)
-DATABASE_URL=postgresql://unicalc_user:Sadat@123@localhost:5432/unicalc_db
+DATABASE_URL=postgresql://unicalc_user:-------/unicalc_db
 
 # Express Server Port
 PORT=3001
