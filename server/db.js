@@ -2,6 +2,7 @@
 
 const path = require('path');
 const { Pool } = require('pg');
+const bcrypt = require('bcryptjs');
 
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
@@ -117,9 +118,34 @@ async function getProfileRow(email) {
 async function loginUser(email, password) {
   const formattedEmail = email.toLowerCase().trim();
   const user = await findUserByEmail(formattedEmail);
-  if (!user || user.password !== password) {
+  if (!user) {
     throw new Error('Invalid email or password');
   }
+
+  // Detect if stored password is a bcrypt hash
+  const isBcrypt = user.password.startsWith('$2a$') || user.password.startsWith('$2b$') || user.password.startsWith('$2y$');
+  let passwordMatch = false;
+
+  if (isBcrypt) {
+    passwordMatch = await bcrypt.compare(password, user.password);
+  } else {
+    // Fallback for existing plaintext passwords
+    passwordMatch = user.password === password;
+    if (passwordMatch) {
+      // Proactively upgrade the plaintext password to a secure hash
+      try {
+        const hashedUpgrade = await bcrypt.hash(password, 10);
+        await pool.query('UPDATE users SET password = $1 WHERE email = $2', [hashedUpgrade, formattedEmail]);
+      } catch (err) {
+        console.error('Failed to upgrade user password hash:', err);
+      }
+    }
+  }
+
+  if (!passwordMatch) {
+    throw new Error('Invalid email or password');
+  }
+
   const profile = mapProfile(await getProfileRow(formattedEmail));
   return { email: formattedEmail, ...profile };
 }
@@ -130,13 +156,14 @@ async function registerUser({ name, email, password, major, studentId }) {
     throw new Error('Email is already registered');
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
     await client.query(
       `INSERT INTO users (email, password, name, major, student_id)
        VALUES ($1, $2, $3, $4, $5)`,
-      [formattedEmail, password, name, major || null, studentId || null]
+      [formattedEmail, hashedPassword, name, major || null, studentId || null]
     );
     await client.query(
       `INSERT INTO profiles (email, name, student_id, major, target_cgpa, graduation_credits)
