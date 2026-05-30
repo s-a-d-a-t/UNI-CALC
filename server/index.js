@@ -4,14 +4,22 @@ const cors = require('cors');
 const session = require('express-session');
 const db = require('./db');
 
-require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+// Reads local .env file locally, or Render's Environment Variables in production
+require('dotenv').config();
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
 
+// Set proxy security settings to trust Render's load balancer (Crucial for HTTPS cookies)
+const isProduction = process.env.NODE_ENV === 'production';
+if (isProduction) {
+  app.set('trust proxy', 1);
+}
+
 app.use(cors({ origin: CLIENT_ORIGIN, credentials: true }));
 app.use(express.json());
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'unicalc-dev-session-secret',
@@ -19,7 +27,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: isProduction, // Uses true over HTTPS on Render, false on localhost
+      sameSite: isProduction ? 'none' : 'lax', // Necessary for cross-origin hosting
       maxAge: 7 * 24 * 60 * 60 * 1000,
     },
   })
@@ -156,8 +165,9 @@ app.put('/api/study-logs', requireSession, async (req, res) => {
 async function startServer() {
   try {
     await db.ensureFeatureSchema();
-    app.listen(PORT, () => {
-      console.log(`UNI-CALC API listening on http://localhost:${PORT}`);
+    // Listening on '0.0.0.0' allows Render to correctly intercept external traffic
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`UNI-CALC API listening on port ${PORT}`);
     });
   } catch (err) {
     console.error('Failed to initialize database schema:', err.message);
