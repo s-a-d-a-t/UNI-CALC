@@ -157,11 +157,7 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
                 'Sign In to Account'
               )}
             </button>
-            <div className="text-center pt-2">
-              <span className="text-[10px] text-slate-400 font-semibold">
-                Demo Account: sadat / sadat123
-              </span>
-            </div>
+
           </form>
         )}
 
