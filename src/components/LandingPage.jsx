@@ -5,39 +5,44 @@ import logoImage from '../assets/logo1.png';
 
 export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme }) {
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200">
+    <div className="landing-page bg-[#FAF6EE] dark:bg-[#08080A] text-[#2A2723] dark:text-[#F3F3F5] min-h-screen transition-colors duration-300 relative overflow-hidden">
       
+      {/* Ambient background glows */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-amber-500/10 dark:bg-yellow-500/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-orange-500/5 dark:bg-amber-600/5 blur-[150px] pointer-events-none" />
+
       {/* Landing Navbar */}
-      <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 transition-colors duration-200">
+      <nav className="bg-[#FAF6EE]/80 dark:bg-[#08080A]/80 backdrop-blur border-b border-[#E5DCCE] dark:border-[#212124] sticky top-0 z-50 transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl shadow-md flex justify-center items-center overflow-hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+            <div className="w-11 h-11 rounded-xl shadow-sm flex justify-center items-center overflow-hidden bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124]">
               <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h1 className="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight leading-none">UniCalc Ethio</h1>
-              <p className="text-[9px] text-slate-400 font-bold tracking-wider uppercase mt-1">GPA Tracker & Analytics</p>
+              <h1 className="font-extrabold text-lg text-[#2A2723] dark:text-[#F3F3F5] tracking-tight leading-none font-landing">UniCalc Ethio</h1>
+              <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5] font-black tracking-wider uppercase mt-1">GPA Tracker & Analytics</p>
             </div>
           </div>
           
           <div className="flex items-center gap-4">
-            {/* Theme Toggle in landing page */}
+            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors cursor-pointer"
+              className="p-2.5 border border-[#E5DCCE] dark:border-[#212124] rounded-xl hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#6E685F] dark:text-[#A1A1A5] transition-colors cursor-pointer"
+              aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-indigo-500" />}
+              {theme === 'dark' ? <Sun className="w-4 h-4 text-yellow-500" /> : <Moon className="w-4 h-4 text-indigo-600" />}
             </button>
 
             <button
               onClick={onLogin}
-              className="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-pointer"
+              className="text-xs font-extrabold text-[#6E685F] dark:text-[#A1A1A5] hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors cursor-pointer"
             >
               Sign In
             </button>
             <button
               onClick={onGetStarted}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4.5 py-2.5 rounded-xl transition-all duration-200 shadow-sm shadow-indigo-100 dark:shadow-none cursor-pointer"
+              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-extrabold text-xs px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm cursor-pointer"
             >
               Get Started
             </button>
@@ -46,28 +51,28 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       </nav>
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-4 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <section className="max-w-6xl mx-auto px-4 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
         {/* Hero Left */}
         <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
-          <span className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-extrabold text-[11px] px-3.5 py-1.5 rounded-full border border-indigo-100 dark:border-indigo-900/30 uppercase tracking-widest inline-block">
-            Standard Ethiopian scale (4.0)
+          <span className="bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] font-extrabold text-[11px] px-3.5 py-1.5 rounded-full border border-[#E5DCCE] dark:border-[#212124] uppercase tracking-widest inline-block">
+            Standard Ethiopian Scale (4.0)
           </span>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white leading-[1.15] tracking-tight">
-            Master Your Academic <span className="text-indigo-600 dark:text-indigo-400">GPA Journey</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#2A2723] dark:text-[#F3F3F5] leading-[1.12] tracking-tight font-landing">
+            Empower Your Academic Path with <span className="text-[#B45309] dark:text-[#EAB308]">Precision Analytics</span>
           </h2>
-          <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-            A comprehensive academic tracking dashboard built for Ethiopian university students. Organize your semesters, forecast your graduation targets, inspect detailed trends, and plan your path to distinction.
+          <p className="text-[#6E685F] dark:text-[#A1A1A5] text-sm md:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
+            A sophisticated academic management platform tailored for university students in Ethiopia. Seamlessly organize semesters, project future credit hours, analyze academic performance curves, and chart a structured path to graduation honours.
           </p>
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
             <button
               onClick={onGetStarted}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-6 py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-indigo-100 dark:shadow-none cursor-pointer group"
+              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-extrabold text-sm px-6 py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md cursor-pointer group"
             >
               Start Free Tracking <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
               onClick={onLogin}
-              className="border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold text-sm px-6 py-3.5 rounded-xl transition-all duration-200 cursor-pointer"
+              className="border border-[#E5DCCE] dark:border-[#212124] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#2A2723] dark:text-[#F3F3F5] font-bold text-sm px-6 py-4 rounded-xl transition-all duration-200 cursor-pointer"
             >
               Access Existing Profile
             </button>
@@ -76,59 +81,68 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
 
         {/* Hero Right / Illustration */}
         <div className="lg:col-span-6 flex justify-center">
-          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl p-3 border border-slate-200/60 dark:border-slate-850 shadow-2xl transition-all duration-200">
-            <div className="absolute -left-4 -top-4 w-12 h-12 bg-indigo-500/10 rounded-full blur-xl"></div>
-            <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-emerald-500/10 rounded-full blur-xl"></div>
-            <img
-              src={heroImage}
-              alt="UniCalc Ethio Dashboard Demonstration"
-              className="w-full h-auto rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm"
-            />
+          <div className="relative w-full max-w-lg bg-[#F4EFE6] dark:bg-[#0F0F12] rounded-3xl p-4 border border-[#E5DCCE] dark:border-[#212124] shadow-2xl transition-all duration-300 group">
+            {/* Browser-like window header */}
+            <div className="flex items-center gap-1.5 mb-3 px-1">
+              <div className="w-2.5 h-2.5 rounded-full bg-[#E5DCCE] dark:bg-[#212124]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#E5DCCE] dark:bg-[#212124]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#E5DCCE] dark:bg-[#212124]" />
+              <div className="flex-1 bg-white/40 dark:bg-white/5 rounded-lg py-1 px-4 text-[10px] text-center text-[#6E685F] dark:text-[#A1A1A5] font-bold border border-[#E5DCCE]/50 dark:border-[#212124]/50 select-none">
+                unicalc-ethio.org/dashboard
+              </div>
+            </div>
+            <div className="overflow-hidden rounded-2xl border border-[#E5DCCE] dark:border-[#212124] shadow-sm">
+              <img
+                src={heroImage}
+                alt="UniCalc Ethio Dashboard Demonstration"
+                className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-102"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Grid */}
-      <section className="bg-white dark:bg-slate-900/40 border-y border-slate-200 dark:border-slate-850 py-16 transition-colors duration-200">
+      <section className="bg-[#F4EFE6]/50 dark:bg-[#121216]/40 border-y border-[#E5DCCE] dark:border-[#212124] py-20 transition-colors duration-300 relative z-10">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
-            <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">Smart Tools for High Achievers</h3>
-            <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium">
-              Everything you need to track credits, calculate semester averages, and forecast your academic standings.
+            <h3 className="text-2xl md:text-3.5xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight font-landing">Engineered for Academic Excellence</h3>
+            <p className="text-xs md:text-sm text-[#6E685F] dark:text-[#A1A1A5] font-semibold">
+              A suite of sophisticated, real-time tools built to help you measure, forecast, and elevate your performance.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1: Live Calculator */}
-            <div className="bg-slate-50/50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-6 rounded-2xl hover:shadow-md transition-all duration-200 text-center md:text-left space-y-4">
-              <div className="bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 w-12 h-12 rounded-xl flex items-center justify-center mx-auto md:mx-0 border border-indigo-100 dark:border-indigo-900/30">
+            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
+              <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
                 <Calculator className="w-5 h-5" />
               </div>
-              <h4 className="font-extrabold text-base text-slate-900 dark:text-white">Dynamic Semester Calculator</h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                Add semesters and courses, specify credit weights, and map standard letter grades. Live calculations compute SGPA and CGPA instantly as you type.
+              <h4 className="font-extrabold text-base text-[#2A2723] dark:text-[#F3F3F5] font-landing">Precision GPA Engine</h4>
+              <p className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
+                Input course modules, configure credit weightings, and select grade values. Our reactive parser calculates semester SGPA and cumulative CGPA instantly as you type.
               </p>
             </div>
 
             {/* Feature 2: Analytics Dashboard */}
-            <div className="bg-slate-50/50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-6 rounded-2xl hover:shadow-md transition-all duration-200 text-center md:text-left space-y-4">
-              <div className="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 w-12 h-12 rounded-xl flex items-center justify-center mx-auto md:mx-0 border border-emerald-100 dark:border-emerald-900/30">
+            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
+              <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
                 <LayoutDashboard className="w-5 h-5" />
               </div>
-              <h4 className="font-extrabold text-base text-slate-900 dark:text-white">Visual Analytics & Standing</h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                Analyze your performance using interactive trend lines, credit distribution charts, and grade percentages. View your status dynamically updated against standard rules.
+              <h4 className="font-extrabold text-base text-[#2A2723] dark:text-[#F3F3F5] font-landing">Advanced Trend Analysis</h4>
+              <p className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
+                Visualize your progress with interactive charting, credit density distributions, and historical performance tracking. Instantly view your official academic standing.
               </p>
             </div>
 
             {/* Feature 3: Target Planner */}
-            <div className="bg-slate-50/50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 p-6 rounded-2xl hover:shadow-md transition-all duration-200 text-center md:text-left space-y-4">
-              <div className="bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-450 w-12 h-12 rounded-xl flex items-center justify-center mx-auto md:mx-0 border border-amber-100 dark:border-amber-900/30">
+            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
+              <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
                 <Target className="w-5 h-5" />
               </div>
-              <h4 className="font-extrabold text-base text-slate-900 dark:text-white">Graduation Goal Planner</h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                Specify your dream target CGPA. The algorithm figures out the remaining credit hours and computes the exact average GPA you need to sustain to cross the line.
+              <h4 className="font-extrabold text-base text-[#2A2723] dark:text-[#F3F3F5] font-landing">Target & Graduation Planner</h4>
+              <p className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
+                Define your goal graduation honours. The predictive planner reverse-engineers the remaining semesters to compute the exact target GPA path required to achieve it.
               </p>
             </div>
           </div>
@@ -136,26 +150,32 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       </section>
 
       {/* Trust Banner / University standard description */}
-      <section className="max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
-        <ShieldCheck className="w-10 h-10 text-indigo-600 dark:text-indigo-400 mx-auto" />
-        <h3 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">Standard Grading Integrity</h3>
-        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-          UniCalc Ethio aligns directly with standard policies used across public and private universities in Ethiopia. The default mapping follows standard scale rules where A/A+ equals 4.0, A- equals 3.75, B+ equals 3.5, and F results in 0.0 points. Rest assured that calculations are exact.
-        </p>
+      <section className="max-w-4xl mx-auto px-4 py-20 text-center relative z-10">
+        <div className="bg-white/40 dark:bg-[#121216]/30 border border-[#E5DCCE] dark:border-[#212124] rounded-3xl p-8 md:p-12 relative overflow-hidden backdrop-blur-sm">
+          <div className="absolute inset-0 border border-dashed border-[#E5DCCE]/60 dark:border-[#212124]/60 rounded-3xl pointer-events-none m-1.5" />
+          <ShieldCheck className="w-12 h-12 text-[#B45309] dark:text-[#EAB308] mx-auto filter drop-shadow-[0_2px_8px_rgba(234,179,8,0.2)] mb-6" />
+          <span className="text-[10px] uppercase tracking-widest font-black text-[#B45309] dark:text-[#EAB308] bg-[#F4EFE6] dark:bg-[#1C1C20] px-3.5 py-1 rounded-full border border-[#E5DCCE] dark:border-[#2B2B30]">
+            Official Scale Compliance
+          </span>
+          <h3 className="text-2xl md:text-3xl font-black text-[#2A2723] dark:text-[#F3F3F5] mt-4 mb-4 tracking-tight font-landing">Standard Grading Integrity</h3>
+          <p className="text-xs md:text-sm text-[#6E685F] dark:text-[#A1A1A5] leading-relaxed font-medium max-w-2xl mx-auto">
+            UniCalc Ethio is built in direct compliance with the official grading harmonizations of Ethiopian higher education institutions. Supporting standard 4.0 credit scales (where A/A+ = 4.0, A- = 3.75, B+ = 3.5, etc.), calculations reflect exact academic standings with complete mathematical integrity.
+          </p>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 dark:border-slate-850 py-8 bg-white dark:bg-slate-950 text-slate-400 text-center text-xs font-semibold tracking-wider transition-colors duration-200">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 dark:text-slate-400">
+      <footer className="border-t border-[#E5DCCE] dark:border-[#212124] py-10 bg-[#FAF6EE] dark:bg-[#060608] text-[#6E685F] dark:text-[#A1A1A5] text-xs font-semibold tracking-wider transition-colors duration-300 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <p>© {new Date().getFullYear()} UniCalc Ethio. Built with Vite, React, and Tailwind CSS.</p>
           <div className="flex flex-wrap justify-center gap-4 text-[11px] font-bold">
-            <span>Developed by <a href="https://github.com/s-a-d-a-t" target="_blank" rel="noopener noreferrer" className="text-indigo-650 dark:text-indigo-400 hover:underline">Sadat</a></span>
+            <span>Developed by <a href="https://github.com/s-a-d-a-t" target="_blank" rel="noopener noreferrer" className="text-[#B45309] dark:text-[#EAB308] hover:underline">Sadat</a></span>
             <span className="hidden md:inline">•</span>
-            <a href="mailto:sdrkk66@gmail.com" className="hover:text-indigo-650 dark:hover:text-indigo-400 transition-colors">sdrkk66@gmail.com</a>
+            <a href="mailto:sdrkk66@gmail.com" className="hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors">sdrkk66@gmail.com</a>
             <span>•</span>
-            <a href="https://t.me/sdrk_66" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-650 dark:hover:text-indigo-400 transition-colors">Telegram</a>
+            <a href="https://t.me/sdrk_66" target="_blank" rel="noopener noreferrer" className="hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors">Telegram</a>
             <span>•</span>
-            <a href="https://github.com/s-a-d-a-t" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-650 dark:hover:text-indigo-400 transition-colors">GitHub</a>
+            <a href="https://github.com/s-a-d-a-t" target="_blank" rel="noopener noreferrer" className="hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors">GitHub</a>
           </div>
         </div>
       </footer>
