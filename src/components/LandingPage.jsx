@@ -15,12 +15,12 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       <nav className="bg-[#FAF6EE]/80 dark:bg-[#08080A]/80 backdrop-blur border-b border-[#E5DCCE] dark:border-[#212124] sticky top-0 z-50 transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl shadow-sm flex justify-center items-center overflow-hidden bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124]">
+            <div className="w-12 h-12 rounded-xl shadow-sm flex justify-center items-center overflow-hidden bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124]">
               <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h1 className="font-extrabold text-lg text-[#2A2723] dark:text-[#F3F3F5] tracking-tight leading-none font-landing">UniCalc Ethio</h1>
-              <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5] font-black tracking-wider uppercase mt-1">GPA Tracker & Analytics</p>
+              <h1 className="font-extrabold text-xl text-[#2A2723] dark:text-[#F3F3F5] tracking-tight leading-none font-landing">UniCalc Ethio</h1>
+              <p className="text-[11px] text-[#6E685F] dark:text-[#A1A1A5] font-black tracking-wider uppercase mt-1">GPA Tracker & Analytics</p>
             </div>
           </div>
           
@@ -36,13 +36,13 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
 
             <button
               onClick={onLogin}
-              className="text-xs font-extrabold text-[#6E685F] dark:text-[#A1A1A5] hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors cursor-pointer"
+              className="text-sm font-extrabold text-[#6E685F] dark:text-[#A1A1A5] hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors cursor-pointer"
             >
               Sign In
             </button>
             <button
               onClick={onGetStarted}
-              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-extrabold text-xs px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm cursor-pointer"
+              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-extrabold text-sm px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm cursor-pointer"
             >
               Get Started
             </button>
@@ -54,25 +54,27 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       <section className="max-w-6xl mx-auto px-4 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
         {/* Hero Left */}
         <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
-          <span className="bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] font-extrabold text-[11px] px-3.5 py-1.5 rounded-full border border-[#E5DCCE] dark:border-[#212124] uppercase tracking-widest inline-block">
+          <span className="bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] font-extrabold text-xs px-4 py-2 rounded-full border border-[#E5DCCE] dark:border-[#212124] uppercase tracking-widest inline-block">
             Standard Ethiopian Scale (4.0)
           </span>
+          {/* Headline - unchanged style and size as requested */}
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#2A2723] dark:text-[#F3F3F5] leading-[1.12] tracking-tight font-landing">
             Empower Your Academic Path with <span className="text-[#B45309] dark:text-[#EAB308]">Precision Analytics</span>
           </h2>
-          <p className="text-[#6E685F] dark:text-[#A1A1A5] text-sm md:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
+          {/* scaled paragraph to a highly readable professional size */}
+          <p className="text-[#6E685F] dark:text-[#A1A1A5] text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
             A sophisticated academic management platform tailored for university students in Ethiopia. Seamlessly organize semesters, project future credit hours, analyze academic performance curves, and chart a structured path to graduation honours.
           </p>
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
             <button
               onClick={onGetStarted}
-              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-extrabold text-sm px-6 py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md cursor-pointer group"
+              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-extrabold text-base px-7 py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md cursor-pointer group"
             >
-              Start Free Tracking <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Start Free Tracking <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
               onClick={onLogin}
-              className="border border-[#E5DCCE] dark:border-[#212124] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#2A2723] dark:text-[#F3F3F5] font-bold text-sm px-6 py-4 rounded-xl transition-all duration-200 cursor-pointer"
+              className="border border-[#E5DCCE] dark:border-[#212124] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#2A2723] dark:text-[#F3F3F5] font-bold text-base px-7 py-4 rounded-xl transition-all duration-200 cursor-pointer"
             >
               Access Existing Profile
             </button>
@@ -87,7 +89,7 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
               <div className="w-2.5 h-2.5 rounded-full bg-[#E5DCCE] dark:bg-[#212124]" />
               <div className="w-2.5 h-2.5 rounded-full bg-[#E5DCCE] dark:bg-[#212124]" />
               <div className="w-2.5 h-2.5 rounded-full bg-[#E5DCCE] dark:bg-[#212124]" />
-              <div className="flex-1 bg-white/40 dark:bg-white/5 rounded-lg py-1 px-4 text-[10px] text-center text-[#6E685F] dark:text-[#A1A1A5] font-bold border border-[#E5DCCE]/50 dark:border-[#212124]/50 select-none">
+              <div className="flex-1 bg-white/40 dark:bg-white/5 rounded-lg py-1 px-4 text-xs text-center text-[#6E685F] dark:text-[#A1A1A5] font-bold border border-[#E5DCCE]/50 dark:border-[#212124]/50 select-none">
                 unicalc-ethio.org/dashboard
               </div>
             </div>
@@ -106,8 +108,8 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       <section className="bg-[#F4EFE6]/50 dark:bg-[#121216]/40 border-y border-[#E5DCCE] dark:border-[#212124] py-20 transition-colors duration-300 relative z-10">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
-            <h3 className="text-2xl md:text-3.5xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight font-landing">Engineered for Academic Excellence</h3>
-            <p className="text-xs md:text-sm text-[#6E685F] dark:text-[#A1A1A5] font-semibold">
+            <h3 className="text-3xl md:text-4xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight font-landing">Engineered for Academic Excellence</h3>
+            <p className="text-sm md:text-base text-[#6E685F] dark:text-[#A1A1A5] font-semibold">
               A suite of sophisticated, real-time tools built to help you measure, forecast, and elevate your performance.
             </p>
           </div>
@@ -116,10 +118,10 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
             {/* Feature 1: Live Calculator */}
             <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
               <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                <Calculator className="w-5 h-5" />
+                <Calculator className="w-6 h-6" />
               </div>
-              <h4 className="font-extrabold text-base text-[#2A2723] dark:text-[#F3F3F5] font-landing">Precision GPA Engine</h4>
-              <p className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
+              <h4 className="font-extrabold text-lg md:text-xl text-[#2A2723] dark:text-[#F3F3F5] font-landing">Precision GPA Engine</h4>
+              <p className="text-sm md:text-base text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
                 Input course modules, configure credit weightings, and select grade values. Our reactive parser calculates semester SGPA and cumulative CGPA instantly as you type.
               </p>
             </div>
@@ -127,10 +129,10 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
             {/* Feature 2: Analytics Dashboard */}
             <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
               <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                <LayoutDashboard className="w-5 h-5" />
+                <LayoutDashboard className="w-6 h-6" />
               </div>
-              <h4 className="font-extrabold text-base text-[#2A2723] dark:text-[#F3F3F5] font-landing">Advanced Trend Analysis</h4>
-              <p className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
+              <h4 className="font-extrabold text-lg md:text-xl text-[#2A2723] dark:text-[#F3F3F5] font-landing">Advanced Trend Analysis</h4>
+              <p className="text-sm md:text-base text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
                 Visualize your progress with interactive charting, credit density distributions, and historical performance tracking. Instantly view your official academic standing.
               </p>
             </div>
@@ -138,10 +140,10 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
             {/* Feature 3: Target Planner */}
             <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
               <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                <Target className="w-5 h-5" />
+                <Target className="w-6 h-6" />
               </div>
-              <h4 className="font-extrabold text-base text-[#2A2723] dark:text-[#F3F3F5] font-landing">Target & Graduation Planner</h4>
-              <p className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
+              <h4 className="font-extrabold text-lg md:text-xl text-[#2A2723] dark:text-[#F3F3F5] font-landing">Target & Graduation Planner</h4>
+              <p className="text-sm md:text-base text-[#6E685F] dark:text-[#A1A1A5] font-medium leading-relaxed">
                 Define your goal graduation honours. The predictive planner reverse-engineers the remaining semesters to compute the exact target GPA path required to achieve it.
               </p>
             </div>
@@ -153,22 +155,22 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       <section className="max-w-4xl mx-auto px-4 py-20 text-center relative z-10">
         <div className="bg-white/40 dark:bg-[#121216]/30 border border-[#E5DCCE] dark:border-[#212124] rounded-3xl p-8 md:p-12 relative overflow-hidden backdrop-blur-sm">
           <div className="absolute inset-0 border border-dashed border-[#E5DCCE]/60 dark:border-[#212124]/60 rounded-3xl pointer-events-none m-1.5" />
-          <ShieldCheck className="w-12 h-12 text-[#B45309] dark:text-[#EAB308] mx-auto filter drop-shadow-[0_2px_8px_rgba(234,179,8,0.2)] mb-6" />
-          <span className="text-[10px] uppercase tracking-widest font-black text-[#B45309] dark:text-[#EAB308] bg-[#F4EFE6] dark:bg-[#1C1C20] px-3.5 py-1 rounded-full border border-[#E5DCCE] dark:border-[#2B2B30]">
+          <ShieldCheck className="w-14 h-14 text-[#B45309] dark:text-[#EAB308] mx-auto filter drop-shadow-[0_2px_8px_rgba(234,179,8,0.2)] mb-6" />
+          <span className="text-xs uppercase tracking-widest font-black text-[#B45309] dark:text-[#EAB308] bg-[#F4EFE6] dark:bg-[#1C1C20] px-4 py-1.5 rounded-full border border-[#E5DCCE] dark:border-[#2B2B30]">
             Official Scale Compliance
           </span>
-          <h3 className="text-2xl md:text-3xl font-black text-[#2A2723] dark:text-[#F3F3F5] mt-4 mb-4 tracking-tight font-landing">Standard Grading Integrity</h3>
-          <p className="text-xs md:text-sm text-[#6E685F] dark:text-[#A1A1A5] leading-relaxed font-medium max-w-2xl mx-auto">
+          <h3 className="text-3xl font-black text-[#2A2723] dark:text-[#F3F3F5] mt-4 mb-4 tracking-tight font-landing">Standard Grading Integrity</h3>
+          <p className="text-sm md:text-base text-[#6E685F] dark:text-[#A1A1A5] leading-relaxed font-medium max-w-2xl mx-auto">
             UniCalc Ethio is built in direct compliance with the official grading harmonizations of Ethiopian higher education institutions. Supporting standard 4.0 credit scales (where A/A+ = 4.0, A- = 3.75, B+ = 3.5, etc.), calculations reflect exact academic standings with complete mathematical integrity.
           </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#E5DCCE] dark:border-[#212124] py-10 bg-[#FAF6EE] dark:bg-[#060608] text-[#6E685F] dark:text-[#A1A1A5] text-xs font-semibold tracking-wider transition-colors duration-300 relative z-10">
+      <footer className="border-t border-[#E5DCCE] dark:border-[#212124] py-10 bg-[#FAF6EE] dark:bg-[#060608] text-[#6E685F] dark:text-[#A1A1A5] text-sm font-medium tracking-wider transition-colors duration-300 relative z-10">
         <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <p>© {new Date().getFullYear()} UniCalc Ethio. Built with Vite, React, and Tailwind CSS.</p>
-          <div className="flex flex-wrap justify-center gap-4 text-[11px] font-bold">
+          <div className="flex flex-wrap justify-center gap-4 text-xs font-bold">
             <span>Developed by <a href="https://github.com/s-a-d-a-t" target="_blank" rel="noopener noreferrer" className="text-[#B45309] dark:text-[#EAB308] hover:underline">Sadat</a></span>
             <span className="hidden md:inline">•</span>
             <a href="mailto:sdrkk66@gmail.com" className="hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors">sdrkk66@gmail.com</a>
