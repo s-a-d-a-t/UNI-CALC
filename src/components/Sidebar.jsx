@@ -34,20 +34,20 @@ export default function Sidebar({
       {/* Sidebar */}
       <aside className={`
         fixed md:fixed inset-y-0 left-0 z-50
-        w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800
+        w-64 bg-[#FAF6EE]/95 dark:bg-[#0C0C0E]/95 border-r border-[#E5DCCE] dark:border-[#212124] backdrop-blur
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         flex flex-col
       `}>
         {/* Logo Section */}
-        <div className="p-6 border-b border-slate-200 dark:border-slate-800">
+        <div className="p-6 border-b border-[#E5DCCE] dark:border-[#212124]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl shadow-md flex justify-center items-center overflow-hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+            <div className="w-10 h-10 rounded-xl shadow-md flex justify-center items-center overflow-hidden bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124]">
               <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h1 className="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight leading-none">UniCalc Ethio</h1>
-              <p className="text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-0.5">Ethiopian standard</p>
+              <h1 className="font-extrabold text-lg text-[#2A2723] dark:text-[#F3F3F5] tracking-tight leading-none">UniCalc Ethio</h1>
+              <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5] font-black tracking-wider uppercase mt-0.5">Ethiopian standard</p>
             </div>
           </div>
         </div>
@@ -65,17 +65,17 @@ export default function Sidebar({
                   setIsOpen(false);
                 }}
                 className={`
-                  w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
+                  w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 border border-transparent
                   ${isActive 
-                    ? 'bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 shadow-sm' 
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
+                    ? 'bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] border-[#E5DCCE] dark:border-[#212124] shadow-sm' 
+                    : 'text-[#6E685F] dark:text-[#A1A1A5] hover:bg-[#F4EFE6]/60 dark:hover:bg-[#121216]/60 hover:text-[#2A2723] dark:hover:text-[#F3F3F5]'
                   }
                 `}
               >
                 <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5px]' : ''}`} />
                 <span className="font-medium text-sm">{item.label}</span>
                 {isActive && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#B45309] dark:bg-[#EAB308]" />
                 )}
               </button>
             );
@@ -83,21 +83,21 @@ export default function Sidebar({
         </nav>
 
         {/* User Profile Section */}
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800">
+        <div className="p-4 border-t border-[#E5DCCE] dark:border-[#212124]">
           {profile && (
             <div className="mb-4">
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-[#F4EFE6]/70 dark:bg-[#121216]/50 border border-[#E5DCCE] dark:border-[#212124]">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#B45309] to-[#D97706] dark:from-[#EAB308] dark:to-[#CA8A04] flex items-center justify-center text-white dark:text-[#08080A] font-bold text-sm shadow-sm">
                   {profile.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm text-slate-900 dark:text-white truncate">{profile.name}</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{profile.major}</p>
+                  <p className="font-semibold text-sm text-[#2A2723] dark:text-[#F3F3F5] truncate">{profile.name}</p>
+                  <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] truncate">{profile.major}</p>
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between px-2">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Current CGPA</span>
-                <span className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 font-bold text-sm px-2.5 py-1 rounded-lg">
+                <span className="text-[10px] font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wider">Current CGPA</span>
+                <span className="bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] border border-[#E5DCCE] dark:border-[#212124] font-bold text-sm px-2.5 py-1 rounded-lg">
                   {currentCgpa}
                 </span>
               </div>
@@ -107,17 +107,17 @@ export default function Sidebar({
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[#E5DCCE] dark:border-[#212124] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#6E685F] dark:text-[#A1A1A5] transition-colors cursor-pointer"
           >
             {theme === 'dark' ? (
               <>
-                <Sun className="w-4 h-4 text-amber-500" />
-                <span className="text-sm font-medium">Light Mode</span>
+                <Sun className="w-4 h-4 text-yellow-500" />
+                <span className="text-sm font-bold">Light Mode</span>
               </>
             ) : (
               <>
-                <Moon className="w-4 h-4 text-indigo-500" />
-                <span className="text-sm font-medium">Dark Mode</span>
+                <Moon className="w-4 h-4 text-indigo-600" />
+                <span className="text-sm font-bold">Dark Mode</span>
               </>
             )}
           </button>
@@ -125,10 +125,10 @@ export default function Sidebar({
           {/* Logout Button */}
           <button
             onClick={onLogout}
-            className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/20 transition-colors"
+            className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-200/50 dark:border-rose-900/30 transition-colors cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
-            <span className="text-sm font-medium">Sign Out</span>
+            <span className="text-sm font-bold">Sign Out</span>
           </button>
         </div>
       </aside>
@@ -136,7 +136,7 @@ export default function Sidebar({
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm text-slate-600 dark:text-slate-400"
+        className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-xl shadow-sm text-[#6E685F] dark:text-[#A1A1A5] cursor-pointer"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />

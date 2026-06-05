@@ -120,16 +120,127 @@ export function calculateGlobalStats(semesters) {
   };
 }
 
+export const GRADE_COLORS = {
+  'A+': '#059669',
+  A: '#10b981',
+  'A-': '#34d399',
+  'B+': '#3b82f6',
+  B: '#60a5fa',
+  'B-': '#93c5fd',
+  'C+': '#EAB308',
+  C: '#fbbf24',
+  'C-': '#fcd34d',
+  D: '#f97316',
+  F: '#f43f5e',
+};
+
 export function getSemesterChartData(semesters) {
+  let runningCredits = 0;
+  let runningPoints = 0;
+
   return (semesters || []).map((sem) => {
     const stats = calculateSemesterStats(sem.courses || []);
+    runningCredits += stats.credits;
+    runningPoints += stats.points;
+
+    let passed = 0;
+    let failed = 0;
+    let courseCount = 0;
+    (sem.courses || []).forEach((course) => {
+      if (!validCourse(course)) return;
+      courseCount += 1;
+      if (isPassingGrade(course.grade) && course.status !== 'failed') passed += 1;
+      else failed += 1;
+    });
+
     return {
       name: sem.description || `Sem ${sem.number}`,
       GPA: truncateGpa(stats.gpa),
       Credits: stats.credits,
       points: stats.points,
+      cumulativeCGPA: runningCredits > 0 ? truncateGpa(runningPoints / runningCredits) : 0,
+      courseCount,
+      passed,
+      failed,
     };
   });
+}
+
+export function getGradeDistributionData(semesters) {
+  const counts = {};
+  const creditsByGrade = {};
+  GRADE_SCALE.forEach((s) => {
+    counts[s.letter] = 0;
+    creditsByGrade[s.letter] = 0;
+  });
+
+  let totalCourses = 0;
+  let totalCredits = 0;
+
+  (semesters || []).forEach((sem) => {
+    (sem.courses || []).forEach((course) => {
+      if (!validCourse(course)) return;
+      const letter = getGradeLetter(course.grade);
+      const c = parseFloat(course.credits);
+      counts[letter] = (counts[letter] || 0) + 1;
+      creditsByGrade[letter] = (creditsByGrade[letter] || 0) + c;
+      totalCourses += 1;
+      totalCredits += c;
+    });
+  });
+
+  return GRADE_SCALE.map((s) => ({
+    name: s.letter,
+    points: s.points,
+    courses: counts[s.letter] || 0,
+    credits: creditsByGrade[s.letter] || 0,
+    coursePct: totalCourses > 0 ? truncateGpa((counts[s.letter] / totalCourses) * 100, 1) : 0,
+    creditPct: totalCredits > 0 ? truncateGpa((creditsByGrade[s.letter] / totalCredits) * 100, 1) : 0,
+  })).filter((d) => d.courses > 0);
+}
+
+export function getPerformanceAnalytics(semesters, semesterData, targetCgpa) {
+  const global = calculateGlobalStats(semesters);
+  const withGpa = semesterData.filter((s) => s.Credits > 0);
+
+  const avgSemesterGpa =
+    withGpa.length > 0
+      ? truncateGpa(withGpa.reduce((sum, s) => sum + s.GPA, 0) / withGpa.length)
+      : 0;
+
+  const avgCreditLoad =
+    withGpa.length > 0
+      ? Math.round(withGpa.reduce((sum, s) => sum + s.Credits, 0) / withGpa.length)
+      : 0;
+
+  let trend = 'stable';
+  let trendDelta = 0;
+  if (withGpa.length >= 2) {
+    const last = withGpa[withGpa.length - 1].GPA;
+    const prev = withGpa[withGpa.length - 2].GPA;
+    trendDelta = truncateGpa(last - prev);
+    if (trendDelta > 0.05) trend = 'up';
+    else if (trendDelta < -0.05) trend = 'down';
+  }
+
+  let totalCourses = 0;
+  (semesters || []).forEach((sem) => {
+    (sem.courses || []).forEach((course) => {
+      if (validCourse(course)) totalCourses += 1;
+    });
+  });
+
+  return {
+    ...global,
+    avgSemesterGpa,
+    avgCreditLoad,
+    semesterCount: withGpa.length,
+    totalCourses,
+    trend,
+    trendDelta,
+    gapToTarget: truncateGpa(targetCgpa - global.cgpa),
+    onTarget: global.cgpa >= targetCgpa,
+  };
 }
 
 export function predictCgpa(completedSemesters, hypotheticalCourses) {
@@ -288,21 +399,46 @@ export function getGraduationStats(semesters, profile) {
 }
 
 export function getPassFailStats(semesters) {
-  let passed = 0;
-  let failed = 0;
+  let passedCourses = 0;
+  let failedCourses = 0;
+  let passedCredits = 0;
+  let failedCredits = 0;
 
   (semesters || []).forEach((sem) => {
     (sem.courses || []).forEach((course) => {
       if (!validCourse(course)) return;
-      if (isPassingGrade(course.grade) && course.status !== 'failed') passed += 1;
-      else failed += 1;
+      const c = parseFloat(course.credits);
+      if (isPassingGrade(course.grade) && course.status !== 'failed') {
+        passedCourses += 1;
+        passedCredits += c;
+      } else {
+        failedCourses += 1;
+        failedCredits += c;
+      }
     });
   });
 
-  return [
-    { name: 'Passed', value: passed },
-    { name: 'Failed', value: failed },
-  ].filter((d) => d.value > 0);
+  const totalCourses = passedCourses + failedCourses;
+  const totalCredits = passedCredits + failedCredits;
+
+  return {
+    chart: [
+      { name: 'Passed', value: passedCourses, credits: passedCredits, color: '#10b981' },
+      { name: 'Failed', value: failedCourses, credits: failedCredits, color: '#f43f5e' },
+    ].filter((d) => d.value > 0),
+    byCredits: [
+      { name: 'Passed', value: passedCredits, courses: passedCourses, color: '#10b981' },
+      { name: 'Failed', value: failedCredits, courses: failedCourses, color: '#f43f5e' },
+    ].filter((d) => d.value > 0),
+    passedCourses,
+    failedCourses,
+    passedCredits,
+    failedCredits,
+    totalCourses,
+    totalCredits,
+    passRateCourses: totalCourses > 0 ? truncateGpa((passedCourses / totalCourses) * 100, 1) : 0,
+    passRateCredits: totalCredits > 0 ? truncateGpa((passedCredits / totalCredits) * 100, 1) : 0,
+  };
 }
 
 export function getStrongestWeakestSemesters(semesterData) {

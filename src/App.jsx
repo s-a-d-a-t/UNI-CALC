@@ -154,9 +154,9 @@ export default function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center items-center gap-3 transition-colors duration-200">
-        <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
-        <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">Loading UniCalc Ethio...</span>
+      <div className="min-h-screen bg-[#FAF6EE] dark:bg-[#08080A] flex flex-col justify-center items-center gap-3 transition-colors duration-200">
+        <Loader2 className="w-8 h-8 text-[#B45309] dark:text-[#EAB308] animate-spin" />
+        <span className="text-sm font-semibold text-[#6E685F] dark:text-[#A1A1A5]">Loading UniCalc Ethio...</span>
       </div>
     );
   }
@@ -187,7 +187,7 @@ export default function App() {
 
   // Render main application shell
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex transition-colors duration-200">
+    <div className="bg-[#FAF6EE] dark:bg-[#08080A] text-[#2A2723] dark:text-[#F3F3F5] min-h-screen flex transition-colors duration-200">
       
       {/* Sidebar Navigation */}
       <Sidebar 
