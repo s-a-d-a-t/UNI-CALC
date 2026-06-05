@@ -88,7 +88,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col max-md:flex-col sm:flex-row justify-between items-stretch max-md:items-stretch sm:items-center gap-3">
         <div>
           <h3 className="font-bold text-sm text-slate-800 dark:text-white flex items-center gap-2">
             <Calendar className="w-4 h-4 text-indigo-500" /> Assignment & Exam Tracker
@@ -97,7 +97,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
             {pending.length} pending · {completed.length} completed
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 max-md:w-full sm:w-auto">
           <button
             onClick={requestNotifications}
             className="border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5"
@@ -107,7 +107,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
           </button>
           <button
             onClick={addItem}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-xl flex items-center justify-center gap-1.5 flex-1 sm:flex-none"
           >
             <Plus className="w-3.5 h-3.5" /> Add Item
           </button>
@@ -135,7 +135,8 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
                         : 'border-slate-200 dark:border-slate-800'
                 }`}
               >
-                <div className="flex items-start gap-3">
+                <div className="flex flex-col max-md:flex-col sm:flex-row items-start gap-3">
+                  <div className="flex items-start gap-3 w-full sm:w-auto">
                   <button
                     onClick={() => toggleComplete(item.id)}
                     className="mt-1 shrink-0 text-slate-400 hover:text-emerald-500"
@@ -146,7 +147,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
                       <Circle className="w-5 h-5" />
                     )}
                   </button>
-                  <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3 w-full min-w-0">
                     <input
                       type="text"
                       value={item.title}
@@ -185,7 +186,8 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
                       className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
                     />
                   </div>
-                  <div className="flex flex-col items-end gap-2 shrink-0">
+                  </div>
+                  <div className="flex flex-row max-md:flex-row sm:flex-col items-center max-md:items-center sm:items-end justify-between max-md:justify-between sm:justify-start gap-2 w-full sm:w-auto sm:shrink-0">
                     {countdown && !item.completed && (
                       <span
                         className={`text-[10px] font-bold px-2 py-1 rounded-full ${

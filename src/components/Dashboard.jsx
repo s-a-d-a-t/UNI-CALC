@@ -274,12 +274,12 @@ export default function Dashboard({ semesters, profile }) {
         : 'text-[#6E685F] dark:text-[#A1A1A5]';
 
   return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm flex flex-col justify-between transition-colors">
+    <div className="space-y-6 max-md:space-y-6 md:space-y-8 w-full min-w-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 max-md:gap-3 md:gap-5">
+        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm flex flex-col justify-between transition-colors">
           <div>
             <span className="text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wider block">Cumulative CGPA</span>
-            <span className="text-3xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight mt-2 block">{formatGpa(cgpa)}</span>
+            <span className="text-2xl max-md:text-2xl md:text-3xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight mt-2 block">{formatGpa(cgpa)}</span>
           </div>
           <div className="mt-4 pt-3 border-t border-[#E5DCCE] dark:border-[#212124]">
             <span className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-bold">Out of 4.00 Scale</span>
@@ -330,14 +330,14 @@ export default function Dashboard({ semesters, profile }) {
           </div>
           <div className="mt-4 flex items-center gap-1.5 text-xs font-semibold border-t border-current/10 pt-3">
             {standing.icon}
-            <span className="truncate" title={standing.desc}>{standing.desc}</span>
+            <span className="line-clamp-2 max-md:line-clamp-2 md:truncate" title={standing.desc}>{standing.desc}</span>
           </div>
         </div>
       </div>
 
       {/* Performance analytics summary */}
       {analytics.totalCourses > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 max-md:gap-2 md:gap-3">
           {[
             { label: 'Total Courses', value: analytics.totalCourses },
             { label: 'Semesters', value: analytics.semesterCount },
@@ -370,11 +370,11 @@ export default function Dashboard({ semesters, profile }) {
       )}
 
       {/* Graduation Requirement Tracker */}
-      <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-6 shadow-sm">
-        <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] mb-6 flex items-center gap-2">
+      <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-6 shadow-sm">
+        <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] mb-4 max-md:mb-4 md:mb-6 flex items-center gap-2">
           <GraduationCap className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Graduation Requirement Tracker
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 max-md:gap-4 md:gap-6 mb-4 max-md:mb-4 md:mb-6">
           <div>
             <div className="flex justify-between text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] mb-2">
               <span>Total Credits</span>
@@ -418,7 +418,7 @@ export default function Dashboard({ semesters, profile }) {
             </div>
             <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] mt-1">{grad.electiveRemaining} elective credits left</p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-3 max-md:gap-3 md:gap-4 sm:col-span-2 lg:col-span-1">
             <div className="flex-1 bg-rose-500/10 rounded-xl p-3 text-center border border-rose-200/50 dark:border-rose-900/30">
               <span className="text-2xl font-black text-rose-600">{grad.failedCount}</span>
               <p className="text-[10px] font-bold text-rose-500 uppercase mt-1">Failed</p>
@@ -476,20 +476,21 @@ export default function Dashboard({ semesters, profile }) {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm lg:col-span-2 transition-colors">
-          <div className="flex items-start justify-between mb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-md:gap-6 md:gap-8">
+        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-2 transition-colors min-w-0">
+          <div className="flex flex-col max-md:flex-col md:flex-row items-start justify-between gap-2 mb-4">
             <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> GPA Performance Trend
             </h3>
-            <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-right max-w-[180px]">
+            <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold max-md:text-left md:text-right md:max-w-[180px]">
               Semester GPA vs running CGPA · dashed lines = pass (2.0) & target
             </p>
           </div>
-          <div className="h-72 w-full">
+          <div className="h-64 max-md:h-64 md:h-72 w-full chart-scroll">
             {semesterData.length > 0 && totalCredits > 0 ? (
+              <div className="chart-scroll-inner h-full">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={semesterData} margin={{ top: 10, right: 20, left: -10, bottom: 5 }}>
+                <LineChart data={semesterData} margin={{ top: 10, right: 12, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridStroke} />
                   <XAxis dataKey="name" stroke="#6E685F" fontSize={11} fontWeight={600} tickLine={false} axisLine={false} />
                   <YAxis
@@ -525,25 +526,27 @@ export default function Dashboard({ semesters, profile }) {
                   />
                 </LineChart>
               </ResponsiveContainer>
+              </div>
             ) : (
-              <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-sm">
+              <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-sm text-center px-2">
                 No semester records found. Add data in the GPA Calculator.
               </div>
             )}
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm lg:col-span-1 flex flex-col transition-colors">
+        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-1 flex flex-col transition-colors min-w-0">
           <div className="mb-4">
             <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
               <Award className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Grade Distribution
             </h3>
             <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold mt-1">Credit-weighted · sorted by scale</p>
           </div>
-          <div className="h-56 w-full flex-1">
+          <div className="h-52 max-md:h-52 md:h-56 w-full flex-1 chart-scroll">
             {gradeDistributionData.length > 0 ? (
+              <div className="chart-scroll-inner h-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={gradeDistributionData} layout="vertical" margin={{ top: 0, right: 10, left: 0, bottom: 0 }}>
+                <BarChart data={gradeDistributionData} layout="vertical" margin={{ top: 0, right: 10, left: -4, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={gridStroke} />
                   <XAxis type="number" stroke="#6E685F" fontSize={10} tickLine={false} axisLine={false} unit=" cr" />
                   <YAxis type="category" dataKey="name" stroke="#6E685F" fontSize={11} fontWeight={700} tickLine={false} axisLine={false} width={28} />
@@ -555,11 +558,12 @@ export default function Dashboard({ semesters, profile }) {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
+              </div>
             ) : (
               <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-xs text-center">No grades found.</div>
             )}
           </div>
-          <div className="grid grid-cols-2 gap-1.5 mt-3 text-[9px] font-bold text-[#6E685F] dark:text-[#A1A1A5] max-h-20 overflow-y-auto">
+          <div className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-2 gap-1.5 mt-3 text-[9px] font-bold text-[#6E685F] dark:text-[#A1A1A5] max-h-24 max-md:max-h-24 md:max-h-20 overflow-y-auto">
             {gradeDistributionData.map((entry) => (
               <div key={entry.name} className="flex items-center gap-1 truncate">
                 <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: GRADE_COLORS[entry.name] }} />
@@ -572,8 +576,8 @@ export default function Dashboard({ semesters, profile }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm transition-colors">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-md:gap-6 md:gap-8">
+        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
           <div className="mb-4">
             <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Pass / Fail Statistics
@@ -643,7 +647,7 @@ export default function Dashboard({ semesters, profile }) {
           )}
         </div>
 
-        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm lg:col-span-2 transition-colors">
+        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-2 transition-colors min-w-0">
           <div className="mb-4">
             <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
               <BookOpen className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Credit Load vs GPA
@@ -652,10 +656,11 @@ export default function Dashboard({ semesters, profile }) {
               Bars = credits per semester · line = GPA · avg load {analytics.avgCreditLoad} hrs
             </p>
           </div>
-          <div className="h-56">
+          <div className="h-52 max-md:h-52 md:h-56 chart-scroll">
             {creditGpaData.length > 0 ? (
+              <div className="chart-scroll-inner h-full">
               <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={creditGpaData} margin={{ top: 10, right: 20, left: -10, bottom: 5 }}>
+                <ComposedChart data={creditGpaData} margin={{ top: 10, right: 12, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridStroke} />
                   <XAxis dataKey="name" stroke="#6E685F" fontSize={10} tickLine={false} axisLine={false} />
                   <YAxis
@@ -694,15 +699,16 @@ export default function Dashboard({ semesters, profile }) {
                   <Line yAxisId="right" type="monotone" dataKey="GPA" name="GPA" stroke={accentStroke} strokeWidth={2.5} dot={{ r: 5, fill: isDark ? '#0C0C0E' : '#fff', stroke: accentStroke, strokeWidth: 2 }} />
                 </ComposedChart>
               </ResponsiveContainer>
+              </div>
             ) : (
-              <div className="h-full flex items-center justify-center text-[#6E685F] dark:text-[#A1A1A5] text-sm">No semester data</div>
+              <div className="h-full flex items-center justify-center text-[#6E685F] dark:text-[#A1A1A5] text-sm text-center px-2">No semester data</div>
             )}
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-6 shadow-sm lg:col-span-1 flex flex-col justify-between transition-colors">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-md:gap-6 md:gap-8">
+        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-6 shadow-sm lg:col-span-1 flex flex-col justify-between transition-colors min-w-0">
           <div>
             <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] mb-2 flex items-center gap-2">
               <Target className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Graduation Goal Planner
@@ -746,7 +752,7 @@ export default function Dashboard({ semesters, profile }) {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm lg:col-span-2 transition-colors">
+        <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-2 transition-colors min-w-0">
           <div className="mb-4">
             <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
               <Calendar className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Semester-wise Credit Load
@@ -755,10 +761,11 @@ export default function Dashboard({ semesters, profile }) {
               Avg {analytics.avgCreditLoad} hrs/sem · {analytics.totalCredits} total hrs earned
             </p>
           </div>
-          <div className="h-56 w-full">
+          <div className="h-52 max-md:h-52 md:h-56 w-full chart-scroll">
             {semesterData.length > 0 && totalCredits > 0 ? (
+              <div className="chart-scroll-inner h-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={semesterData} margin={{ top: 10, right: 20, left: -10, bottom: 5 }}>
+                <BarChart data={semesterData} margin={{ top: 10, right: 12, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridStroke} />
                   <XAxis dataKey="name" stroke="#6E685F" fontSize={11} fontWeight={600} tickLine={false} axisLine={false} />
                   <YAxis stroke="#6E685F" fontSize={11} fontWeight={600} tickLine={false} axisLine={false} unit=" cr" />
@@ -782,8 +789,9 @@ export default function Dashboard({ semesters, profile }) {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
+              </div>
             ) : (
-              <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-sm">No semester credit data.</div>
+              <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-sm text-center px-2">No semester credit data.</div>
             )}
           </div>
         </div>

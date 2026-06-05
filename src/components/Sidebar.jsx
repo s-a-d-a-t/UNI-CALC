@@ -41,7 +41,8 @@ export default function Sidebar({
       `}>
         {/* Logo Section */}
         <div className="p-6 border-b border-[#E5DCCE] dark:border-[#212124]">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-xl shadow-md flex justify-center items-center overflow-hidden bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124]">
               <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
             </div>
@@ -49,6 +50,15 @@ export default function Sidebar({
               <h1 className="font-extrabold text-lg text-[#2A2723] dark:text-[#F3F3F5] tracking-tight leading-none">UniCalc Ethio</h1>
               <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5] font-black tracking-wider uppercase mt-0.5">Ethiopian standard</p>
             </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            className="md:hidden p-2 rounded-lg text-[#6E685F] dark:text-[#A1A1A5] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] shrink-0"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
           </div>
         </div>
 
@@ -132,16 +142,6 @@ export default function Sidebar({
           </button>
         </div>
       </aside>
-
-      {/* Mobile Toggle Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-xl shadow-sm text-[#6E685F] dark:text-[#A1A1A5] cursor-pointer"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
     </>
   );
 }

@@ -55,7 +55,7 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
   };
 
   return (
-    <div className="bg-[#FAF6EE] dark:bg-[#08080A] text-[#2A2723] dark:text-[#F3F3F5] min-h-screen flex flex-col justify-center items-center px-4 py-12 transition-colors duration-200">
+    <div className="bg-[#FAF6EE] dark:bg-[#08080A] text-[#2A2723] dark:text-[#F3F3F5] min-h-screen flex flex-col justify-center items-center px-3 max-md:px-3 md:px-4 py-8 max-md:py-8 md:py-12 transition-colors duration-200 safe-bottom">
       
       {/* Back button */}
       <button

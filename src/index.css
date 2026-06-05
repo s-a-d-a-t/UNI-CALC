@@ -31,3 +31,27 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.25s ease-out forwards;
 }
+
+/* Mobile-only layout helpers — desktop (md+) unchanged */
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .chart-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .chart-scroll-inner {
+    min-width: 300px;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}

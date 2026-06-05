@@ -210,7 +210,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                     value={semester.description}
                     onChange={(e) => renameSemester(semester.id, e.target.value)}
                     placeholder="Optional Description (e.g., Year 1, Sem I)"
-                    className="bg-transparent font-semibold text-sm text-[#2A2723] dark:text-[#F3F3F5] border-none outline-none focus:ring-0 placeholder:text-[#A1A1A5] w-full"
+                    className="bg-transparent font-semibold text-xs md:text-sm text-[#2A2723] dark:text-[#F3F3F5] border-none outline-none focus:ring-0 placeholder:text-[#A1A1A5] w-full"
                   />
                 </div>
                 <button
@@ -239,17 +239,17 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-start bg-[#F4EFE6]/40 dark:bg-[#121216]/40 sm:bg-transparent p-3 sm:p-0 rounded-xl border border-[#E5DCCE]/50 dark:border-[#212124]/50 sm:border-none"
                     >
                       <div className="sm:col-span-4 lg:col-span-3">
-                        <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-1">Course Name</label>
+                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Course Name</label>
                         <AutoResizeTextarea
                           value={course.name}
                           onChange={(e) => updateCourse(semester.id, course.id, 'name', e.target.value)}
                           placeholder="e.g. Introduction to Calculus"
-                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-xl px-3 py-2 text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-medium placeholder:text-[#A1A1A5] text-[#2A2723] dark:text-[#F3F3F5] resize-none overflow-hidden min-h-[42px]"
+                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-2.5 py-1.5 text-xs md:px-3 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-medium placeholder:text-[#A1A1A5] text-[#2A2723] dark:text-[#F3F3F5] resize-none overflow-hidden min-h-[34px] md:min-h-[42px]"
                         />
                       </div>
 
                       <div className="sm:col-span-2 lg:col-span-2">
-                        <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-1">Credit Hrs</label>
+                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Credit Hrs</label>
                         <input
                           type="number"
                           min="1"
@@ -257,16 +257,16 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                           value={course.credits}
                           onChange={(e) => updateCourse(semester.id, course.id, 'credits', e.target.value)}
                           placeholder="3"
-                          className="course-credits w-full min-w-[4rem] bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-xl px-3 py-2 text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-bold text-center text-[#2A2723] dark:text-[#F3F3F5]"
+                          className="course-credits w-full min-w-[3.5rem] md:min-w-[4rem] bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-2.5 py-1.5 text-xs md:px-3 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-bold text-center text-[#2A2723] dark:text-[#F3F3F5]"
                         />
                       </div>
 
                       <div className="sm:col-span-2 lg:col-span-2">
-                        <label className="block sm:hidden text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-1">Grade</label>
+                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Grade</label>
                         <select
                           value={normalizeGrade(course.grade)}
                           onChange={(e) => updateCourse(semester.id, course.id, 'grade', e.target.value)}
-                          className="course-grade w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-xl px-2 py-2 text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-bold text-[#2A2723] dark:text-[#F3F3F5]"
+                          className="course-grade w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-1.5 py-1.5 text-xs md:px-2 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-bold text-[#2A2723] dark:text-[#F3F3F5]"
                         >
                           {GRADE_SCALE.map((g) => (
                             <option key={g.value} value={g.value}>
@@ -277,11 +277,11 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       <div className="sm:col-span-2 lg:col-span-2">
-                        <label className="block lg:hidden text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-1">Category</label>
+                        <label className="block lg:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Category</label>
                         <select
                           value={course.category || 'core'}
                           onChange={(e) => updateCourse(semester.id, course.id, 'category', e.target.value)}
-                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-xl px-2 py-2 text-xs font-bold text-[#2A2723] dark:text-[#F3F3F5]"
+                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-1.5 py-1.5 text-[11px] md:px-2 md:py-2 md:text-xs font-bold text-[#2A2723] dark:text-[#F3F3F5]"
                         >
                           {COURSE_CATEGORIES.map((c) => (
                             <option key={c.value} value={c.value}>{c.label}</option>
@@ -290,7 +290,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       <div className="sm:col-span-2 lg:col-span-2">
-                        <label className="block lg:hidden text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-1">Status</label>
+                        <label className="block lg:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Status</label>
                         <select
                           value={course.status || 'passed'}
                           onChange={(e) => {
@@ -312,7 +312,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                               })
                             );
                           }}
-                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-xl px-2 py-2 text-xs font-bold text-[#2A2723] dark:text-[#F3F3F5]"
+                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-1.5 py-1.5 text-[11px] md:px-2 md:py-2 md:text-xs font-bold text-[#2A2723] dark:text-[#F3F3F5]"
                         >
                           {COURSE_STATUSES.map((s) => (
                             <option key={s.value} value={s.value}>{s.label}</option>

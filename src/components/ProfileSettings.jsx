@@ -61,7 +61,7 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden max-w-2xl mx-auto transition-all duration-200 hover:shadow-md">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden w-full max-w-2xl mx-auto transition-all duration-200 max-md:hover:shadow-sm md:hover:shadow-md">
       {/* Header */}
       <div className="px-6 py-4 bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between transition-colors">
         <div className="flex items-center gap-3">
@@ -76,7 +76,7 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="p-6 space-y-6">
+      <form onSubmit={handleSubmit} className="p-4 max-md:p-4 md:p-6 space-y-6">
         {showSuccess && (
           <div className="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/30 text-emerald-800 dark:text-emerald-400 px-4 py-3 rounded-xl flex items-center gap-3 animate-fadeIn">
             <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
@@ -205,11 +205,11 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
         </div>
 
         {/* Action Button */}
-        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
+        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-stretch max-md:justify-stretch md:justify-end">
           <button
             type="submit"
             disabled={isSaving}
-            className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition-all duration-205 flex items-center gap-2 shadow-sm shadow-indigo-100 dark:shadow-none cursor-pointer"
+            className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition-all duration-205 flex items-center justify-center gap-2 shadow-sm shadow-indigo-100 dark:shadow-none cursor-pointer w-full max-md:w-full md:w-auto"
           >
             <Save className="w-4 h-4" />
             {isSaving ? 'Saving...' : 'Save Profile Settings'}

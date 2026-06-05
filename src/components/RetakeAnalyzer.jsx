@@ -18,7 +18,7 @@ export default function RetakeAnalyzer({ semesters }) {
           &quot;Failed&quot; in the GPA Calculator or use grades below C (2.0).
         </p>
 
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex flex-col max-md:flex-col sm:flex-row items-stretch max-md:items-stretch sm:items-center gap-2 max-md:gap-2 sm:gap-3 mb-6">
           <label className="text-xs font-bold text-slate-500 uppercase">Retake target grade</label>
           <select
             value={retakeTargetGrade}

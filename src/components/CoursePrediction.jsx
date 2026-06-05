@@ -112,27 +112,28 @@ export default function CoursePrediction({ semesters, profile }) {
             {displayCourses.map((course) => (
               <div
                 key={course.id}
-                className="grid grid-cols-12 gap-3 items-center bg-slate-50 dark:bg-slate-950/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800"
+                className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-slate-50 dark:bg-slate-950/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800"
               >
                 <input
                   type="text"
                   value={course.name}
                   onChange={(e) => updateCourse(course.id, 'name', e.target.value)}
                   placeholder="Course name"
-                  className="col-span-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-medium"
+                  className="sm:col-span-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-medium w-full"
                 />
+                <div className="grid grid-cols-2 gap-3 sm:contents">
                 <input
                   type="number"
                   min="1"
                   max="10"
                   value={course.credits}
                   onChange={(e) => updateCourse(course.id, 'credits', e.target.value)}
-                  className="col-span-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm text-center font-bold"
+                  className="sm:col-span-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm text-center font-bold w-full"
                 />
                 <select
                   value={normalizeGrade(course.grade)}
                   onChange={(e) => updateCourse(course.id, 'grade', e.target.value)}
-                  className="col-span-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2 py-2 text-sm font-bold"
+                  className="sm:col-span-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2 py-2 text-sm font-bold w-full"
                 >
                   {GRADE_SCALE.map((g) => (
                     <option key={g.value} value={g.value}>
@@ -140,9 +141,10 @@ export default function CoursePrediction({ semesters, profile }) {
                     </option>
                   ))}
                 </select>
+                </div>
                 <button
                   onClick={() => removeCourse(course.id)}
-                  className="col-span-1 text-slate-400 hover:text-rose-500"
+                  className="sm:col-span-1 text-slate-400 hover:text-rose-500 justify-self-end sm:justify-self-auto"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -158,7 +160,7 @@ export default function CoursePrediction({ semesters, profile }) {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 max-md:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 max-md:gap-3 md:gap-4">
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm">
           <span className="text-xs font-bold text-slate-450 dark:text-slate-400 uppercase">Current CGPA</span>
           <span className="text-3xl font-black text-slate-800 dark:text-white block mt-2">

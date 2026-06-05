@@ -13,18 +13,18 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
 
       {/* Landing Navbar */}
       <nav className="bg-[#FAF6EE]/80 dark:bg-[#08080A]/80 backdrop-blur border-b border-[#E5DCCE] dark:border-[#212124] sticky top-0 z-50 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl shadow-sm flex justify-center items-center overflow-hidden bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124]">
+        <div className="max-w-6xl mx-auto px-3 max-md:px-3 md:px-4 py-3 max-md:py-3 md:py-4 flex justify-between items-center gap-2">
+          <div className="flex items-center gap-2 max-md:gap-2 md:gap-3 min-w-0">
+            <div className="w-10 h-10 max-md:w-10 max-md:h-10 md:w-12 md:h-12 rounded-xl shadow-sm flex justify-center items-center overflow-hidden bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] shrink-0">
               <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
             </div>
-            <div>
-              <h1 className="font-extrabold text-xl text-[#2A2723] dark:text-[#F3F3F5] tracking-tight leading-none font-landing">UniCalc Ethio</h1>
-              <p className="text-[11px] text-[#6E685F] dark:text-[#A1A1A5] font-black tracking-wider uppercase mt-1">GPA Tracker & Analytics</p>
+            <div className="min-w-0">
+              <h1 className="font-extrabold text-lg max-md:text-lg md:text-xl text-[#2A2723] dark:text-[#F3F3F5] tracking-tight leading-none font-landing truncate">UniCalc Ethio</h1>
+              <p className="hidden sm:block text-[11px] text-[#6E685F] dark:text-[#A1A1A5] font-black tracking-wider uppercase mt-1">GPA Tracker & Analytics</p>
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 max-md:gap-2 md:gap-4 shrink-0">
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
@@ -36,13 +36,13 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
 
             <button
               onClick={onLogin}
-              className="text-sm font-extrabold text-[#6E685F] dark:text-[#A1A1A5] hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors cursor-pointer"
+              className="hidden sm:inline text-sm font-extrabold text-[#6E685F] dark:text-[#A1A1A5] hover:text-[#B45309] dark:hover:text-[#EAB308] transition-colors cursor-pointer"
             >
               Sign In
             </button>
             <button
               onClick={onGetStarted}
-              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-extrabold text-sm px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm cursor-pointer"
+              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-extrabold text-xs max-md:text-xs md:text-sm px-3 max-md:px-3 md:px-5 py-2 max-md:py-2 md:py-2.5 rounded-xl transition-all duration-200 shadow-sm cursor-pointer whitespace-nowrap"
             >
               Get Started
             </button>
@@ -51,18 +51,18 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       </nav>
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-4 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+      <section className="max-w-6xl mx-auto px-3 max-md:px-3 md:px-4 py-12 max-md:py-12 md:py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-8 max-md:gap-8 md:gap-12 items-center relative z-10">
         {/* Hero Left */}
         <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
           <span className="bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] font-extrabold text-xs px-4 py-2 rounded-full border border-[#E5DCCE] dark:border-[#212124] uppercase tracking-widest inline-block">
             Standard Ethiopian Scale (4.0)
           </span>
           {/* Headline - unchanged style and size as requested */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#2A2723] dark:text-[#F3F3F5] leading-[1.12] tracking-tight font-landing">
+          <h2 className="text-3xl max-md:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#2A2723] dark:text-[#F3F3F5] leading-[1.12] tracking-tight font-landing">
             Empower Your Academic Path with <span className="text-[#B45309] dark:text-[#EAB308]">Precision Analytics</span>
           </h2>
           {/* scaled paragraph to a highly readable professional size */}
-          <p className="text-[#6E685F] dark:text-[#A1A1A5] text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
+          <p className="text-[#6E685F] dark:text-[#A1A1A5] text-sm max-md:text-sm md:text-base lg:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
             A sophisticated academic management platform tailored for university students in Ethiopia. Seamlessly organize semesters, project future credit hours, analyze academic performance curves, and chart a structured path to graduation honours.
           </p>
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
@@ -105,18 +105,18 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
       </section>
 
       {/* Features Grid */}
-      <section className="bg-[#F4EFE6]/50 dark:bg-[#121216]/40 border-y border-[#E5DCCE] dark:border-[#212124] py-20 transition-colors duration-300 relative z-10">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
-            <h3 className="text-3xl md:text-4xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight font-landing">Engineered for Academic Excellence</h3>
+      <section className="bg-[#F4EFE6]/50 dark:bg-[#121216]/40 border-y border-[#E5DCCE] dark:border-[#212124] py-12 max-md:py-12 md:py-20 transition-colors duration-300 relative z-10">
+        <div className="max-w-6xl mx-auto px-3 max-md:px-3 md:px-4">
+          <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 max-md:mb-10 md:mb-16">
+            <h3 className="text-2xl max-md:text-2xl md:text-3xl lg:text-4xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight font-landing">Engineered for Academic Excellence</h3>
             <p className="text-sm md:text-base text-[#6E685F] dark:text-[#A1A1A5] font-semibold">
               A suite of sophisticated, real-time tools built to help you measure, forecast, and elevate your performance.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-md:gap-5 md:gap-8">
             {/* Feature 1: Live Calculator */}
-            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
+            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-5 max-md:p-5 md:p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] max-md:hover:translate-y-0 md:hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
               <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
                 <Calculator className="w-6 h-6" />
               </div>
@@ -127,7 +127,7 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
             </div>
 
             {/* Feature 2: Analytics Dashboard */}
-            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
+            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-5 max-md:p-5 md:p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] max-md:hover:translate-y-0 md:hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
               <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
                 <LayoutDashboard className="w-6 h-6" />
               </div>
@@ -138,7 +138,7 @@ export default function LandingPage({ onGetStarted, onLogin, theme, toggleTheme 
             </div>
 
             {/* Feature 3: Target Planner */}
-            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
+            <div className="bg-[#FAF6EE] dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] p-5 max-md:p-5 md:p-8 rounded-3xl hover:border-[#B45309] dark:hover:border-[#EAB308] max-md:hover:translate-y-0 md:hover:-translate-y-1 transition-all duration-300 text-left space-y-5 group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md">
               <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
                 <Target className="w-6 h-6" />
               </div>

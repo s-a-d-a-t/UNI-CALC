@@ -98,7 +98,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col max-md:flex-col sm:flex-row justify-between items-stretch max-md:items-stretch sm:items-center gap-3">
         <div>
           <h3 className="font-bold text-sm text-slate-800 dark:text-white flex items-center gap-2">
             <Clock className="w-4 h-4 text-indigo-500" /> Study Time Tracker
@@ -109,7 +109,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
         </div>
         <button
           onClick={addLog}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-xl flex items-center justify-center gap-1.5 w-full max-md:w-full sm:w-auto"
         >
           <Plus className="w-3.5 h-3.5" /> Log Hours
         </button>
@@ -120,8 +120,9 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
           <h4 className="font-bold text-xs text-slate-600 dark:text-slate-300 mb-4 uppercase tracking-wider">
             Study Hours by Course
           </h4>
-          <div className="h-48">
+          <div className="h-48 chart-scroll">
             {hoursByCourse.length > 0 ? (
+              <div className="chart-scroll-inner h-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={hoursByCourse}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridStroke} />
@@ -138,6 +139,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
                   <Bar dataKey="hours" fill="#6366f1" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
+              </div>
             ) : (
               <div className="h-full flex items-center justify-center text-slate-400 text-sm">
                 Log study hours to see chart
@@ -146,14 +148,15 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm min-w-0">
           <h4 className="font-bold text-xs text-slate-600 dark:text-slate-300 mb-4 uppercase tracking-wider flex items-center gap-2">
             <BookOpen className="w-3.5 h-3.5" /> Study Hours vs GPA
           </h4>
-          <div className="h-48">
+          <div className="h-48 chart-scroll">
             {correlationData.length > 1 ? (
+              <div className="chart-scroll-inner h-full">
               <ResponsiveContainer width="100%" height="100%">
-                <ScatterChart margin={{ top: 10, right: 10, left: -10, bottom: 5 }}>
+                <ScatterChart margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
                   <XAxis
                     type="number"
@@ -192,6 +195,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
                   <Scatter data={correlationData} fill="#10b981" />
                 </ScatterChart>
               </ResponsiveContainer>
+              </div>
             ) : (
               <div className="h-full flex items-center justify-center text-slate-400 text-xs text-center px-4">
                 Add study logs for courses that exist in your GPA Calculator to see correlation
