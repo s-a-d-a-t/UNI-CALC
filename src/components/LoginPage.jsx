@@ -6,6 +6,7 @@ import logoImage from '../assets/logo1.png';
 export default function LoginPage({ onBack, onAuthSuccess }) {
   const [activeTab, setActiveTab] = useState('login'); // 'login' | 'signup'
   const [error, setError] = useState('');
+  const [retryAfter, setRetryAfter] = useState(null); // Retry time in seconds
   const [isLoading, setIsLoading] = useState(false);
 
   // Form states
@@ -18,6 +19,23 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
     studentId: ''
   });
 
+  // Countdown timer effect for rate limiting
+  React.useEffect(() => {
+    if (retryAfter === null || retryAfter <= 0) return;
+    
+    const timer = setInterval(() => {
+      setRetryAfter(prev => {
+        if (prev <= 1) {
+          setError('');
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, [retryAfter]);
+
   const handleLoginChange = (e) => {
     setLoginData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -29,12 +47,17 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setRetryAfter(null);
     setIsLoading(true);
     try {
       const user = await db.loginUser(loginData.email, loginData.password);
       onAuthSuccess(user);
     } catch (err) {
-      setError(err.message || 'Failed to sign in.');
+      const errorMsg = err.message || 'Failed to sign in.';
+      setError(errorMsg);
+      if (err.retryAfter) {
+        setRetryAfter(err.retryAfter);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -43,12 +66,17 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setRetryAfter(null);
     setIsLoading(true);
     try {
       const user = await db.registerUser(signupData);
       onAuthSuccess(user);
     } catch (err) {
-      setError(err.message || 'Failed to register account.');
+      const errorMsg = err.message || 'Failed to register account.';
+      setError(errorMsg);
+      if (err.retryAfter) {
+        setRetryAfter(err.retryAfter);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -103,9 +131,22 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
 
         {/* Error Alert */}
         {error && (
-          <div className="bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/30 text-rose-800 dark:text-rose-450 px-4 py-3 rounded-xl flex items-center gap-3 text-xs font-semibold animate-fadeIn">
-            <AlertCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0" />
-            <span>{error}</span>
+          <div className={`border px-4 py-3 rounded-xl flex items-center gap-3 text-xs font-semibold animate-fadeIn ${
+            retryAfter ? 
+              'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/30 text-amber-800 dark:text-amber-400' :
+              'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900/30 text-rose-800 dark:text-rose-450'
+          }`}>
+            <AlertCircle className={`w-5 h-5 shrink-0 ${
+              retryAfter ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400'
+            }`} />
+            <div className="flex-1">
+              <p>{error}</p>
+              {retryAfter && retryAfter > 0 && (
+                <p className="text-xs mt-1 font-bold">
+                  Try again in: <span className="font-black text-sm">{retryAfter}s</span>
+                </p>
+              )}
+            </div>
           </div>
         )}
 
@@ -146,13 +187,15 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || (retryAfter && retryAfter > 0)}
               className="w-full bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] disabled:opacity-50 text-white dark:text-[#08080A] font-bold text-sm py-3.5 rounded-xl transition-all duration-200 flex justify-center items-center gap-2 shadow-sm cursor-pointer mt-6"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" /> Verifying...
                 </>
+              ) : retryAfter && retryAfter > 0 ? (
+                `Please wait ${retryAfter}s`
               ) : (
                 'Sign In to Account'
               )}
@@ -245,13 +288,15 @@ export default function LoginPage({ onBack, onAuthSuccess }) {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || (retryAfter && retryAfter > 0)}
               className="w-full bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] disabled:opacity-50 text-white dark:text-[#08080A] font-bold text-sm py-3.5 rounded-xl transition-all duration-200 flex justify-center items-center gap-2 shadow-sm cursor-pointer mt-6"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" /> Registering...
                 </>
+              ) : retryAfter && retryAfter > 0 ? (
+                `Please wait ${retryAfter}s`
               ) : (
                 'Create Account & Start'
               )}

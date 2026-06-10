@@ -11,7 +11,11 @@ async function request(path, options = {}) {
 
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(data.error || 'Request failed');
+    const error = new Error(data.error || 'Request failed');
+    // Preserve additional error details like retryAfter, resetTime
+    if (data.retryAfter) error.retryAfter = data.retryAfter;
+    if (data.resetTime) error.resetTime = data.resetTime;
+    throw error;
   }
   return data;
 }

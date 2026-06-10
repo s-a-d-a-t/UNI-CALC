@@ -2,7 +2,9 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const rateLimit = require('express-rate-limit');
 const db = require('./db');
+const { validateRequestBody, loginSchema, registerSchema, profileSchema, semestersSchema, assignmentsSchema, studyLogsSchema } = require('./validation');
 
 // Reads local .env file locally, or Render's Environment Variables in production
 require('dotenv').config();
@@ -10,6 +12,24 @@ require('dotenv').config();
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+
+// Rate limiting middleware for auth routes
+// Limits login/register attempts to 6 requests per 1 minute per IP
+const authRateLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 6, // limit each IP to 6 requests per windowMs
+  standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
+  legacyHeaders: false, // Disable `X-RateLimit-*` headers
+  handler: (req, res) => {
+    const retryAfter = req.rateLimit.resetTime ? Math.ceil((req.rateLimit.resetTime - Date.now()) / 1000) : 900;
+    const minutes = Math.ceil(retryAfter / 60);
+    res.status(429).json({
+      error: `Too many authentication attempts. Please try again in ${minutes} minute${minutes > 1 ? 's' : ''}.`,
+      retryAfter: retryAfter,
+      resetTime: new Date(Date.now() + retryAfter * 1000).toISOString(),
+    });
+  },
+});
 
 // Set proxy security settings to trust Render's load balancer (Crucial for HTTPS cookies)
 const isProduction = process.env.NODE_ENV === 'production';
@@ -62,7 +82,7 @@ app.get('/api/auth/session', async (req, res) => {
   }
 });
 
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', authRateLimiter, validateRequestBody(loginSchema), async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await db.loginUser(email, password);
@@ -73,7 +93,7 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-app.post('/api/auth/register', async (req, res) => {
+app.post('/api/auth/register', authRateLimiter, validateRequestBody(registerSchema), async (req, res) => {
   try {
     const user = await db.registerUser(req.body);
     req.session.email = user.email;
@@ -99,7 +119,7 @@ app.get('/api/profile', requireSession, async (req, res) => {
   }
 });
 
-app.put('/api/profile', requireSession, async (req, res) => {
+app.put('/api/profile', requireSession, validateRequestBody(profileSchema), async (req, res) => {
   try {
     const profile = await db.updateProfile(req.session.email, req.body);
     res.json({ profile });
@@ -117,7 +137,7 @@ app.get('/api/semesters', requireSession, async (req, res) => {
   }
 });
 
-app.put('/api/semesters', requireSession, async (req, res) => {
+app.put('/api/semesters', requireSession, validateRequestBody(semestersSchema), async (req, res) => {
   try {
     const semesters = await db.saveSemesters(req.session.email, req.body.semesters);
     res.json({ semesters });
@@ -135,7 +155,7 @@ app.get('/api/assignments', requireSession, async (req, res) => {
   }
 });
 
-app.put('/api/assignments', requireSession, async (req, res) => {
+app.put('/api/assignments', requireSession, validateRequestBody(assignmentsSchema), async (req, res) => {
   try {
     const assignments = await db.saveAssignments(req.session.email, req.body.assignments);
     res.json({ assignments });
@@ -153,7 +173,7 @@ app.get('/api/study-logs', requireSession, async (req, res) => {
   }
 });
 
-app.put('/api/study-logs', requireSession, async (req, res) => {
+app.put('/api/study-logs', requireSession, validateRequestBody(studyLogsSchema), async (req, res) => {
   try {
     const studyLogs = await db.saveStudyLogs(req.session.email, req.body.studyLogs);
     res.json({ studyLogs });
