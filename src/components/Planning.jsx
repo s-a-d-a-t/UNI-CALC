@@ -8,7 +8,7 @@ export default function Planning({ semesters, profile }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col max-md:flex-col sm:flex-row w-full max-md:w-full sm:w-fit bg-slate-100 dark:bg-slate-950 p-1.5 rounded-2xl border border-slate-200/50 dark:border-slate-800/30">
+      <div className="flex flex-col max-md:flex-col sm:flex-row w-full max-md:w-full sm:w-fit bg-slate-100 dark:bg-[#161B22] p-1.5 rounded-2xl border border-slate-200/50 dark:border-[#30363D]/30">
         <button
           onClick={() => setSection('prediction')}
           className={`flex items-center justify-center gap-2 px-4 py-2.5 max-md:py-2.5 rounded-xl text-xs font-bold transition-all w-full sm:w-auto ${

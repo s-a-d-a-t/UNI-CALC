@@ -34,27 +34,27 @@ export default function Sidebar({
       {/* Sidebar */}
       <aside className={`
         fixed md:fixed inset-y-0 left-0 z-50
-        w-64 bg-[#FAF6EE]/95 dark:bg-[#0C0C0E]/95 border-r border-[#E5DCCE] dark:border-[#212124] backdrop-blur
+        w-64 bg-[#FAF6EE]/95 dark:bg-[#161B22]/95 border-r border-[#E5DCCE] dark:border-[#30363D] backdrop-blur
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         flex flex-col
       `}>
         {/* Logo Section */}
-        <div className="p-6 border-b border-[#E5DCCE] dark:border-[#212124]">
+        <div className="p-6 border-b border-[#E5DCCE] dark:border-[#30363D]">
           <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-xl shadow-md flex justify-center items-center overflow-hidden bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124]">
+            <div className="w-10 h-10 rounded-xl shadow-md flex justify-center items-center overflow-hidden bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D]">
               <img src={logoImage} alt="UniCalc Ethio logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h1 className="font-extrabold text-lg text-[#2A2723] dark:text-[#F3F3F5] tracking-tight leading-none">UniCalc Ethio</h1>
-              <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5] font-black tracking-wider uppercase mt-0.5">Ethiopian standard</p>
+              <h1 className="font-extrabold text-lg text-[#2A2723] dark:text-[#E6EDF3] tracking-tight leading-none">UniCalc Ethio</h1>
+              <p className="text-[9px] text-[#6E685F] dark:text-[#8B949E] font-black tracking-wider uppercase mt-0.5">Ethiopian standard</p>
             </div>
           </div>
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="md:hidden p-2 rounded-lg text-[#6E685F] dark:text-[#A1A1A5] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] shrink-0"
+            className="md:hidden p-2 rounded-lg text-[#6E685F] dark:text-[#8B949E] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] shrink-0"
             aria-label="Close menu"
           >
             <X className="w-5 h-5" />
@@ -77,15 +77,15 @@ export default function Sidebar({
                 className={`
                   w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 border border-transparent
                   ${isActive 
-                    ? 'bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] border-[#E5DCCE] dark:border-[#212124] shadow-sm' 
-                    : 'text-[#6E685F] dark:text-[#A1A1A5] hover:bg-[#F4EFE6]/60 dark:hover:bg-[#121216]/60 hover:text-[#2A2723] dark:hover:text-[#F3F3F5]'
+                    ? 'bg-[#F4EFE6] dark:bg-[#161B22] text-[#B45309] dark:text-[#22C55E] border-[#E5DCCE] dark:border-[#30363D] shadow-sm' 
+                    : 'text-[#6E685F] dark:text-[#8B949E] hover:bg-[#F4EFE6]/60 dark:hover:bg-[#121216]/60 hover:text-[#2A2723] dark:hover:text-[#F3F3F5]'
                   }
                 `}
               >
                 <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5px]' : ''}`} />
                 <span className="font-medium text-sm">{item.label}</span>
                 {isActive && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#B45309] dark:bg-[#EAB308]" />
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#B45309] dark:bg-[#22C55E]" />
                 )}
               </button>
             );
@@ -93,21 +93,21 @@ export default function Sidebar({
         </nav>
 
         {/* User Profile Section */}
-        <div className="p-4 border-t border-[#E5DCCE] dark:border-[#212124]">
+        <div className="p-4 border-t border-[#E5DCCE] dark:border-[#30363D]">
           {profile && (
             <div className="mb-4">
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-[#F4EFE6]/70 dark:bg-[#121216]/50 border border-[#E5DCCE] dark:border-[#212124]">
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-[#F4EFE6]/70 dark:bg-[#161B22]/50 border border-[#E5DCCE] dark:border-[#30363D]">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#B45309] to-[#D97706] dark:from-[#EAB308] dark:to-[#CA8A04] flex items-center justify-center text-white dark:text-[#08080A] font-bold text-sm shadow-sm">
                   {profile.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm text-[#2A2723] dark:text-[#F3F3F5] truncate">{profile.name}</p>
-                  <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] truncate">{profile.major}</p>
+                  <p className="font-semibold text-sm text-[#2A2723] dark:text-[#E6EDF3] truncate">{profile.name}</p>
+                  <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] truncate">{profile.major}</p>
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between px-2">
-                <span className="text-[10px] font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wider">Current CGPA</span>
-                <span className="bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] border border-[#E5DCCE] dark:border-[#212124] font-bold text-sm px-2.5 py-1 rounded-lg">
+                <span className="text-[10px] font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider">Current CGPA</span>
+                <span className="bg-[#F4EFE6] dark:bg-[#161B22] text-[#B45309] dark:text-[#22C55E] border border-[#E5DCCE] dark:border-[#30363D] font-bold text-sm px-2.5 py-1 rounded-lg">
                   {currentCgpa}
                 </span>
               </div>
@@ -117,7 +117,7 @@ export default function Sidebar({
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[#E5DCCE] dark:border-[#212124] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#6E685F] dark:text-[#A1A1A5] transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[#E5DCCE] dark:border-[#30363D] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#6E685F] dark:text-[#8B949E] transition-colors cursor-pointer"
           >
             {theme === 'dark' ? (
               <>

@@ -100,7 +100,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
     <div className="space-y-6">
       <div className="flex flex-col max-md:flex-col sm:flex-row justify-between items-stretch max-md:items-stretch sm:items-center gap-3">
         <div>
-          <h3 className="font-bold text-sm text-slate-800 dark:text-white flex items-center gap-2">
+          <h3 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] flex items-center gap-2">
             <Clock className="w-4 h-4 text-indigo-500" /> Study Time Tracker
           </h3>
           <p className="text-xs text-slate-500 mt-1">
@@ -116,7 +116,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm">
+        <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-5 shadow-sm">
           <h4 className="font-bold text-xs text-slate-600 dark:text-slate-300 mb-4 uppercase tracking-wider">
             Study Hours by Course
           </h4>
@@ -148,7 +148,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm min-w-0">
+        <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-5 shadow-sm min-w-0">
           <h4 className="font-bold text-xs text-slate-600 dark:text-slate-300 mb-4 uppercase tracking-wider flex items-center gap-2">
             <BookOpen className="w-3.5 h-3.5" /> Study Hours vs GPA
           </h4>
@@ -207,14 +207,14 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
 
       <div className="space-y-3">
         {logs.length === 0 ? (
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 text-center text-slate-400 text-sm">
+          <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-8 text-center text-slate-400 text-sm">
             No study sessions logged yet.
           </div>
         ) : (
           logs.map((log) => (
             <div
               key={log.id}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-wrap gap-3 items-center"
+              className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-4 flex flex-wrap gap-3 items-center"
             >
               <input
                 type="text"
@@ -222,7 +222,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
                 value={log.courseName}
                 onChange={(e) => updateLog(log.id, 'courseName', e.target.value)}
                 placeholder="Course name"
-                className="flex-1 min-w-[140px] bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
+                className="flex-1 min-w-[140px] bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
               />
               <datalist id="course-names">
                 {courseNamesFromSemesters.map((n) => (
@@ -235,14 +235,14 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
                 step="0.5"
                 value={log.hours}
                 onChange={(e) => updateLog(log.id, 'hours', parseFloat(e.target.value) || 0)}
-                className="w-20 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold text-center"
+                className="w-20 bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold text-center"
               />
               <span className="text-xs text-slate-500">hrs</span>
               <input
                 type="date"
                 value={log.logDate}
                 onChange={(e) => updateLog(log.id, 'logDate', e.target.value)}
-                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
+                className="bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
               />
               <button onClick={() => removeLog(log.id)} className="text-slate-400 hover:text-rose-500 ml-auto">
                 <Trash2 className="w-4 h-4" />

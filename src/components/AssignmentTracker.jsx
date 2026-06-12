@@ -90,7 +90,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
     <div className="space-y-6">
       <div className="flex flex-col max-md:flex-col sm:flex-row justify-between items-stretch max-md:items-stretch sm:items-center gap-3">
         <div>
-          <h3 className="font-bold text-sm text-slate-800 dark:text-white flex items-center gap-2">
+          <h3 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] flex items-center gap-2">
             <Calendar className="w-4 h-4 text-indigo-500" /> Assignment & Exam Tracker
           </h3>
           <p className="text-xs text-slate-500 mt-1">
@@ -100,7 +100,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
         <div className="flex gap-2 max-md:w-full sm:w-auto">
           <button
             onClick={requestNotifications}
-            className="border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5"
+            className="border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-[#8B949E] font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5"
             title="Enable browser notifications"
           >
             <Bell className="w-3.5 h-3.5" />
@@ -115,7 +115,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
       </div>
 
       {items.length === 0 ? (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-10 text-center text-slate-400 text-sm">
+        <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-10 text-center text-slate-400 text-sm">
           No assignments or exams yet. Add your first deadline.
         </div>
       ) : (
@@ -125,14 +125,14 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
             return (
               <div
                 key={item.id}
-                className={`bg-white dark:bg-slate-900 border rounded-2xl p-4 shadow-sm transition-all ${
+                className={`bg-white dark:bg-[#0D1117] border rounded-2xl p-4 shadow-sm transition-all ${
                   item.completed
-                    ? 'border-slate-200 dark:border-slate-800 opacity-60'
+                    ? 'border-slate-200 dark:border-[#30363D] opacity-60'
                     : countdown?.overdue
                       ? 'border-rose-200 dark:border-rose-900/50'
                       : countdown?.urgent
                         ? 'border-amber-200 dark:border-amber-900/50'
-                        : 'border-slate-200 dark:border-slate-800'
+                        : 'border-slate-200 dark:border-[#30363D]'
                 }`}
               >
                 <div className="flex flex-col max-md:flex-col sm:flex-row items-start gap-3">
@@ -153,19 +153,19 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
                       value={item.title}
                       onChange={(e) => updateItem(item.id, 'title', e.target.value)}
                       placeholder="Title (e.g. Midterm Exam)"
-                      className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold"
+                      className="bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold"
                     />
                     <input
                       type="text"
                       value={item.courseName}
                       onChange={(e) => updateItem(item.id, 'courseName', e.target.value)}
                       placeholder="Course name"
-                      className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
+                      className="bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
                     />
                     <select
                       value={item.type}
                       onChange={(e) => updateItem(item.id, 'type', e.target.value)}
-                      className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
+                      className="bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
                     >
                       {ASSIGNMENT_TYPES.map((t) => (
                         <option key={t.value} value={t.value}>
@@ -183,7 +183,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
                           e.target.value ? new Date(e.target.value).toISOString() : null
                         )
                       }
-                      className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
+                      className="bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm"
                     />
                   </div>
                   </div>
@@ -194,7 +194,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
                           countdown.overdue
                             ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400'
                             : countdown.urgent
-                              ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400'
+                              ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-[#22C55E]'
                               : 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400'
                         }`}
                       >

@@ -9,11 +9,11 @@ export default function RetakeAnalyzer({ semesters }) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
-        <h3 className="font-bold text-sm text-slate-800 dark:text-white mb-2 flex items-center gap-2">
+      <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-6 shadow-sm">
+        <h3 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] mb-2 flex items-center gap-2">
           <RefreshCw className="w-4 h-4 text-indigo-500" /> Smart Retake Analyzer
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+        <p className="text-xs text-slate-500 dark:text-[#8B949E] mb-4">
           See which failed courses would improve your CGPA the most if retaken. Mark courses as
           &quot;Failed&quot; in the GPA Calculator or use grades below C (2.0).
         </p>
@@ -23,7 +23,7 @@ export default function RetakeAnalyzer({ semesters }) {
           <select
             value={retakeTargetGrade}
             onChange={(e) => setRetakeTargetGrade(e.target.value)}
-            className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
+            className="bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
           >
             {GRADE_SCALE.filter((g) => getGradePoints(g.value) >= 2.0).map((g) => (
               <option key={g.value} value={g.value}>
@@ -49,7 +49,7 @@ export default function RetakeAnalyzer({ semesters }) {
                   className={`p-4 rounded-xl border ${
                     index === 0
                       ? 'bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800'
-                      : 'bg-slate-50 dark:bg-slate-950/50 border-slate-100 dark:border-slate-800'
+                      : 'bg-slate-50 dark:bg-[#161B22]/50 border-slate-100 dark:border-[#30363D]'
                   }`}
                 >
                   <div className="flex flex-wrap justify-between items-start gap-3">
@@ -59,7 +59,7 @@ export default function RetakeAnalyzer({ semesters }) {
                           Highest impact
                         </span>
                       )}
-                      <h4 className="font-bold text-slate-800 dark:text-white">{item.courseName}</h4>
+                      <h4 className="font-bold text-slate-800 dark:text-[#E6EDF3]">{item.courseName}</h4>
                       <p className="text-xs text-slate-500 mt-0.5">
                         {item.semester} · {item.credits} credits
                       </p>
@@ -73,7 +73,7 @@ export default function RetakeAnalyzer({ semesters }) {
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-700">
+                  <p className="text-xs text-slate-600 dark:text-[#8B949E] mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-700">
                     Retaking <strong>{item.courseName}</strong> from {item.oldLetter} to {item.newLetter}{' '}
                     increases CGPA by <strong className="text-indigo-600">{formatGpa(item.cgpaLift)}</strong>{' '}
                     (from {formatGpa(currentCgpa)} to {formatGpa(projectedCgpa)}).

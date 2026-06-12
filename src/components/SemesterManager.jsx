@@ -171,20 +171,20 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2 space-y-6">
-        <div className="flex justify-between items-center bg-white dark:bg-[#0C0C0E] p-4 border border-[#E5DCCE] dark:border-[#212124] rounded-2xl shadow-sm">
-          <span className="text-sm font-medium text-[#6E685F] dark:text-[#A1A1A5]">
-            Total Semesters: <strong className="text-[#2A2723] dark:text-[#F3F3F5] font-semibold">{semesters.length}</strong>
+        <div className="flex justify-between items-center bg-white dark:bg-[#161B22] p-4 border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl shadow-sm">
+          <span className="text-sm font-medium text-[#6E685F] dark:text-[#8B949E]">
+            Total Semesters: <strong className="text-[#2A2723] dark:text-[#E6EDF3] font-semibold">{semesters.length}</strong>
           </span>
           <div className="flex items-center gap-3">
             <button
               onClick={addSemester}
-              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#EAB308] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-semibold text-xs px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center gap-2 shadow-sm cursor-pointer"
+              className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#22C55E] dark:hover:bg-[#CA8A04] text-white dark:text-[#08080A] font-semibold text-xs px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center gap-2 shadow-sm cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" /> Add Semester
             </button>
             <button
               onClick={resetAll}
-              className="border border-[#E5DCCE] dark:border-[#212124] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-xs px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center gap-2 cursor-pointer"
+              className="border border-[#E5DCCE] dark:border-[#30363D] hover:bg-[#F4EFE6] dark:hover:bg-[#121216] text-[#6E685F] dark:text-[#8B949E] font-semibold text-xs px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center gap-2 cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" /> Reset
             </button>
@@ -198,11 +198,11 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
           return (
             <div
               key={semester.id}
-              className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl shadow-sm hover:shadow-md overflow-hidden transition-all duration-200"
+              className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl shadow-sm hover:shadow-md overflow-hidden transition-all duration-200"
             >
-              <div className="px-6 py-4 bg-[#F4EFE6]/70 dark:bg-[#121216]/40 border-b border-[#E5DCCE] dark:border-[#212124] flex justify-between items-center">
+              <div className="px-6 py-4 bg-[#F4EFE6]/70 dark:bg-[#161B22]/40 border-b border-[#E5DCCE] dark:border-[#30363D] flex justify-between items-center">
                 <div className="flex items-center gap-3 w-full max-w-lg">
-                  <span className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] text-[#B45309] dark:text-[#EAB308] font-bold text-xs px-2.5 py-1 rounded-md shrink-0">
+                  <span className="bg-[#F4EFE6] dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] text-[#B45309] dark:text-[#22C55E] font-bold text-xs px-2.5 py-1 rounded-md shrink-0">
                     Semester {semester.number}
                   </span>
                   <input
@@ -210,7 +210,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                     value={semester.description}
                     onChange={(e) => renameSemester(semester.id, e.target.value)}
                     placeholder="Optional Description (e.g., Year 1, Sem I)"
-                    className="bg-transparent font-semibold text-xs md:text-sm text-[#2A2723] dark:text-[#F3F3F5] border-none outline-none focus:ring-0 placeholder:text-[#A1A1A5] w-full"
+                    className="bg-transparent font-semibold text-xs md:text-sm text-[#2A2723] dark:text-[#E6EDF3] border-none outline-none focus:ring-0 placeholder:text-[#A1A1A5] w-full"
                   />
                 </div>
                 <button
@@ -223,7 +223,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
               </div>
 
               <div className="p-6">
-                <div className="hidden lg:grid grid-cols-12 gap-2 text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wider mb-3 px-1">
+                <div className="hidden lg:grid grid-cols-12 gap-2 text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider mb-3 px-1">
                   <div className="col-span-3">Course Name</div>
                   <div className="col-span-2 text-center">Credits</div>
                   <div className="col-span-2">Grade</div>
@@ -236,20 +236,20 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                   {semester.courses.map((course) => (
                     <div
                       key={course.id}
-                      className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-start bg-[#F4EFE6]/40 dark:bg-[#121216]/40 sm:bg-transparent p-3 sm:p-0 rounded-xl border border-[#E5DCCE]/50 dark:border-[#212124]/50 sm:border-none"
+                      className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-start bg-[#F4EFE6]/40 dark:bg-[#161B22]/40 sm:bg-transparent p-3 sm:p-0 rounded-xl border border-[#E5DCCE]/50 dark:border-[#30363D]/50 sm:border-none"
                     >
                       <div className="sm:col-span-4 lg:col-span-3">
-                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Course Name</label>
+                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#8B949E] mb-0.5 md:mb-1">Course Name</label>
                         <AutoResizeTextarea
                           value={course.name}
                           onChange={(e) => updateCourse(semester.id, course.id, 'name', e.target.value)}
                           placeholder="e.g. Introduction to Calculus"
-                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-2.5 py-1.5 text-xs md:px-3 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-medium placeholder:text-[#A1A1A5] text-[#2A2723] dark:text-[#F3F3F5] resize-none overflow-hidden min-h-[34px] md:min-h-[42px]"
+                          className="w-full bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-lg md:rounded-xl px-2.5 py-1.5 text-xs md:px-3 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-medium placeholder:text-[#A1A1A5] text-[#2A2723] dark:text-[#E6EDF3] resize-none overflow-hidden min-h-[34px] md:min-h-[42px]"
                         />
                       </div>
 
                       <div className="sm:col-span-2 lg:col-span-2">
-                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Credit Hrs</label>
+                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#8B949E] mb-0.5 md:mb-1">Credit Hrs</label>
                         <input
                           type="number"
                           min="1"
@@ -257,16 +257,16 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                           value={course.credits}
                           onChange={(e) => updateCourse(semester.id, course.id, 'credits', e.target.value)}
                           placeholder="3"
-                          className="course-credits w-full min-w-[3.5rem] md:min-w-[4rem] bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-2.5 py-1.5 text-xs md:px-3 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-bold text-center text-[#2A2723] dark:text-[#F3F3F5]"
+                          className="course-credits w-full min-w-[3.5rem] md:min-w-[4rem] bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-lg md:rounded-xl px-2.5 py-1.5 text-xs md:px-3 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-bold text-center text-[#2A2723] dark:text-[#E6EDF3]"
                         />
                       </div>
 
                       <div className="sm:col-span-2 lg:col-span-2">
-                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Grade</label>
+                        <label className="block sm:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#8B949E] mb-0.5 md:mb-1">Grade</label>
                         <select
                           value={normalizeGrade(course.grade)}
                           onChange={(e) => updateCourse(semester.id, course.id, 'grade', e.target.value)}
-                          className="course-grade w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-1.5 py-1.5 text-xs md:px-2 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-bold text-[#2A2723] dark:text-[#F3F3F5]"
+                          className="course-grade w-full bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-lg md:rounded-xl px-1.5 py-1.5 text-xs md:px-2 md:py-2 md:text-sm focus:border-[#B45309] dark:focus:border-[#EAB308] focus:ring-1 focus:ring-[#B45309] dark:focus:ring-[#EAB308] outline-none transition-all duration-200 font-bold text-[#2A2723] dark:text-[#E6EDF3]"
                         >
                           {GRADE_SCALE.map((g) => (
                             <option key={g.value} value={g.value}>
@@ -277,11 +277,11 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       <div className="sm:col-span-2 lg:col-span-2">
-                        <label className="block lg:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Category</label>
+                        <label className="block lg:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#8B949E] mb-0.5 md:mb-1">Category</label>
                         <select
                           value={course.category || 'core'}
                           onChange={(e) => updateCourse(semester.id, course.id, 'category', e.target.value)}
-                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-1.5 py-1.5 text-[11px] md:px-2 md:py-2 md:text-xs font-bold text-[#2A2723] dark:text-[#F3F3F5]"
+                          className="w-full bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-lg md:rounded-xl px-1.5 py-1.5 text-[11px] md:px-2 md:py-2 md:text-xs font-bold text-[#2A2723] dark:text-[#E6EDF3]"
                         >
                           {COURSE_CATEGORIES.map((c) => (
                             <option key={c.value} value={c.value}>{c.label}</option>
@@ -290,7 +290,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                       </div>
 
                       <div className="sm:col-span-2 lg:col-span-2">
-                        <label className="block lg:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#A1A1A5] mb-0.5 md:mb-1">Status</label>
+                        <label className="block lg:hidden text-[9px] md:text-[10px] uppercase font-bold tracking-wider text-[#6E685F] dark:text-[#8B949E] mb-0.5 md:mb-1">Status</label>
                         <select
                           value={course.status || 'passed'}
                           onChange={(e) => {
@@ -312,7 +312,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                               })
                             );
                           }}
-                          className="w-full bg-white dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-lg md:rounded-xl px-1.5 py-1.5 text-[11px] md:px-2 md:py-2 md:text-xs font-bold text-[#2A2723] dark:text-[#F3F3F5]"
+                          className="w-full bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-lg md:rounded-xl px-1.5 py-1.5 text-[11px] md:px-2 md:py-2 md:text-xs font-bold text-[#2A2723] dark:text-[#E6EDF3]"
                         >
                           {COURSE_STATUSES.map((s) => (
                             <option key={s.value} value={s.value}>{s.label}</option>
@@ -332,18 +332,18 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
                   ))}
                 </div>
 
-                <div className="mt-5 pt-4 border-t border-[#E5DCCE] dark:border-[#212124] flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div className="mt-5 pt-4 border-t border-[#E5DCCE] dark:border-[#30363D] flex flex-col sm:flex-row justify-between items-center gap-4">
                   <button
                     onClick={() => addCourseRow(semester.id)}
-                    className="text-[#B45309] hover:text-[#92400E] dark:text-[#EAB308] dark:hover:text-[#CA8A04] font-bold text-xs flex items-center gap-1.5 py-1.5 px-3 rounded-lg hover:bg-[#F4EFE6]/50 dark:hover:bg-[#121216]/50 transition-colors duration-200 cursor-pointer"
+                    className="text-[#B45309] hover:text-[#92400E] dark:text-[#22C55E] dark:hover:text-[#CA8A04] font-bold text-xs flex items-center gap-1.5 py-1.5 px-3 rounded-lg hover:bg-[#F4EFE6]/50 dark:hover:bg-[#121216]/50 transition-colors duration-200 cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" /> Add Course Row
                   </button>
 
-                  <div className="bg-[#F4EFE6] dark:bg-[#121216] border border-[#E5DCCE]/60 dark:border-[#212124]/60 rounded-xl px-4 py-2 flex items-center gap-6 text-xs font-semibold text-[#6E685F] dark:text-[#A1A1A5]">
-                    <div>Load Hrs: <span className="text-[#2A2723] dark:text-[#F3F3F5] font-bold">{semStats.credits}</span></div>
+                  <div className="bg-[#F4EFE6] dark:bg-[#161B22] border border-[#E5DCCE]/60 dark:border-[#30363D]/60 rounded-xl px-4 py-2 flex items-center gap-6 text-xs font-semibold text-[#6E685F] dark:text-[#8B949E]">
+                    <div>Load Hrs: <span className="text-[#2A2723] dark:text-[#E6EDF3] font-bold">{semStats.credits}</span></div>
                     <div className="h-4 w-[1px] bg-[#E5DCCE] dark:bg-[#212124]"></div>
-                    <div>Semester GPA: <span className="text-[#B45309] dark:text-[#EAB308] font-bold text-sm">{formatGpa(semStats.gpa)}</span></div>
+                    <div>Semester GPA: <span className="text-[#B45309] dark:text-[#22C55E] font-bold text-sm">{formatGpa(semStats.gpa)}</span></div>
                   </div>
                 </div>
               </div>
@@ -354,7 +354,7 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
 
       <div className="lg:col-span-1 space-y-6">
         <div className="sticky top-24 space-y-6">
-          <div className="bg-gradient-to-br from-[#2A2723] via-[#1a1917] to-[#3d2e10] text-white dark:from-[#0C0C0E] dark:via-[#121216] dark:to-[#1a1506] rounded-2xl p-6 shadow-xl relative overflow-hidden border border-[#3d3830] dark:border-[#212124]">
+          <div className="bg-gradient-to-br from-[#2A2723] via-[#1a1917] to-[#3d2e10] text-white dark:from-[#0C0C0E] dark:via-[#121216] dark:to-[#1a1506] rounded-2xl p-6 shadow-xl relative overflow-hidden border border-[#3d3830] dark:border-[#30363D]">
             <div className="absolute -right-6 -bottom-6 text-white/5 text-9xl font-bold select-none uppercase">CGPA</div>
             <p className="text-sm font-semibold text-[#EAB308] uppercase tracking-wider">Cumulative GPA (CGPA)</p>
 
@@ -396,22 +396,22 @@ export default function SemesterManager({ semesters, onSemestersUpdate, profile 
             </div>
           </div>
 
-          <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm">
-            <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] mb-3 flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Scale Reference
+          <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-5 shadow-sm">
+            <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] mb-3 flex items-center gap-2">
+              <HelpCircle className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Scale Reference
             </h3>
-            <div className="grid grid-cols-2 gap-2 text-xs font-semibold text-[#6E685F] dark:text-[#A1A1A5]">
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>A+</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">4.00</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>A</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">4.00</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>A-</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">3.75</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>B+</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">3.50</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>B</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">3.00</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>B-</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">2.75</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>C+</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">2.50</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>C</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">2.00</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>C-</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">1.75</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>D</span> <span className="text-[#B45309] dark:text-[#EAB308] font-bold">1.00</span></div>
-              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#121216] rounded-lg"><span>F</span> <span className="text-rose-600 font-bold">0.00</span></div>
+            <div className="grid grid-cols-2 gap-2 text-xs font-semibold text-[#6E685F] dark:text-[#8B949E]">
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>A+</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">4.00</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>A</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">4.00</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>A-</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">3.75</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>B+</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">3.50</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>B</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">3.00</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>B-</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">2.75</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>C+</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">2.50</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>C</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">2.00</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>C-</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">1.75</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>D</span> <span className="text-[#B45309] dark:text-[#22C55E] font-bold">1.00</span></div>
+              <div className="flex justify-between p-2 bg-[#F4EFE6] dark:bg-[#161B22] rounded-lg"><span>F</span> <span className="text-rose-600 font-bold">0.00</span></div>
             </div>
           </div>
         </div>

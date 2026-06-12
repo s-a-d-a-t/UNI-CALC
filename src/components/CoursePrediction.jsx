@@ -88,11 +88,11 @@ export default function CoursePrediction({ semesters, profile }) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
-        <h3 className="font-bold text-sm text-slate-800 dark:text-white mb-2 flex items-center gap-2">
+      <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-6 shadow-sm">
+        <h3 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] mb-2 flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-indigo-500" /> Course Prediction System
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
+        <p className="text-xs text-slate-500 dark:text-[#8B949E] mb-6">
           Enter expected grades for current or upcoming courses to predict your future CGPA.
           Mark courses as &quot;In Progress&quot; in the GPA Calculator, or add hypothetical courses below.
         </p>
@@ -112,7 +112,7 @@ export default function CoursePrediction({ semesters, profile }) {
             {displayCourses.map((course) => (
               <div
                 key={course.id}
-                className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-slate-50 dark:bg-slate-950/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800"
+                className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-slate-50 dark:bg-[#161B22]/50 p-3 rounded-xl border border-slate-100 dark:border-[#30363D]"
               >
                 <input
                   type="text"
@@ -161,9 +161,9 @@ export default function CoursePrediction({ semesters, profile }) {
       </div>
 
       <div className="grid grid-cols-2 max-md:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 max-md:gap-3 md:gap-4">
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm">
-          <span className="text-xs font-bold text-slate-450 dark:text-slate-400 uppercase">Current CGPA</span>
-          <span className="text-3xl font-black text-slate-800 dark:text-white block mt-2">
+        <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-5 shadow-sm">
+          <span className="text-xs font-bold text-slate-450 dark:text-[#8B949E] uppercase">Current CGPA</span>
+          <span className="text-3xl font-black text-slate-800 dark:text-[#E6EDF3] block mt-2">
             {formatGpa(prediction.currentCgpa)}
           </span>
         </div>
@@ -199,8 +199,8 @@ export default function CoursePrediction({ semesters, profile }) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
-        <h4 className="font-bold text-sm text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+      <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-6 shadow-sm">
+        <h4 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] mb-4 flex items-center gap-2">
           <Target className="w-4 h-4 text-indigo-500" /> Required Grade for Target CGPA
         </h4>
         <div className="flex flex-wrap items-end gap-4 mb-4">
@@ -213,7 +213,7 @@ export default function CoursePrediction({ semesters, profile }) {
               min="1"
               value={remainingCredits}
               onChange={(e) => setRemainingCredits(parseInt(e.target.value, 10) || 0)}
-              className="w-24 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
+              className="w-24 bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
             />
           </div>
           <div className="text-xs text-slate-500">

@@ -152,9 +152,9 @@ export default function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#FAF6EE] dark:bg-[#08080A] flex flex-col justify-center items-center gap-3 transition-colors duration-200">
-        <Loader2 className="w-8 h-8 text-[#B45309] dark:text-[#EAB308] animate-spin" />
-        <span className="text-sm font-semibold text-[#6E685F] dark:text-[#A1A1A5]">Loading UniCalc Ethio...</span>
+      <div className="min-h-screen bg-[#FAF6EE] dark:bg-[#0D1117] flex flex-col justify-center items-center gap-3 transition-colors duration-200">
+        <Loader2 className="w-8 h-8 text-[#B45309] dark:text-[#22C55E] animate-spin" />
+        <span className="text-sm font-semibold text-[#6E685F] dark:text-[#8B949E]">Loading UniCalc Ethio...</span>
       </div>
     );
   }
@@ -193,7 +193,7 @@ export default function App() {
 
   // Render main application shell
   return (
-    <div className="bg-[#FAF6EE] dark:bg-[#08080A] text-[#2A2723] dark:text-[#F3F3F5] min-h-screen flex transition-colors duration-200">
+    <div className="bg-[#FAF6EE] dark:bg-[#0D1117] text-[#2A2723] dark:text-[#E6EDF3] min-h-screen flex transition-colors duration-200">
       
       {/* Sidebar Navigation */}
       <Sidebar 
@@ -211,22 +211,22 @@ export default function App() {
       {/* Main Content Area */}
       <div className="flex-1 md:ml-64 min-h-screen w-full min-w-0">
         {/* Mobile top bar */}
-        <header className="md:hidden sticky top-0 z-30 bg-[#FAF6EE]/95 dark:bg-[#08080A]/95 backdrop-blur border-b border-[#E5DCCE] dark:border-[#212124] px-3 py-3 flex items-center gap-3 safe-bottom">
+        <header className="md:hidden sticky top-0 z-30 bg-[#FAF6EE]/95 dark:bg-[#0D1117]/95 backdrop-blur border-b border-[#E5DCCE] dark:border-[#30363D] px-3 py-3 flex items-center gap-3 safe-bottom">
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
-            className="p-2 bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-xl text-[#6E685F] dark:text-[#A1A1A5] shrink-0"
+            className="p-2 bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-xl text-[#6E685F] dark:text-[#8B949E] shrink-0"
             aria-label="Open menu"
           >
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1 min-w-0">
-            <h1 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] truncate">{tabLabels[activeTab]}</h1>
+            <h1 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] truncate">{tabLabels[activeTab]}</h1>
             {profile && (
-              <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold truncate">{profile.name}</p>
+              <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] font-semibold truncate">{profile.name}</p>
             )}
           </div>
-          <span className="shrink-0 bg-[#F4EFE6] dark:bg-[#121216] text-[#B45309] dark:text-[#EAB308] border border-[#E5DCCE] dark:border-[#212124] font-bold text-xs px-2.5 py-1 rounded-lg">
+          <span className="shrink-0 bg-[#F4EFE6] dark:bg-[#161B22] text-[#B45309] dark:text-[#22C55E] border border-[#E5DCCE] dark:border-[#30363D] font-bold text-xs px-2.5 py-1 rounded-lg">
             {currentCgpa}
           </span>
         </header>

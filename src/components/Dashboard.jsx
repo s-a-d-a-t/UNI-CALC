@@ -88,7 +88,7 @@ function GpaTrendTooltip({ active, payload, label, isDark }) {
     <ChartTooltipShell active={active} payload={payload} label={label} isDark={isDark}>
       <div className="space-y-1.5 min-w-[160px]">
         <div className="flex justify-between gap-4">
-          <span className="text-[#B45309] dark:text-[#EAB308]">Semester GPA</span>
+          <span className="text-[#B45309] dark:text-[#22C55E]">Semester GPA</span>
           <span className="font-black">{formatGpa(data.GPA)}</span>
         </div>
         <div className="flex justify-between gap-4">
@@ -153,7 +153,7 @@ function CreditGpaTooltip({ active, payload, label, isDark, avgCreditLoad }) {
           <span className="font-bold">{data.Credits} hrs</span>
         </div>
         <div className="flex justify-between gap-4">
-          <span className="text-[#B45309] dark:text-[#EAB308]">GPA</span>
+          <span className="text-[#B45309] dark:text-[#22C55E]">GPA</span>
           <span className="font-bold">{formatGpa(data.GPA)}</span>
         </div>
         {avgCreditLoad > 0 && (
@@ -219,7 +219,7 @@ export default function Dashboard({ semesters, profile }) {
     if (cgpaValue === 0 && totalCredits === 0) {
       return {
         label: 'No Data',
-        color: 'text-slate-500 bg-slate-100 dark:bg-slate-900/50 dark:text-slate-400 border-slate-200 dark:border-slate-800',
+        color: 'text-slate-500 bg-slate-100 dark:bg-[#0D1117]/50 dark:text-[#8B949E] border-slate-200 dark:border-[#30363D]',
         icon: <Calendar className="w-5 h-5" />,
         desc: 'Add semesters and course grades to check academic standing.',
       };
@@ -267,7 +267,7 @@ export default function Dashboard({ semesters, profile }) {
   const standing = getAcademicStanding(cgpa);
   const isDark = document.documentElement.classList.contains('dark');
   const gridStroke = isDark ? '#212124' : '#E5DCCE';
-  const accentStroke = isDark ? '#EAB308' : '#B45309';
+  const accentStroke = isDark ? '#22C55E' : '#B45309';
 
   const TrendIcon = analytics.trend === 'up' ? TrendingUp : analytics.trend === 'down' ? TrendingDown : Minus;
   const trendColor =
@@ -275,13 +275,13 @@ export default function Dashboard({ semesters, profile }) {
       ? 'text-emerald-600 dark:text-emerald-400'
       : analytics.trend === 'down'
         ? 'text-rose-600 dark:text-rose-400'
-        : 'text-[#6E685F] dark:text-[#A1A1A5]';
+        : 'text-[#6E685F] dark:text-[#8B949E]';
 
   return (
     <div className="space-y-6 max-md:space-y-6 md:space-y-8 w-full min-w-0">
       
       {/* Tabs */}
-      <div className="flex border-b border-[#E5DCCE] dark:border-[#212124] overflow-x-auto hide-scrollbar">
+      <div className="flex border-b border-[#E5DCCE] dark:border-[#30363D] overflow-x-auto hide-scrollbar">
         {[
           { id: 'overview', label: 'Overview', icon: BarChart3 },
           { id: 'analytics', label: 'Analytics', icon: TrendingUp },
@@ -295,8 +295,8 @@ export default function Dashboard({ semesters, profile }) {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
                 isActive 
-                  ? 'border-[#B45309] text-[#B45309] dark:border-[#EAB308] dark:text-[#EAB308]' 
-                  : 'border-transparent text-[#6E685F] dark:text-[#A1A1A5] hover:text-[#2A2723] dark:hover:text-[#F3F3F5] hover:bg-[#F4EFE6]/50 dark:hover:bg-[#121216]/50'
+                  ? 'border-[#B45309] text-[#B45309] dark:border-[#22C55E] dark:text-[#22C55E]' 
+                  : 'border-transparent text-[#6E685F] dark:text-[#8B949E] hover:text-[#2A2723] dark:hover:text-[#F3F3F5] hover:bg-[#F4EFE6]/50 dark:hover:bg-[#121216]/50'
               }`}
             >
               <Icon className="w-4 h-4" /> {tab.label}
@@ -308,47 +308,47 @@ export default function Dashboard({ semesters, profile }) {
       {activeTab === 'overview' && (
         <div className="space-y-6 max-md:space-y-6 md:space-y-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 max-md:gap-3 md:gap-5">
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm flex flex-col justify-between transition-colors">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm flex flex-col justify-between transition-colors">
               <div>
-                <span className="text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wider block">Cumulative CGPA</span>
-                <span className="text-2xl max-md:text-2xl md:text-3xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight mt-2 block">{formatGpa(cgpa)}</span>
+                <span className="text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider block">Cumulative CGPA</span>
+                <span className="text-2xl max-md:text-2xl md:text-3xl font-black text-[#2A2723] dark:text-[#E6EDF3] tracking-tight mt-2 block">{formatGpa(cgpa)}</span>
               </div>
-              <div className="mt-4 pt-3 border-t border-[#E5DCCE] dark:border-[#212124]">
-                <span className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-bold">Out of 4.00 Scale</span>
+              <div className="mt-4 pt-3 border-t border-[#E5DCCE] dark:border-[#30363D]">
+                <span className="text-xs text-[#6E685F] dark:text-[#8B949E] font-bold">Out of 4.00 Scale</span>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm flex flex-col justify-between transition-colors">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-5 shadow-sm flex flex-col justify-between transition-colors">
               <div>
-                <span className="text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wider block">Credits Completed</span>
-                <span className="text-3xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight mt-2 block">
-                  {totalCredits} <span className="text-sm font-semibold text-[#6E685F] dark:text-[#A1A1A5]">/ {gradCreditsGoal}</span>
+                <span className="text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider block">Credits Completed</span>
+                <span className="text-3xl font-black text-[#2A2723] dark:text-[#E6EDF3] tracking-tight mt-2 block">
+                  {totalCredits} <span className="text-sm font-semibold text-[#6E685F] dark:text-[#8B949E]">/ {gradCreditsGoal}</span>
                 </span>
               </div>
               <div className="mt-4">
-                <div className="flex justify-between items-center text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-bold mb-1">
+                <div className="flex justify-between items-center text-[10px] text-[#6E685F] dark:text-[#8B949E] font-bold mb-1">
                   <span>Degree progress</span>
                   <span>{grad.progressPercent}%</span>
                 </div>
-                <div className="w-full bg-[#F4EFE6] dark:bg-[#121216]/50 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-[#F4EFE6] dark:bg-[#161B22]/50 h-2 rounded-full overflow-hidden">
                   <div
-                    className="bg-[#B45309] dark:bg-[#EAB308] h-full rounded-full transition-all duration-500"
+                    className="bg-[#B45309] dark:bg-[#22C55E] h-full rounded-full transition-all duration-500"
                     style={{ width: `${grad.progressPercent}%` }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-5 shadow-sm flex flex-col justify-between transition-colors">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-5 shadow-sm flex flex-col justify-between transition-colors">
               <div>
-                <span className="text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wider block">Target GPA Status</span>
-                <span className="text-3xl font-black text-[#2A2723] dark:text-[#F3F3F5] tracking-tight mt-2 block">{targetCgpa.toFixed(2)}</span>
+                <span className="text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider block">Target GPA Status</span>
+                <span className="text-3xl font-black text-[#2A2723] dark:text-[#E6EDF3] tracking-tight mt-2 block">{targetCgpa.toFixed(2)}</span>
               </div>
-              <div className="mt-4 pt-3 border-t border-[#E5DCCE] dark:border-[#212124] flex items-center justify-between text-xs font-semibold">
+              <div className="mt-4 pt-3 border-t border-[#E5DCCE] dark:border-[#30363D] flex items-center justify-between text-xs font-semibold">
                 {cgpa >= targetCgpa ? (
                   <span className="text-emerald-650 dark:text-emerald-400 flex items-center gap-1 font-bold">Target Met</span>
                 ) : (
-                  <span className="text-[#6E685F] dark:text-[#A1A1A5]">
+                  <span className="text-[#6E685F] dark:text-[#8B949E]">
                     Behind by <strong className="text-rose-650 dark:text-rose-400 font-bold">{formatGpa(targetCgpa - cgpa)}</strong>
                   </span>
                 )}
@@ -392,18 +392,18 @@ export default function Dashboard({ semesters, profile }) {
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="relative overflow-hidden group bg-gradient-to-br from-[#F4EFE6] to-white dark:from-[#1A1A1F] dark:to-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl px-4 py-3.5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+                  className="relative overflow-hidden group bg-gradient-to-br from-[#F4EFE6] to-white dark:from-[#1A1A1F] dark:to-[#0C0C0E] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl px-4 py-3.5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`p-2 rounded-xl shrink-0 ${item.iconBg} ${item.iconColor}`}>
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wide">{item.label}</p>
-                      <p className="text-lg font-black text-[#2A2723] dark:text-[#F3F3F5] mt-0.5 leading-tight">
+                      <p className="text-[10px] font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wide">{item.label}</p>
+                      <p className="text-lg font-black text-[#2A2723] dark:text-[#E6EDF3] mt-0.5 leading-tight">
                         {item.value}
                       </p>
-                      {item.sub && <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5] mt-0.5">{item.sub}</p>}
+                      {item.sub && <p className="text-[9px] text-[#6E685F] dark:text-[#8B949E] mt-0.5">{item.sub}</p>}
                     </div>
                   </div>
                 </div>
@@ -412,12 +412,12 @@ export default function Dashboard({ semesters, profile }) {
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-md:gap-6 md:gap-8">
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-2 transition-colors min-w-0">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-2 transition-colors min-w-0">
               <div className="flex flex-col max-md:flex-col md:flex-row items-start justify-between gap-2 mb-4">
-                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> GPA Performance Trend
+                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> GPA Performance Trend
                 </h3>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold max-md:text-left md:text-right md:max-w-[180px]">
+                <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] font-semibold max-md:text-left md:text-right md:max-w-[180px]">
                   Semester GPA vs running CGPA · dashed lines = pass (2.0) & target
                 </p>
               </div>
@@ -457,7 +457,7 @@ export default function Dashboard({ semesters, profile }) {
                         fillOpacity={1}
                         fill="url(#gpaGradient)"
                         activeDot={{ r: 7, strokeWidth: 0, fill: accentStroke, style: { filter: 'drop-shadow(0px 4px 6px rgba(0,0,0,0.3))' } }}
-                        dot={{ stroke: accentStroke, strokeWidth: 2.5, r: 4, fill: isDark ? '#0C0C0E' : '#fff' }}
+                        dot={{ stroke: accentStroke, strokeWidth: 2.5, r: 4, fill: isDark ? '#161B22' : '#fff' }}
                       />
                       <Line
                         type="natural"
@@ -466,24 +466,24 @@ export default function Dashboard({ semesters, profile }) {
                         stroke="#3b82f6"
                         strokeWidth={2.5}
                         strokeDasharray="6 4"
-                        dot={{ stroke: '#3b82f6', strokeWidth: 2, r: 3, fill: isDark ? '#0C0C0E' : '#fff' }}
+                        dot={{ stroke: '#3b82f6', strokeWidth: 2, r: 3, fill: isDark ? '#161B22' : '#fff' }}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
                   </div>
                 ) : (
-                  <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-sm text-center px-2">
+                  <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#8B949E] font-semibold text-sm text-center px-2">
                     No semester records found. Add data in the GPA Calculator.
                   </div>
                 )}
               </div>
             </div>
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-1 flex flex-col transition-colors overflow-hidden">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-1 flex flex-col transition-colors overflow-hidden">
               <div className="mb-4">
-                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
-                  <Award className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Grade Distribution
+                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] flex items-center gap-2">
+                  <Award className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Grade Distribution
                 </h3>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold mt-1">Credit-weighted · sorted by scale</p>
+                <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] font-semibold mt-1">Credit-weighted · sorted by scale</p>
               </div>
               <div className="h-52 max-md:h-64 md:h-56 w-full flex-1 chart-scroll grade-dist-chart">
                 {gradeDistributionData.length > 0 ? (
@@ -503,10 +503,10 @@ export default function Dashboard({ semesters, profile }) {
                   </ResponsiveContainer>
                   </div>
                 ) : (
-                  <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-xs text-center">No grades found.</div>
+                  <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#8B949E] font-semibold text-xs text-center">No grades found.</div>
                 )}
               </div>
-              <div className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-2 gap-1.5 mt-3 text-[9px] font-bold text-[#6E685F] dark:text-[#A1A1A5] max-h-24 max-md:max-h-24 md:max-h-20 overflow-y-auto">
+              <div className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-2 gap-1.5 mt-3 text-[9px] font-bold text-[#6E685F] dark:text-[#8B949E] max-h-24 max-md:max-h-24 md:max-h-20 overflow-y-auto">
                 {gradeDistributionData.map((entry) => (
                   <div key={entry.name} className="flex items-center gap-1 truncate">
                     <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: GRADE_COLORS[entry.name] }} />
@@ -531,7 +531,7 @@ export default function Dashboard({ semesters, profile }) {
                   <ThumbsUp className="w-8 h-8 text-emerald-500 shrink-0" />
                   <div>
                     <p className="text-xs font-bold text-emerald-600 uppercase">Strongest Semester</p>
-                    <p className="font-black text-[#2A2723] dark:text-[#F3F3F5]">{strongest.name}</p>
+                    <p className="font-black text-[#2A2723] dark:text-[#E6EDF3]">{strongest.name}</p>
                     <p className="text-sm text-emerald-600 font-bold">
                       GPA {formatGpa(strongest.GPA)} · {strongest.Credits} credits · {strongest.courseCount} courses
                     </p>
@@ -543,7 +543,7 @@ export default function Dashboard({ semesters, profile }) {
                   <ThumbsDown className="w-8 h-8 text-amber-550 shrink-0" />
                   <div>
                     <p className="text-xs font-bold text-amber-600 uppercase">Weakest Semester</p>
-                    <p className="font-black text-[#2A2723] dark:text-[#F3F3F5]">{weakest.name}</p>
+                    <p className="font-black text-[#2A2723] dark:text-[#E6EDF3]">{weakest.name}</p>
                     <p className="text-sm text-amber-600 font-bold">
                       GPA {formatGpa(weakest.GPA)} · {weakest.Credits} credits · {weakest.courseCount} courses
                     </p>
@@ -554,12 +554,12 @@ export default function Dashboard({ semesters, profile }) {
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-md:gap-6 md:gap-8">
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
               <div className="mb-4">
-                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Credit Load vs GPA
+                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Credit Load vs GPA
                 </h3>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold mt-1">
+                <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] font-semibold mt-1">
                   Bars = credits per semester · line = GPA · avg load {analytics.avgCreditLoad} hrs
                 </p>
               </div>
@@ -603,22 +603,22 @@ export default function Dashboard({ semesters, profile }) {
                       )}
                       <ReferenceLine yAxisId="right" y={2.0} stroke="#3b82f6" strokeDasharray="4 4" strokeOpacity={0.4} />
                       <Bar yAxisId="left" dataKey="Credits" name="Credits" fill="#10b981" radius={[6, 6, 0, 0]} maxBarSize={40} opacity={0.85} />
-                      <Line yAxisId="right" type="monotone" dataKey="GPA" name="GPA" stroke={accentStroke} strokeWidth={2.5} dot={{ r: 5, fill: isDark ? '#0C0C0E' : '#fff', stroke: accentStroke, strokeWidth: 2 }} />
+                      <Line yAxisId="right" type="monotone" dataKey="GPA" name="GPA" stroke={accentStroke} strokeWidth={2.5} dot={{ r: 5, fill: isDark ? '#161B22' : '#fff', stroke: accentStroke, strokeWidth: 2 }} />
                     </ComposedChart>
                   </ResponsiveContainer>
                   </div>
                 ) : (
-                  <div className="h-full flex items-center justify-center text-[#6E685F] dark:text-[#A1A1A5] text-sm text-center px-2">No semester data</div>
+                  <div className="h-full flex items-center justify-center text-[#6E685F] dark:text-[#8B949E] text-sm text-center px-2">No semester data</div>
                 )}
               </div>
             </div>
 
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
               <div className="mb-4">
-                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Semester-wise Credit Load
+                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Semester-wise Credit Load
                 </h3>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold mt-1">
+                <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] font-semibold mt-1">
                   Avg {analytics.avgCreditLoad} hrs/sem · {analytics.totalCredits} total hrs earned
                 </p>
               </div>
@@ -652,7 +652,7 @@ export default function Dashboard({ semesters, profile }) {
                   </ResponsiveContainer>
                   </div>
                 ) : (
-                  <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-sm text-center px-2">No semester credit data.</div>
+                  <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#8B949E] font-semibold text-sm text-center px-2">No semester credit data.</div>
                 )}
               </div>
             </div>
@@ -663,30 +663,30 @@ export default function Dashboard({ semesters, profile }) {
       {activeTab === 'graduation' && (
         <div className="space-y-6 max-md:space-y-6 md:space-y-8">
           {/* Graduation Requirement Tracker */}
-          <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-6 shadow-sm">
-            <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] mb-4 max-md:mb-4 md:mb-6 flex items-center gap-2">
-              <GraduationCap className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Graduation Requirement Tracker
+          <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-4 max-md:p-4 md:p-6 shadow-sm">
+            <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] mb-4 max-md:mb-4 md:mb-6 flex items-center gap-2">
+              <GraduationCap className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Graduation Requirement Tracker
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 max-md:gap-4 md:gap-6 mb-4 max-md:mb-4 md:mb-6">
               <div>
-                <div className="flex justify-between text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] mb-2">
+                <div className="flex justify-between text-xs font-bold text-[#6E685F] dark:text-[#8B949E] mb-2">
                   <span>Total Credits</span>
                   <span>{grad.totalCredits} / {grad.gradGoal}</span>
                 </div>
-                <div className="w-full bg-[#F4EFE6] dark:bg-[#121216]/50 h-3 rounded-full overflow-hidden">
+                <div className="w-full bg-[#F4EFE6] dark:bg-[#161B22]/50 h-3 rounded-full overflow-hidden">
                   <div
-                    className="bg-[#B45309] dark:bg-[#EAB308] h-full rounded-full"
+                    className="bg-[#B45309] dark:bg-[#22C55E] h-full rounded-full"
                     style={{ width: `${grad.progressPercent}%` }}
                   />
                 </div>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] mt-1">{grad.remainingCredits} credits remaining</p>
+                <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] mt-1">{grad.remainingCredits} credits remaining</p>
               </div>
               <div>
-                <div className="flex justify-between text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] mb-2">
+                <div className="flex justify-between text-xs font-bold text-[#6E685F] dark:text-[#8B949E] mb-2">
                   <span>Core Courses</span>
                   <span>{grad.coreCredits} / {grad.coreRequired}</span>
                 </div>
-                <div className="w-full bg-[#F4EFE6] dark:bg-[#121216]/50 h-3 rounded-full overflow-hidden">
+                <div className="w-full bg-[#F4EFE6] dark:bg-[#161B22]/50 h-3 rounded-full overflow-hidden">
                   <div
                     className="bg-emerald-500 h-full rounded-full"
                     style={{
@@ -694,14 +694,14 @@ export default function Dashboard({ semesters, profile }) {
                     }}
                   />
                 </div>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] mt-1">{grad.coreRemaining} core credits left</p>
+                <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] mt-1">{grad.coreRemaining} core credits left</p>
               </div>
               <div>
-                <div className="flex justify-between text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] mb-2">
+                <div className="flex justify-between text-xs font-bold text-[#6E685F] dark:text-[#8B949E] mb-2">
                   <span>Electives</span>
                   <span>{grad.electiveCredits} / {grad.electiveRequired}</span>
                 </div>
-                <div className="w-full bg-[#F4EFE6] dark:bg-[#121216]/50 h-3 rounded-full overflow-hidden">
+                <div className="w-full bg-[#F4EFE6] dark:bg-[#161B22]/50 h-3 rounded-full overflow-hidden">
                   <div
                     className="bg-blue-500 h-full rounded-full"
                     style={{
@@ -709,22 +709,22 @@ export default function Dashboard({ semesters, profile }) {
                     }}
                   />
                 </div>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] mt-1">{grad.electiveRemaining} elective credits left</p>
+                <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] mt-1">{grad.electiveRemaining} elective credits left</p>
               </div>
               <div className="flex gap-3 max-md:gap-3 md:gap-4 sm:col-span-2 lg:col-span-1">
                 <div className="flex-1 bg-rose-500/10 rounded-xl p-3 text-center border border-rose-200/50 dark:border-rose-900/30">
                   <span className="text-2xl font-black text-rose-600">{grad.failedCount}</span>
                   <p className="text-[10px] font-bold text-rose-500 uppercase mt-1">Failed</p>
                 </div>
-                <div className="flex-1 bg-[#F4EFE6] dark:bg-[#121216] rounded-xl p-3 text-center border border-[#E5DCCE] dark:border-[#212124]">
-                  <span className="text-2xl font-black text-[#B45309] dark:text-[#EAB308]">{grad.retakeCount}</span>
-                  <p className="text-[10px] font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase mt-1">Retakes</p>
+                <div className="flex-1 bg-[#F4EFE6] dark:bg-[#161B22] rounded-xl p-3 text-center border border-[#E5DCCE] dark:border-[#30363D]">
+                  <span className="text-2xl font-black text-[#B45309] dark:text-[#22C55E]">{grad.retakeCount}</span>
+                  <p className="text-[10px] font-bold text-[#6E685F] dark:text-[#8B949E] uppercase mt-1">Retakes</p>
                 </div>
               </div>
             </div>
             {grad.failedCourses.length > 0 && (
-              <div className="border-t border-[#E5DCCE] dark:border-[#212124] pt-4">
-                <p className="text-xs font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase mb-2">Failed / Repeated Courses</p>
+              <div className="border-t border-[#E5DCCE] dark:border-[#30363D] pt-4">
+                <p className="text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase mb-2">Failed / Repeated Courses</p>
                 <div className="flex flex-wrap gap-2">
                   {grad.failedCourses.map((c, i) => (
                     <span
@@ -740,29 +740,29 @@ export default function Dashboard({ semesters, profile }) {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-md:gap-6 md:gap-8">
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-6 shadow-sm flex flex-col justify-between transition-colors min-w-0">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-4 max-md:p-4 md:p-6 shadow-sm flex flex-col justify-between transition-colors min-w-0">
               <div>
-                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] mb-2 flex items-center gap-2">
-                  <Target className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Graduation Goal Planner
+                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] mb-2 flex items-center gap-2">
+                  <Target className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Graduation Goal Planner
                 </h3>
-                <p className="text-xs text-[#6E685F] dark:text-[#A1A1A5] font-bold leading-relaxed mb-6">
+                <p className="text-xs text-[#6E685F] dark:text-[#8B949E] font-bold leading-relaxed mb-6">
                   Track remaining credits and required performance to reach your target CGPA.
                 </p>
                 <div className="space-y-4">
-                  <div className="flex justify-between py-2 border-b border-[#E5DCCE] dark:border-[#212124] text-xs font-semibold">
-                    <span className="text-[#6E685F] dark:text-[#A1A1A5]">Remaining Credits</span>
-                    <span className="text-[#2A2723] dark:text-[#F3F3F5]">{remainingCredits} Hrs</span>
+                  <div className="flex justify-between py-2 border-b border-[#E5DCCE] dark:border-[#30363D] text-xs font-semibold">
+                    <span className="text-[#6E685F] dark:text-[#8B949E]">Remaining Credits</span>
+                    <span className="text-[#2A2723] dark:text-[#E6EDF3]">{remainingCredits} Hrs</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-[#E5DCCE] dark:border-[#212124] text-xs font-semibold">
-                    <span className="text-[#6E685F] dark:text-[#A1A1A5]">Required Target CGPA</span>
-                    <span className="text-[#2A2723] dark:text-[#F3F3F5]">{targetCgpa.toFixed(2)}</span>
+                  <div className="flex justify-between py-2 border-b border-[#E5DCCE] dark:border-[#30363D] text-xs font-semibold">
+                    <span className="text-[#6E685F] dark:text-[#8B949E]">Required Target CGPA</span>
+                    <span className="text-[#2A2723] dark:text-[#E6EDF3]">{targetCgpa.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-[#E5DCCE] dark:border-[#212124] text-xs font-semibold">
-                    <span className="text-[#6E685F] dark:text-[#A1A1A5]">Quality Points</span>
-                    <span className="text-[#2A2723] dark:text-[#F3F3F5]">{analytics.totalPoints.toFixed(1)}</span>
+                  <div className="flex justify-between py-2 border-b border-[#E5DCCE] dark:border-[#30363D] text-xs font-semibold">
+                    <span className="text-[#6E685F] dark:text-[#8B949E]">Quality Points</span>
+                    <span className="text-[#2A2723] dark:text-[#E6EDF3]">{analytics.totalPoints.toFixed(1)}</span>
                   </div>
                   <div className="flex justify-between py-2 text-xs font-semibold">
-                    <span className="text-[#6E685F] dark:text-[#A1A1A5]">Target status</span>
+                    <span className="text-[#6E685F] dark:text-[#8B949E]">Target status</span>
                     {remainingCredits <= 0 ? (
                       <span className="text-emerald-600 dark:text-emerald-400 font-bold">Completed degree!</span>
                     ) : required && !required.possible ? (
@@ -771,9 +771,9 @@ export default function Dashboard({ semesters, profile }) {
                       <span className="text-emerald-650 dark:text-emerald-400 font-bold">Safe (Target met)</span>
                     ) : required ? (
                       <span className="text-slate-750 dark:text-slate-300 font-bold">
-                        Needed avg: <strong className="text-[#B45309] dark:text-[#EAB308] text-sm font-black">{formatGpa(required.requiredGpa)}</strong>
+                        Needed avg: <strong className="text-[#B45309] dark:text-[#22C55E] text-sm font-black">{formatGpa(required.requiredGpa)}</strong>
                         {required.letter && (
-                          <span className="block text-[10px] font-semibold text-[#6E685F] dark:text-[#A1A1A5] mt-0.5">
+                          <span className="block text-[10px] font-semibold text-[#6E685F] dark:text-[#8B949E] mt-0.5">
                             ≈ {required.gradeValue || required.letter}
                           </span>
                         )}
@@ -784,12 +784,12 @@ export default function Dashboard({ semesters, profile }) {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
+            <div className="bg-white dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
               <div className="mb-4">
-                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
-                  <BarChart3 className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Pass / Fail Statistics
+                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Pass / Fail Statistics
                 </h3>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold mt-1">By course count & credit hours</p>
+                <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E] font-semibold mt-1">By course count & credit hours</p>
               </div>
               {passFail.totalCourses > 0 ? (
                 <>
@@ -797,12 +797,12 @@ export default function Dashboard({ semesters, profile }) {
                     <div className="bg-emerald-500/10 rounded-lg p-2.5 text-center border border-emerald-200/40 dark:border-emerald-900/30">
                       <p className="text-lg font-black text-emerald-600">{passFail.passedCourses}</p>
                       <p className="text-[9px] font-bold text-emerald-600 uppercase">Passed</p>
-                      <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5]">{passFail.passedCredits} cr · {passFail.passRateCourses}%</p>
+                      <p className="text-[9px] text-[#6E685F] dark:text-[#8B949E]">{passFail.passedCredits} cr · {passFail.passRateCourses}%</p>
                     </div>
                     <div className="bg-rose-500/10 rounded-lg p-2.5 text-center border border-rose-200/40 dark:border-rose-900/30">
                       <p className="text-lg font-black text-rose-600">{passFail.failedCourses}</p>
                       <p className="text-[9px] font-bold text-rose-600 uppercase">Failed</p>
-                      <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5]">{passFail.failedCredits} cr</p>
+                      <p className="text-[9px] text-[#6E685F] dark:text-[#8B949E]">{passFail.failedCredits} cr</p>
                     </div>
                   </div>
                   <div className="h-36">
@@ -845,12 +845,12 @@ export default function Dashboard({ semesters, profile }) {
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
-                  <p className="text-center text-[10px] font-bold text-[#6E685F] dark:text-[#A1A1A5] mt-2">
+                  <p className="text-center text-[10px] font-bold text-[#6E685F] dark:text-[#8B949E] mt-2">
                     {passFail.passRateCredits}% pass rate by credits
                   </p>
                 </>
               ) : (
-                <div className="h-48 flex items-center justify-center text-[#6E685F] dark:text-[#A1A1A5] text-sm">No course data</div>
+                <div className="h-48 flex items-center justify-center text-[#6E685F] dark:text-[#8B949E] text-sm">No course data</div>
               )}
             </div>
           </div>
