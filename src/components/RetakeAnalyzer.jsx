@@ -11,7 +11,7 @@ export default function RetakeAnalyzer({ semesters }) {
     <div className="space-y-6">
       <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-6 shadow-sm">
         <h3 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] mb-2 flex items-center gap-2">
-          <RefreshCw className="w-4 h-4 text-indigo-500" /> Smart Retake Analyzer
+          <RefreshCw className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Smart Retake Analyzer
         </h3>
         <p className="text-xs text-slate-500 dark:text-[#8B949E] mb-4">
           See which failed courses would improve your CGPA the most if retaken. Mark courses as
@@ -19,11 +19,11 @@ export default function RetakeAnalyzer({ semesters }) {
         </p>
 
         <div className="flex flex-col max-md:flex-col sm:flex-row items-stretch max-md:items-stretch sm:items-center gap-2 max-md:gap-2 sm:gap-3 mb-6">
-          <label className="text-xs font-bold text-slate-500 uppercase">Retake target grade</label>
+          <label className="text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase">Retake target grade</label>
           <select
             value={retakeTargetGrade}
             onChange={(e) => setRetakeTargetGrade(e.target.value)}
-            className="bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
+            className="bg-[#FAF6EE] dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-xl px-3 py-2 text-sm font-bold text-[#2A2723] dark:text-[#E6EDF3]"
           >
             {GRADE_SCALE.filter((g) => getGradePoints(g.value) >= 2.0).map((g) => (
               <option key={g.value} value={g.value}>
@@ -48,24 +48,24 @@ export default function RetakeAnalyzer({ semesters }) {
                   key={item.courseId}
                   className={`p-4 rounded-xl border ${
                     index === 0
-                      ? 'bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800'
-                      : 'bg-slate-50 dark:bg-[#161B22]/50 border-slate-100 dark:border-[#30363D]'
+                      ? 'bg-[#F4EFE6] dark:bg-[#22C55E]/10 border-[#E5DCCE] dark:border-[#22C55E]/30'
+                      : 'bg-[#FAF6EE] dark:bg-[#161B22] border-[#E5DCCE] dark:border-[#30363D]'
                   }`}
                 >
                   <div className="flex flex-wrap justify-between items-start gap-3">
                     <div>
                       {index === 0 && (
-                        <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider mb-1 block">
+                        <span className="text-[10px] font-bold text-[#B45309] dark:text-[#22C55E] uppercase tracking-wider mb-1 block">
                           Highest impact
                         </span>
                       )}
-                      <h4 className="font-bold text-slate-800 dark:text-[#E6EDF3]">{item.courseName}</h4>
-                      <p className="text-xs text-slate-500 mt-0.5">
+                      <h4 className="font-bold text-[#2A2723] dark:text-[#E6EDF3]">{item.courseName}</h4>
+                      <p className="text-xs text-[#6E685F] dark:text-[#8B949E] mt-0.5">
                         {item.semester} · {item.credits} credits
                       </p>
                     </div>
                     <div className="text-right">
-                      <span className="text-xs text-slate-500 block">
+                      <span className="text-xs text-[#6E685F] dark:text-[#8B949E] block">
                         {item.oldLetter} → {item.newLetter}
                       </span>
                       <span className="text-lg font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1 justify-end">
@@ -73,9 +73,9 @@ export default function RetakeAnalyzer({ semesters }) {
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-[#8B949E] mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-700">
+                  <p className="text-xs text-[#6E685F] dark:text-[#8B949E] mt-3 pt-3 border-t border-[#E5DCCE]/60 dark:border-[#30363D]">
                     Retaking <strong>{item.courseName}</strong> from {item.oldLetter} to {item.newLetter}{' '}
-                    increases CGPA by <strong className="text-indigo-600">{formatGpa(item.cgpaLift)}</strong>{' '}
+                    increases CGPA by <strong className="text-[#B45309] dark:text-[#22C55E]">{formatGpa(item.cgpaLift)}</strong>{' '}
                     (from {formatGpa(currentCgpa)} to {formatGpa(projectedCgpa)}).
                   </p>
                 </div>

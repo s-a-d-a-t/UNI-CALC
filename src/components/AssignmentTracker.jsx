@@ -91,7 +91,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
       <div className="flex flex-col max-md:flex-col sm:flex-row justify-between items-stretch max-md:items-stretch sm:items-center gap-3">
         <div>
           <h3 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-indigo-500" /> Assignment & Exam Tracker
+            <Calendar className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Assignment & Exam Tracker
           </h3>
           <p className="text-xs text-slate-500 mt-1">
             {pending.length} pending · {completed.length} completed
@@ -107,7 +107,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
           </button>
           <button
             onClick={addItem}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-xl flex items-center justify-center gap-1.5 flex-1 sm:flex-none"
+            className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#22C55E] dark:hover:bg-[#4ADE80] text-white dark:text-[#0D1117] font-semibold text-xs px-4 py-2 rounded-xl flex items-center justify-center gap-1.5 flex-1 sm:flex-none"
           >
             <Plus className="w-3.5 h-3.5" /> Add Item
           </button>
@@ -195,7 +195,7 @@ export default function AssignmentTracker({ assignments, onAssignmentsUpdate }) 
                             ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400'
                             : countdown.urgent
                               ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-[#22C55E]'
-                              : 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400'
+                              : 'bg-[#F4EFE6] text-[#B45309] dark:bg-[#22C55E]/10 dark:text-[#22C55E]'
                         }`}
                       >
                         {countdown.text}

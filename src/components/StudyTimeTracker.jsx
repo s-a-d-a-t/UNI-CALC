@@ -101,7 +101,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
       <div className="flex flex-col max-md:flex-col sm:flex-row justify-between items-stretch max-md:items-stretch sm:items-center gap-3">
         <div>
           <h3 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] flex items-center gap-2">
-            <Clock className="w-4 h-4 text-indigo-500" /> Study Time Tracker
+            <Clock className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Study Time Tracker
           </h3>
           <p className="text-xs text-slate-500 mt-1">
             {totalHours.toFixed(1)} total hours logged across {hoursByCourse.length} courses
@@ -109,7 +109,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
         </div>
         <button
           onClick={addLog}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-xl flex items-center justify-center gap-1.5 w-full max-md:w-full sm:w-auto"
+          className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#22C55E] dark:hover:bg-[#4ADE80] text-white dark:text-[#0D1117] font-semibold text-xs px-4 py-2 rounded-xl flex items-center justify-center gap-1.5 w-full max-md:w-full sm:w-auto"
         >
           <Plus className="w-3.5 h-3.5" /> Log Hours
         </button>
@@ -117,7 +117,7 @@ export default function StudyTimeTracker({ studyLogs, onStudyLogsUpdate, semeste
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-5 shadow-sm">
-          <h4 className="font-bold text-xs text-slate-600 dark:text-slate-300 mb-4 uppercase tracking-wider">
+          <h4 className="font-bold text-xs text-[#6E685F] dark:text-[#8B949E] mb-4 uppercase tracking-wider">
             Study Hours by Course
           </h4>
           <div className="h-48 chart-scroll">

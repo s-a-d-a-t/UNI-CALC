@@ -61,16 +61,16 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
   };
 
   return (
-    <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl shadow-sm overflow-hidden w-full max-w-2xl mx-auto transition-all duration-200 max-md:hover:shadow-sm md:hover:shadow-md">
+    <div className="bg-white dark:bg-[#161B22] border border-slate-200/80 dark:border-[#30363D] rounded-2xl shadow-sm overflow-hidden w-full max-w-2xl mx-auto transition-all duration-200 max-md:hover:shadow-sm md:hover:shadow-md">
       {/* Header */}
-      <div className="px-6 py-4 bg-slate-50/70 dark:bg-[#161B22]/40 border-b border-slate-200 dark:border-[#30363D] flex items-center justify-between transition-colors">
+      <div className="px-6 py-4 bg-slate-50/70 dark:bg-[#0D1117]/60 border-b border-slate-200 dark:border-[#30363D] flex items-center justify-between transition-colors">
         <div className="flex items-center gap-3">
-          <div className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 p-2.5 rounded-xl border border-indigo-100 dark:border-indigo-900/30">
+          <div className="bg-[#F4EFE6] dark:bg-[#22C55E]/10 text-[#B45309] dark:text-[#22C55E] p-2.5 rounded-xl border border-[#E5DCCE] dark:border-[#22C55E]/20">
             <User className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="font-bold text-lg text-slate-900 dark:text-[#E6EDF3]">Student Profile</h2>
-            <p className="text-xs text-slate-500 dark:text-[#8B949E] font-medium">Configure your academic details and targets</p>
+            <h2 className="font-bold text-lg text-[#2A2723] dark:text-[#E6EDF3]">Student Profile</h2>
+            <p className="text-xs text-[#6E685F] dark:text-[#8B949E] font-medium">Configure your academic details and targets</p>
           </div>
         </div>
       </div>
@@ -78,17 +78,17 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
       {/* Form */}
       <form onSubmit={handleSubmit} className="p-4 max-md:p-4 md:p-6 space-y-6">
         {showSuccess && (
-          <div className="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/30 text-emerald-800 dark:text-emerald-400 px-4 py-3 rounded-xl flex items-center gap-3 animate-fadeIn">
-            <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <span className="text-sm font-semibold">Profile saved successfully! Data is synchronized locally.</span>
+          <div className="bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#16A34A] dark:text-[#22C55E] px-4 py-3 rounded-xl flex items-center gap-3">
+            <CheckCircle className="w-5 h-5 shrink-0" />
+            <span className="text-sm font-semibold">Profile saved successfully! Data is synchronized.</span>
           </div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* Student Name */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold text-slate-500 dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
-              <User className="w-3.5 h-3.5 text-slate-400 dark:text-[#8B949E]" /> Full Name
+            <label className="block text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
+              <User className="w-3.5 h-3.5 text-[#B45309] dark:text-[#22C55E]" /> Full Name
             </label>
             <input
               type="text"
@@ -96,15 +96,15 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
               value={formData.name}
               onChange={handleChange}
               placeholder="Abebe Kebede"
-              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#161B22] dark:hover:bg-slate-950/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-medium text-slate-850 dark:text-[#E6EDF3]"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#0D1117] dark:hover:bg-[#0D1117]/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-[#161B22] focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30 outline-none transition-all duration-200 font-medium text-[#2A2723] dark:text-[#E6EDF3]"
               required
             />
           </div>
 
           {/* Student ID */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold text-slate-500 dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
-              <IdCard className="w-3.5 h-3.5 text-slate-400 dark:text-[#8B949E]" /> Student ID / Registration
+            <label className="block text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
+              <IdCard className="w-3.5 h-3.5 text-[#B45309] dark:text-[#22C55E]" /> Student ID / Registration
             </label>
             <input
               type="text"
@@ -112,14 +112,14 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
               value={formData.studentId}
               onChange={handleChange}
               placeholder="e.g. UGR/1234/18"
-              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#161B22] dark:hover:bg-slate-950/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-medium text-slate-850 dark:text-[#E6EDF3]"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#0D1117] dark:hover:bg-[#0D1117]/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-[#161B22] focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30 outline-none transition-all duration-200 font-medium text-[#2A2723] dark:text-[#E6EDF3]"
             />
           </div>
 
           {/* Department / Major */}
           <div className="space-y-2 md:col-span-2">
-            <label className="block text-xs font-bold text-slate-500 dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
-              <BookOpen className="w-3.5 h-3.5 text-slate-400 dark:text-[#8B949E]" /> Department / Major Program
+            <label className="block text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
+              <BookOpen className="w-3.5 h-3.5 text-[#B45309] dark:text-[#22C55E]" /> Department / Major Program
             </label>
             <input
               type="text"
@@ -127,15 +127,15 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
               value={formData.major}
               onChange={handleChange}
               placeholder="e.g. Software Engineering"
-              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#161B22] dark:hover:bg-slate-950/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-medium text-slate-850 dark:text-[#E6EDF3]"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#0D1117] dark:hover:bg-[#0D1117]/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-[#161B22] focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30 outline-none transition-all duration-200 font-medium text-[#2A2723] dark:text-[#E6EDF3]"
               required
             />
           </div>
 
           {/* Target CGPA */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold text-slate-500 dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
-              <Target className="w-3.5 h-3.5 text-slate-400 dark:text-[#8B949E]" /> Target CGPA Goal
+            <label className="block text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
+              <Target className="w-3.5 h-3.5 text-[#B45309] dark:text-[#22C55E]" /> Target CGPA Goal
             </label>
             <input
               type="number"
@@ -146,16 +146,16 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
               min="0.0"
               max="4.0"
               placeholder="3.50"
-              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#161B22] dark:hover:bg-slate-950/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-semibold text-slate-850 dark:text-[#E6EDF3]"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#0D1117] dark:hover:bg-[#0D1117]/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-[#161B22] focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30 outline-none transition-all duration-200 font-semibold text-[#2A2723] dark:text-[#E6EDF3]"
               required
             />
-            <p className="text-[10px] text-slate-450 dark:text-[#8B949E]">Aim high! Enter a target on the standard 4.0 scale.</p>
+            <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E]">Aim high! Enter a target on the standard 4.0 scale.</p>
           </div>
 
           {/* Graduation Credits Goal */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold text-slate-500 dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
-              <Award className="w-3.5 h-3.5 text-slate-400 dark:text-[#8B949E]" /> Graduation Credits Load
+            <label className="block text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider flex items-center gap-2">
+              <Award className="w-3.5 h-3.5 text-[#B45309] dark:text-[#22C55E]" /> Graduation Credits Load
             </label>
             <input
               type="number"
@@ -165,14 +165,14 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
               min="30"
               max="280"
               placeholder="145"
-              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#161B22] dark:hover:bg-slate-950/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-semibold text-slate-850 dark:text-[#E6EDF3]"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#0D1117] dark:hover:bg-[#0D1117]/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-[#161B22] focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30 outline-none transition-all duration-200 font-semibold text-[#2A2723] dark:text-[#E6EDF3]"
               required
             />
-            <p className="text-[10px] text-slate-450 dark:text-[#8B949E]">Total credit hours needed to complete your degree.</p>
+            <p className="text-[10px] text-[#6E685F] dark:text-[#8B949E]">Total credit hours needed to complete your degree.</p>
           </div>
           
           <div className="space-y-2">
-            <label className="block text-xs font-bold text-slate-500 dark:text-[#8B949E] uppercase tracking-wider">
+            <label className="block text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase tracking-wider">
               Core Credits Required
             </label>
             <input
@@ -182,7 +182,7 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
               onChange={handleChange}
               min="0"
               max="280"
-              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#161B22] dark:hover:bg-slate-950/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-semibold text-slate-850 dark:text-[#E6EDF3]"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#0D1117] dark:hover:bg-[#0D1117]/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-[#161B22] focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30 outline-none transition-all duration-200 font-semibold text-[#2A2723] dark:text-[#E6EDF3]"
               required
             />
           </div>
@@ -198,7 +198,7 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
               onChange={handleChange}
               min="0"
               max="280"
-              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#161B22] dark:hover:bg-slate-950/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all duration-200 font-semibold text-slate-850 dark:text-[#E6EDF3]"
+              className="w-full bg-slate-50/50 hover:bg-slate-50 dark:bg-[#0D1117] dark:hover:bg-[#0D1117]/80 border border-slate-200 dark:border-[#30363D] rounded-xl px-4 py-2.5 text-sm focus:bg-white dark:focus:bg-[#161B22] focus:border-[#22C55E] focus:ring-1 focus:ring-[#22C55E]/30 outline-none transition-all duration-200 font-semibold text-[#2A2723] dark:text-[#E6EDF3]"
               required
             />
           </div>
@@ -209,7 +209,7 @@ export default function ProfileSettings({ profile, onProfileUpdate }) {
           <button
             type="submit"
             disabled={isSaving}
-            className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition-all duration-205 flex items-center justify-center gap-2 shadow-sm shadow-indigo-100 dark:shadow-none cursor-pointer w-full max-md:w-full md:w-auto"
+            className="bg-[#B45309] hover:bg-[#92400E] dark:bg-[#22C55E] dark:hover:bg-[#4ADE80] disabled:opacity-60 text-white dark:text-[#0D1117] font-bold text-sm px-6 py-2.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer w-full max-md:w-full md:w-auto"
           >
             <Save className="w-4 h-4" />
             {isSaving ? 'Saving...' : 'Save Profile Settings'}

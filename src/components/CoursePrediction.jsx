@@ -89,8 +89,8 @@ export default function CoursePrediction({ semesters, profile }) {
   return (
     <div className="space-y-6">
       <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-6 shadow-sm">
-        <h3 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] mb-2 flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-indigo-500" /> Course Prediction System
+        <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#E6EDF3] mb-2 flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Course Prediction System
         </h3>
         <p className="text-xs text-slate-500 dark:text-[#8B949E] mb-6">
           Enter expected grades for current or upcoming courses to predict your future CGPA.
@@ -102,7 +102,7 @@ export default function CoursePrediction({ semesters, profile }) {
             <p>No in-progress courses found.</p>
             <button
               onClick={addCourse}
-              className="mt-4 text-indigo-600 font-bold text-xs flex items-center gap-1 mx-auto hover:text-indigo-700"
+              className="mt-4 text-[#B45309] dark:text-[#22C55E] font-bold text-xs flex items-center gap-1 mx-auto hover:text-[#92400E] dark:hover:text-[#4ADE80]"
             >
               <Plus className="w-3.5 h-3.5" /> Add a course to predict
             </button>
@@ -112,14 +112,14 @@ export default function CoursePrediction({ semesters, profile }) {
             {displayCourses.map((course) => (
               <div
                 key={course.id}
-                className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-slate-50 dark:bg-[#161B22]/50 p-3 rounded-xl border border-slate-100 dark:border-[#30363D]"
+                className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-[#FAF6EE] dark:bg-[#161B22] p-3 rounded-xl border border-[#E5DCCE] dark:border-[#30363D]"
               >
                 <input
                   type="text"
                   value={course.name}
                   onChange={(e) => updateCourse(course.id, 'name', e.target.value)}
                   placeholder="Course name"
-                  className="sm:col-span-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-medium w-full"
+                  className="sm:col-span-5 bg-white dark:bg-[#0D1117] border border-[#E5DCCE] dark:border-[#30363D] rounded-xl px-3 py-2 text-sm font-medium text-[#2A2723] dark:text-[#E6EDF3] w-full"
                 />
                 <div className="grid grid-cols-2 gap-3 sm:contents">
                 <input
@@ -128,12 +128,12 @@ export default function CoursePrediction({ semesters, profile }) {
                   max="10"
                   value={course.credits}
                   onChange={(e) => updateCourse(course.id, 'credits', e.target.value)}
-                  className="sm:col-span-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm text-center font-bold w-full"
+                  className="sm:col-span-2 bg-white dark:bg-[#0D1117] border border-[#E5DCCE] dark:border-[#30363D] rounded-xl px-3 py-2 text-sm text-center font-bold text-[#2A2723] dark:text-[#E6EDF3] w-full"
                 />
                 <select
                   value={normalizeGrade(course.grade)}
                   onChange={(e) => updateCourse(course.id, 'grade', e.target.value)}
-                  className="sm:col-span-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2 py-2 text-sm font-bold w-full"
+                  className="sm:col-span-4 bg-white dark:bg-[#0D1117] border border-[#E5DCCE] dark:border-[#30363D] rounded-xl px-2 py-2 text-sm font-bold text-[#2A2723] dark:text-[#E6EDF3] w-full"
                 >
                   {GRADE_SCALE.map((g) => (
                     <option key={g.value} value={g.value}>
@@ -152,7 +152,7 @@ export default function CoursePrediction({ semesters, profile }) {
             ))}
             <button
               onClick={addCourse}
-              className="text-indigo-600 font-bold text-xs flex items-center gap-1 py-2"
+              className="text-[#B45309] dark:text-[#22C55E] font-bold text-xs flex items-center gap-1 py-2 hover:text-[#92400E] dark:hover:text-[#4ADE80]"
             >
               <Plus className="w-3.5 h-3.5" /> Add another course
             </button>
@@ -167,13 +167,13 @@ export default function CoursePrediction({ semesters, profile }) {
             {formatGpa(prediction.currentCgpa)}
           </span>
         </div>
-        <div className="bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/30 rounded-2xl p-5 shadow-sm">
-          <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase">Predicted CGPA</span>
-          <span className="text-3xl font-black text-indigo-700 dark:text-indigo-300 block mt-2">
+        <div className="bg-[#F4EFE6] dark:bg-[#22C55E]/10 border border-[#E5DCCE] dark:border-[#22C55E]/20 rounded-2xl p-5 shadow-sm">
+          <span className="text-xs font-bold text-[#B45309] dark:text-[#22C55E] uppercase">Predicted CGPA</span>
+          <span className="text-3xl font-black text-[#B45309] dark:text-[#22C55E] block mt-2">
             {activeCourses.length > 0 ? formatGpa(prediction.predictedCgpa) : '—'}
           </span>
           {activeCourses.length > 0 && (
-            <span className="text-xs text-indigo-500 mt-1 block">
+            <span className="text-xs text-[#22C55E]/80 dark:text-[#4ADE80]/80 mt-1 block">
               {prediction.predictedCgpa >= prediction.currentCgpa ? '+' : ''}
               {formatGpa(prediction.predictedCgpa - prediction.currentCgpa)} change
             </span>
@@ -201,11 +201,11 @@ export default function CoursePrediction({ semesters, profile }) {
 
       <div className="bg-white dark:bg-[#0D1117] border border-slate-200 dark:border-[#30363D] rounded-2xl p-6 shadow-sm">
         <h4 className="font-bold text-sm text-slate-800 dark:text-[#E6EDF3] mb-4 flex items-center gap-2">
-          <Target className="w-4 h-4 text-indigo-500" /> Required Grade for Target CGPA
+          <Target className="w-4 h-4 text-[#B45309] dark:text-[#22C55E]" /> Required Grade for Target CGPA
         </h4>
         <div className="flex flex-wrap items-end gap-4 mb-4">
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase block mb-1">
+            <label className="text-xs font-bold text-[#6E685F] dark:text-[#8B949E] uppercase block mb-1">
               Remaining credits
             </label>
             <input
@@ -213,11 +213,11 @@ export default function CoursePrediction({ semesters, profile }) {
               min="1"
               value={remainingCredits}
               onChange={(e) => setRemainingCredits(parseInt(e.target.value, 10) || 0)}
-              className="w-24 bg-slate-50 dark:bg-[#161B22] border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-bold"
+              className="w-24 bg-[#FAF6EE] dark:bg-[#161B22] border border-[#E5DCCE] dark:border-[#30363D] rounded-xl px-3 py-2 text-sm font-bold text-[#2A2723] dark:text-[#E6EDF3]"
             />
           </div>
-          <div className="text-xs text-slate-500">
-            Target: <strong className="text-indigo-600">{targetCgpa.toFixed(2)}</strong> CGPA
+          <div className="text-xs text-[#6E685F] dark:text-[#8B949E]">
+            Target: <strong className="text-[#B45309] dark:text-[#22C55E]">{targetCgpa.toFixed(2)}</strong> CGPA
           </div>
         </div>
         {required && !required.possible ? (
@@ -225,9 +225,9 @@ export default function CoursePrediction({ semesters, profile }) {
             Mathematically impossible — you would need an average above 4.0 on remaining credits.
           </p>
         ) : required ? (
-          <p className="text-sm text-slate-600 dark:text-slate-300">
+          <p className="text-sm text-[#6E685F] dark:text-[#8B949E]">
             To reach <strong>{targetCgpa.toFixed(2)}</strong> CGPA, maintain an average of{' '}
-            <strong className="text-indigo-600 text-lg">{formatGpa(required.requiredGpa)}</strong>{' '}
+            <strong className="text-[#B45309] dark:text-[#22C55E] text-lg">{formatGpa(required.requiredGpa)}</strong>{' '}
             ({required.letter}) on your next {remainingCredits} credit hours.
           </p>
         ) : null}
