@@ -47,8 +47,19 @@ body {
     padding-bottom: 0.25rem;
   }
 
+  .grade-dist-chart {
+    margin-left: 0;
+    margin-right: 0;
+    overflow-x: visible;
+  }
+
   .chart-scroll-inner {
     min-width: 300px;
+  }
+
+  .grade-dist-inner {
+    min-width: 100%;
+    width: 100%;
   }
 
   .safe-bottom {
