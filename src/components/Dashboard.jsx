@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {
+  AreaChart,
+  Area,
   LineChart,
   Line,
   BarChart,
@@ -367,40 +369,50 @@ export default function Dashboard({ semesters, profile }) {
 
           {/* Performance analytics summary */}
           {analytics.totalCourses > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 max-md:gap-2 md:gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 max-md:gap-3 md:gap-4">
               {[
-                { label: 'Total Courses', value: analytics.totalCourses },
-                { label: 'Semesters', value: analytics.semesterCount },
-                { label: 'Avg Semester GPA', value: formatGpa(analytics.avgSemesterGpa) },
-                { label: 'Avg Credit Load', value: `${analytics.avgCreditLoad} hrs` },
+                { label: 'Total Courses', value: analytics.totalCourses, iconBg: 'bg-indigo-500/10 dark:bg-indigo-500/20', iconColor: 'text-indigo-600 dark:text-indigo-400', icon: <BookOpen className="w-5 h-5" /> },
+                { label: 'Semesters', value: analytics.semesterCount, iconBg: 'bg-blue-500/10 dark:bg-blue-500/20', iconColor: 'text-blue-600 dark:text-blue-400', icon: <Calendar className="w-5 h-5" /> },
+                { label: 'Avg Credit Load', value: `${analytics.avgCreditLoad} hrs`, iconBg: 'bg-emerald-500/10 dark:bg-emerald-500/20', iconColor: 'text-emerald-600 dark:text-emerald-400', icon: <BarChart3 className="w-5 h-5" /> },
                 {
                   label: 'Pass Rate',
                   value: `${passFail.passRateCredits}%`,
                   sub: 'by credits',
+                  iconBg: 'bg-emerald-500/10 dark:bg-emerald-500/20',
+                  iconColor: 'text-emerald-600 dark:text-emerald-400',
+                  icon: <CheckCircle2 className="w-5 h-5" />
                 },
                 {
                   label: 'Recent Trend',
                   value: analytics.trend === 'stable' ? 'Stable' : `${analytics.trendDelta > 0 ? '+' : ''}${formatGpa(analytics.trendDelta)}`,
-                  icon: <TrendIcon className={`w-3.5 h-3.5 ${trendColor}`} />,
+                  iconBg: analytics.trend === 'up' ? 'bg-emerald-500/10 dark:bg-emerald-500/20' : analytics.trend === 'down' ? 'bg-rose-500/10 dark:bg-rose-500/20' : 'bg-slate-500/10 dark:bg-slate-500/20',
+                  iconColor: trendColor,
+                  icon: <TrendIcon className="w-5 h-5" />
                 },
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="bg-[#F4EFE6]/60 dark:bg-[#121216] border border-[#E5DCCE] dark:border-[#212124] rounded-xl px-3 py-2.5"
+                  className="relative overflow-hidden group bg-gradient-to-br from-[#F4EFE6] to-white dark:from-[#1A1A1F] dark:to-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl px-4 py-3.5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
                 >
-                  <p className="text-[9px] font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wide">{item.label}</p>
-                  <p className="text-sm font-black text-[#2A2723] dark:text-[#F3F3F5] mt-0.5 flex items-center gap-1">
-                    {item.icon}
-                    {item.value}
-                  </p>
-                  {item.sub && <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5]">{item.sub}</p>}
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-xl shrink-0 ${item.iconBg} ${item.iconColor}`}>
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold text-[#6E685F] dark:text-[#A1A1A5] uppercase tracking-wide">{item.label}</p>
+                      <p className="text-lg font-black text-[#2A2723] dark:text-[#F3F3F5] mt-0.5 leading-tight">
+                        {item.value}
+                      </p>
+                      {item.sub && <p className="text-[9px] text-[#6E685F] dark:text-[#A1A1A5] mt-0.5">{item.sub}</p>}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 max-md:gap-6 md:gap-8">
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-md:gap-6 md:gap-8">
+            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-2 transition-colors min-w-0">
               <div className="flex flex-col max-md:flex-col md:flex-row items-start justify-between gap-2 mb-4">
                 <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> GPA Performance Trend
@@ -413,9 +425,15 @@ export default function Dashboard({ semesters, profile }) {
                 {semesterData.length > 0 && totalCredits > 0 ? (
                   <div className="chart-scroll-inner h-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={semesterData} margin={{ top: 10, right: 12, left: 0, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridStroke} />
-                      <XAxis dataKey="name" stroke="#6E685F" fontSize={11} fontWeight={600} tickLine={false} axisLine={false} />
+                    <AreaChart data={semesterData} margin={{ top: 10, right: 12, left: 0, bottom: 5 }}>
+                      <defs>
+                        <linearGradient id="gpaGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor={accentStroke} stopOpacity={0.3} />
+                          <stop offset="95%" stopColor={accentStroke} stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridStroke} opacity={0.5} />
+                      <XAxis dataKey="name" stroke="#6E685F" fontSize={11} fontWeight={600} tickLine={false} axisLine={false} tickMargin={8} />
                       <YAxis
                         domain={[gpaYMin, 4.0]}
                         stroke="#6E685F"
@@ -424,30 +442,33 @@ export default function Dashboard({ semesters, profile }) {
                         tickLine={false}
                         axisLine={false}
                         tickFormatter={(v) => v.toFixed(1)}
+                        tickMargin={8}
                       />
-                      <Tooltip content={<GpaTrendTooltip isDark={isDark} />} />
+                      <Tooltip content={<GpaTrendTooltip isDark={isDark} />} cursor={{ stroke: gridStroke, strokeWidth: 1, strokeDasharray: '4 4' }} />
                       <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '8px' }} />
-                      <ReferenceLine y={2.0} stroke="#3b82f6" strokeDasharray="4 4" strokeOpacity={0.5} label={{ value: 'Pass', position: 'insideTopRight', fontSize: 9, fill: '#3b82f6' }} />
-                      <ReferenceLine y={targetCgpa} stroke={accentStroke} strokeDasharray="4 4" strokeOpacity={0.6} label={{ value: 'Target', position: 'insideBottomRight', fontSize: 9, fill: accentStroke }} />
-                      <Line
-                        type="monotone"
+                      <ReferenceLine y={2.0} stroke="#3b82f6" strokeDasharray="3 3" strokeOpacity={0.4} label={{ value: 'Pass', position: 'insideTopRight', fontSize: 9, fill: '#3b82f6' }} />
+                      <ReferenceLine y={targetCgpa} stroke={accentStroke} strokeDasharray="3 3" strokeOpacity={0.5} label={{ value: 'Target', position: 'insideBottomRight', fontSize: 9, fill: accentStroke }} />
+                      <Area
+                        type="natural"
                         name="Semester GPA"
                         dataKey="GPA"
                         stroke={accentStroke}
                         strokeWidth={3}
-                        activeDot={{ r: 6 }}
-                        dot={{ stroke: accentStroke, strokeWidth: 2, r: 4, fill: isDark ? '#0C0C0E' : '#fff' }}
+                        fillOpacity={1}
+                        fill="url(#gpaGradient)"
+                        activeDot={{ r: 7, strokeWidth: 0, fill: accentStroke, style: { filter: 'drop-shadow(0px 4px 6px rgba(0,0,0,0.3))' } }}
+                        dot={{ stroke: accentStroke, strokeWidth: 2.5, r: 4, fill: isDark ? '#0C0C0E' : '#fff' }}
                       />
                       <Line
-                        type="monotone"
+                        type="natural"
                         name="Cumulative CGPA"
                         dataKey="cumulativeCGPA"
                         stroke="#3b82f6"
-                        strokeWidth={2}
-                        strokeDasharray="6 3"
+                        strokeWidth={2.5}
+                        strokeDasharray="6 4"
                         dot={{ stroke: '#3b82f6', strokeWidth: 2, r: 3, fill: isDark ? '#0C0C0E' : '#fff' }}
                       />
-                    </LineChart>
+                    </AreaChart>
                   </ResponsiveContainer>
                   </div>
                 ) : (
@@ -455,6 +476,45 @@ export default function Dashboard({ semesters, profile }) {
                     No semester records found. Add data in the GPA Calculator.
                   </div>
                 )}
+              </div>
+            </div>
+            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm lg:col-span-1 flex flex-col transition-colors overflow-hidden">
+              <div className="mb-4">
+                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
+                  <Award className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Grade Distribution
+                </h3>
+                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold mt-1">Credit-weighted · sorted by scale</p>
+              </div>
+              <div className="h-52 max-md:h-64 md:h-56 w-full flex-1 chart-scroll grade-dist-chart">
+                {gradeDistributionData.length > 0 ? (
+                  <div className="chart-scroll-inner h-full grade-dist-inner">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={gradeDistributionData} layout="vertical" margin={{ top: 5, right: 8, left: 18, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={gridStroke} />
+                      <XAxis type="number" stroke="#6E685F" fontSize={10} tickLine={false} axisLine={false} unit=" cr" />
+                      <YAxis type="category" dataKey="name" stroke="#6E685F" fontSize={9} fontWeight={700} tickLine={false} axisLine={false} width={32} />
+                      <Tooltip content={<GradeDistTooltip isDark={isDark} />} />
+                      <Bar dataKey="credits" name="Credit hrs" radius={[0, 6, 6, 0]} maxBarSize={18}>
+                        {gradeDistributionData.map((entry) => (
+                          <Cell key={entry.name} fill={GRADE_COLORS[entry.name] || '#6E685F'} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                  </div>
+                ) : (
+                  <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-xs text-center">No grades found.</div>
+                )}
+              </div>
+              <div className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-2 gap-1.5 mt-3 text-[9px] font-bold text-[#6E685F] dark:text-[#A1A1A5] max-h-24 max-md:max-h-24 md:max-h-20 overflow-y-auto">
+                {gradeDistributionData.map((entry) => (
+                  <div key={entry.name} className="flex items-center gap-1 truncate">
+                    <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: GRADE_COLORS[entry.name] }} />
+                    <span className="truncate">
+                      {entry.name}: {entry.courses}c / {entry.credits}cr ({entry.creditPct}%)
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -494,46 +554,6 @@ export default function Dashboard({ semesters, profile }) {
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-md:gap-6 md:gap-8">
-            <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm flex flex-col transition-colors overflow-hidden">
-              <div className="mb-4">
-                <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
-                  <Award className="w-4 h-4 text-[#B45309] dark:text-[#EAB308]" /> Grade Distribution
-                </h3>
-                <p className="text-[10px] text-[#6E685F] dark:text-[#A1A1A5] font-semibold mt-1">Credit-weighted · sorted by scale</p>
-              </div>
-              <div className="h-52 max-md:h-64 md:h-56 w-full flex-1 chart-scroll grade-dist-chart">
-                {gradeDistributionData.length > 0 ? (
-                  <div className="chart-scroll-inner h-full grade-dist-inner">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={gradeDistributionData} layout="vertical" margin={{ top: 5, right: 8, left: 18, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={gridStroke} />
-                      <XAxis type="number" stroke="#6E685F" fontSize={10} tickLine={false} axisLine={false} unit=" cr" />
-                      <YAxis type="category" dataKey="name" stroke="#6E685F" fontSize={9} fontWeight={700} tickLine={false} axisLine={false} width={32} />
-                      <Tooltip content={<GradeDistTooltip isDark={isDark} />} />
-                      <Bar dataKey="credits" name="Credit hrs" radius={[0, 6, 6, 0]} maxBarSize={18}>
-                        {gradeDistributionData.map((entry) => (
-                          <Cell key={entry.name} fill={GRADE_COLORS[entry.name] || '#6E685F'} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                  </div>
-                ) : (
-                  <div className="h-full flex flex-col justify-center items-center text-[#6E685F] dark:text-[#A1A1A5] font-semibold text-xs text-center">No grades found.</div>
-                )}
-              </div>
-              <div className="grid grid-cols-1 max-md:grid-cols-1 sm:grid-cols-2 gap-1.5 mt-3 text-[9px] font-bold text-[#6E685F] dark:text-[#A1A1A5] max-h-24 max-md:max-h-24 md:max-h-20 overflow-y-auto">
-                {gradeDistributionData.map((entry) => (
-                  <div key={entry.name} className="flex items-center gap-1 truncate">
-                    <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: GRADE_COLORS[entry.name] }} />
-                    <span className="truncate">
-                      {entry.name}: {entry.courses}c / {entry.credits}cr ({entry.creditPct}%)
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
               <div className="mb-4">
                 <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
@@ -592,9 +612,7 @@ export default function Dashboard({ semesters, profile }) {
                 )}
               </div>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 max-md:gap-6 md:gap-8">
             <div className="bg-white dark:bg-[#0C0C0E] border border-[#E5DCCE] dark:border-[#212124] rounded-2xl p-4 max-md:p-4 md:p-5 shadow-sm transition-colors min-w-0">
               <div className="mb-4">
                 <h3 className="font-bold text-sm text-[#2A2723] dark:text-[#F3F3F5] flex items-center gap-2">
